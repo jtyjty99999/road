@@ -38,6 +38,10 @@ var log = function *(next){
 
 	var request = this.request,query = this.request.query
 	console.log('got!!!'+this.request.url)
+	for(var key in query){
+
+		console.log(key+':'+decodeURIComponent(query[key]))
+	}
 	this.body = '11111111111111111111111111111111'
 }
 
