@@ -35,11 +35,6 @@ var config = {
   workerCount: workerCount,
   debug: true, // 是否开启调试模式, 输出标准错误, 线上环境需要设置为 false
   logdir: logdir,
-
-  assetsUrl: {
-    http: 'http://style.aliunicorn.com',
-    https: 'https://stylessl.aliunicorn.com'
-  },
   viewinfo: {
     paths: [path.resolve(__dirname, '../views')]
   },
