@@ -12,6 +12,7 @@ var data = controllers.data;
 function routes(app) {
   app.get('/protocol', data.log);
   app.get('/index',page.index);
+  app.get('/login',page.login);
 }
 
 module.exports = routes;

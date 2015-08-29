@@ -52,7 +52,7 @@ Use search to find needed section.
 
 	.ztree *{
 		font-family:Microsoft YaHei!important;
-		
+
 	}
 
 
@@ -275,6 +275,36 @@ Use search to find needed section.
 
 			</div>
 		</div>
+
+
+		<div class="row">
+			<div class="col-sm-12">
+
+<!-- 6. $MODALS_BLURRED_BACKGROUND =================================================================
+
+				Modal with blurred background
+
+				To enable blurred background effect just add class .modal-blur to the .modal
+-->
+
+				<div class="panel">
+					<div class="panel-heading">
+						<span class="panel-title">查看线路情况</span>
+					</div>
+					<div class="panel-body">
+
+						<div id="line-situation">
+
+						</div>
+
+					</div>
+				</div>
+<!-- /6. $MODALS_BLURRED_BACKGROUND -->
+
+			</div>
+		</div>
+
+
 		<div class="row">
 			<div class="col-sm-12">
 
@@ -305,7 +335,7 @@ Use search to find needed section.
 									</div>
 									<div class="panel-footer text-right">
 										<button class="btn btn-primary" type="button">确定</button>
-										<button class="btn btn-primary" type="button">取消</button>
+										<button class="btn btn-primary" type="button" data-dismiss="modal">取消</button>
 									</div>
 								</form>
 							</div>
@@ -370,7 +400,7 @@ Use search to find needed section.
 									</div>
 									<div class="panel-footer text-right">
 										<button class="btn btn-primary" type="button">确定</button>
-										<button class="btn btn-primary" type="button">取消</button>
+										<button class="btn btn-primary" type="button" data-dismiss="modal">取消</button>
 									</div>
 								</form>
 							</div>
@@ -428,7 +458,7 @@ Use search to find needed section.
 									</div>
 									<div class="panel-footer text-right">
 										<button class="btn btn-primary" type="button">确定</button>
-										<button class="btn btn-primary" type="button">取消</button>
+										<button class="btn btn-primary" type="button" data-dismiss="modal">取消</button>
 									</div>
 								</form>
 
@@ -472,6 +502,44 @@ Use search to find needed section.
 
 <script type="text/javascript">
 
+					init.push(function () {
+						// Visits Chart Data
+						var visitsChartData = [{
+							label: 'Visits',
+							data: [
+								[6, 1300], [7, 1600], [8, 1900], [9, 2100], [10, 2500], [11, 2200], [12, 2000], [13, 1950], [14, 1900], [15, 2000]
+							]
+						}, {
+							label: 'Returning Visits',
+							data: [
+								[6, 500], [7, 600], [8, 550], [9, 600], [10, 800], [11, 900], [12, 800], [13, 850], [14, 830], [15, 1000]
+							],
+							filledPoints: true // Fill points
+						}];
+
+						// Init Chart
+						$('#line-situation').pixelPlot(visitsChartData, {
+							series: {
+								points: {
+									show: true
+								},
+								lines: {
+									show: true
+								}
+							},
+							xaxis: {
+								tickDecimals: 2
+							},
+							yaxis: {
+								tickSize: 1000
+							}
+						}, {
+							height: 205,
+							tooltipText: "y + ' visitors at ' + x + ':00'"
+						});
+					});
+
+
 init.push(function () {
 		// Javascript code here
 })
@@ -482,49 +550,49 @@ $(function(){
 		var setting = {	};
 
 		var zNodes =[
-			{ name:"父节点1 - 展开", open:true,
+			{ name:"上海铁路局", open:true,
 				children: [
-					{ name:"父节点11 - 折叠",
+					{ name:"杭州公务段",
 						children: [
-							{ name:"叶子节点111"},
-							{ name:"叶子节点112"},
-							{ name:"叶子节点113"},
-							{ name:"叶子节点114"}
+							{ name:"兰溪车间"},
+							{ name:"兰溪车间"},
+							{ name:"兰溪车间"},
+							{ name:"兰溪车间"}
 						]},
-					{ name:"父节点12 - 折叠",
+					{ name:"宁波公务段",
 						children: [
-							{ name:"叶子节点121"},
-							{ name:"叶子节点122"},
-							{ name:"叶子节点123"},
-							{ name:"叶子节点124"}
+							{ name:"兰溪车间"},
+							{ name:"兰溪车间"},
+							{ name:"兰溪车间"},
+							{ name:"兰溪车间"}
 						]},
-					{ name:"父节点13 - 没有子节点", isParent:true}
+					{ name:"台州公务段", isParent:true}
 				]},
-			{ name:"父节点2 - 折叠",
+			{ name:"南京铁路局",
 				children: [
-					{ name:"父节点21 - 展开", open:true,
+					{ name:"南京公务段", open:true,
 						children: [
-							{ name:"叶子节点211"},
-							{ name:"叶子节点212"},
-							{ name:"叶子节点213"},
-							{ name:"叶子节点214"}
+							{ name:"兰溪车间"},
+							{ name:"兰溪车间"},
+							{ name:"兰溪车间"},
+							{ name:"兰溪车间"}
 						]},
-					{ name:"父节点22 - 折叠",
+					{ name:"南京公务段",
 						children: [
-							{ name:"叶子节点221"},
-							{ name:"叶子节点222"},
-							{ name:"叶子节点223"},
-							{ name:"叶子节点224"}
+							{ name:"兰溪车间"},
+							{ name:"兰溪车间"},
+							{ name:"兰溪车间"},
+							{ name:"兰溪车间"}
 						]},
-					{ name:"父节点23 - 折叠",
+					{ name:"南京公务段",
 						children: [
-							{ name:"叶子节点231"},
-							{ name:"叶子节点232"},
-							{ name:"叶子节点233"},
-							{ name:"叶子节点234"}
+							{ name:"兰溪车间"},
+							{ name:"兰溪车间"},
+							{ name:"兰溪车间"},
+							{ name:"兰溪车间"}
 						]}
 				]},
-			{ name:"父节点3 - 没有子节点", isParent:true}
+			{ name:"其他", isParent:true}
 
 		];
 

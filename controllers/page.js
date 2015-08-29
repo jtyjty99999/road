@@ -20,3 +20,7 @@ exports.index = function *() {
 	this.body = yield this.render('index',{items:items});
 }; 
 
+exports.login= function *() {
+
+  this.body = yield this.render('login',{});
+}; 
