@@ -35,7 +35,7 @@ var config = {
   workerCount: workerCount,
   debug: true, // 是否开启调试模式, 输出标准错误, 线上环境需要设置为 false
   logdir: logdir,
-  rootDir:path.resolve(__dirname, '../static'),
+  assetsDir:path.resolve(__dirname, '../assets'),
   viewinfo: {
     paths: [path.resolve(__dirname, '../views')]
   },

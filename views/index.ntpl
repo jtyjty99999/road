@@ -1,6 +1,538 @@
-<h1>Posts</h1>
-<ul>
-{% for item in items %}
-  <li>{{ item.key }}:{{ item.value }}</li>
-{% endfor %}
-</ul>
+<!DOCTYPE html>
+<!--
+
+TABLE OF CONTENTS.
+
+Use search to find needed section.
+
+=====================================================================
+
+|  1. $BODY                       |  Body                           |
+|  2. $MAIN_NAVIGATION            |  Main navigation                |
+|  3. $NAVBAR_ICON_BUTTONS        |  Navbar Icon Buttons            |
+|  4. $MAIN_MENU                  |  Main menu                      |
+|  5. $DEFAULT_MODAL              |  Default modal                  |
+|  6. $MODALS_BLURRED_BACKGROUND  |  Modal with blurred background  |
+|  7. $MODAL_SIZES                |  Modal sizes                    |
+|  8. $MODALS_EFFECTS             |  Effects                        |
+|  9. $MODAL_ALERTS               |  Modal alerts                   |
+|  10. $JQUERY_BOOTBOX            |  jQuery Bootbox                 |
+
+=====================================================================
+
+-->
+
+
+<!--[if IE 8]>         <html class="ie8"> <![endif]-->
+<!--[if IE 9]>         <html class="ie9 gt-ie8"> <![endif]-->
+<!--[if gt IE 9]><!--> <html class="gt-ie8 gt-ie9 not-ie"> <!--<![endif]-->
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<title>Modals - UI Elements - PixelAdmin</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+
+	<!-- Pixel Admin's stylesheets -->
+	<link href="stylesheets/bootstrap.min.css" rel="stylesheet" type="text/css">
+	<link href="stylesheets/pixel-admin.min.css" rel="stylesheet" type="text/css">
+	<link href="stylesheets/widgets.min.css" rel="stylesheet" type="text/css">
+	<link href="stylesheets/rtl.min.css" rel="stylesheet" type="text/css">
+	<link href="stylesheets/themes.min.css" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" href="stylesheets/z-tree/metroStyle/metroStyle.css" type="text/css">
+	<style type="text/css">
+	.ztree{
+
+		    color: red!important;
+	}
+	.ztree li a {
+
+		color: white;
+		
+	}
+
+	.ztree *{
+		font-family:Microsoft YaHei!important;
+		
+	}
+
+
+	body{
+
+		font-family:Microsoft YaHei;
+	}
+	</style>
+	<!--[if lt IE 9]>
+		<script src="javascripts/ie.min.js"></script>
+	<![endif]-->
+
+</head>
+
+
+<!-- 1. $BODY ======================================================================================
+	
+	Body
+
+	Classes:
+	* 'theme-{THEME NAME}'
+	* 'right-to-left'      - Sets text direction to right-to-left
+	* 'main-menu-right'    - Places the main menu on the right side
+	* 'no-main-menu'       - Hides the main menu
+	* 'main-navbar-fixed'  - Fixes the main navigation
+	* 'main-menu-fixed'    - Fixes the main menu
+	* 'main-menu-animated' - Animate main menu
+-->
+<body class="theme-default main-menu-animated">
+
+<script>var init = [];</script>
+
+<div id="main-wrapper">
+
+
+<!-- 2. $MAIN_NAVIGATION ===========================================================================
+
+	Main navigation
+-->
+	<div id="main-navbar" class="navbar navbar-inverse" role="navigation">
+		<!-- Main menu toggle -->
+		<button type="button" id="main-menu-toggle"><i class="navbar-icon fa fa-bars icon"></i><span class="hide-menu-text">HIDE MENU</span></button>
+		
+		<div class="navbar-inner">
+			<!-- Main navbar header -->
+			<div class="navbar-header">
+
+				<!-- Logo -->
+				<a href="index.html" class="navbar-brand">
+					<div><img alt="Pixel Admin" src="images/pixel-admin/main-navbar-logo.png"></div>
+					PixelAdmin
+				</a>
+
+				<!-- Main navbar toggle -->
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#main-navbar-collapse"><i class="navbar-icon fa fa-bars"></i></button>
+
+			</div> <!-- / .navbar-header -->
+
+			<div id="main-navbar-collapse" class="collapse navbar-collapse main-navbar-collapse">
+				<div>
+					<ul class="nav navbar-nav">
+						<li>
+							<a href="#">Home</a>
+						</li>
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown</a>
+							<ul class="dropdown-menu">
+								<li><a href="#">First item</a></li>
+								<li><a href="#">Second item</a></li>
+								<li class="divider"></li>
+								<li><a href="#">Third item</a></li>
+							</ul>
+						</li>
+					</ul> <!-- / .navbar-nav -->
+
+					<div class="right clearfix">
+						<ul class="nav navbar-nav pull-right right-navbar-nav">
+
+							<li>
+								<form class="navbar-form pull-left">
+									<input type="text" class="form-control" placeholder="Search">
+								</form>
+							</li>
+
+							<li class="dropdown">
+								<a href="#" class="dropdown-toggle user-menu" data-toggle="dropdown">
+									<img src="demo/avatars/1.jpg">
+									<span>John Doe</span>
+								</a>
+								<ul class="dropdown-menu">
+									<li><a href="#"><span class="label label-warning pull-right">New</span>Profile</a></li>
+									<li><a href="#"><span class="badge badge-primary pull-right">New</span>Account</a></li>
+									<li><a href="#"><i class="dropdown-icon fa fa-cog"></i>&nbsp;&nbsp;Settings</a></li>
+									<li class="divider"></li>
+									<li><a href="pages-signin.html"><i class="dropdown-icon fa fa-power-off"></i>&nbsp;&nbsp;Log Out</a></li>
+								</ul>
+							</li>
+						</ul> <!-- / .navbar-nav -->
+					</div> <!-- / .right -->
+				</div>
+			</div> <!-- / #main-navbar-collapse -->
+		</div> <!-- / .navbar-inner -->
+	</div> <!-- / #main-navbar -->
+<!-- /2. $END_MAIN_NAVIGATION -->
+
+
+<!-- 4. $MAIN_MENU =================================================================================
+
+		Main menu
+		
+		Notes:
+		* to make the menu item active, add a class 'active' to the <li>
+		  example: <li class="active">...</li>
+		* multilevel submenu example:
+			<li class="mm-dropdown">
+			  <a href="#"><span class="mm-text">Submenu item text 1</span></a>
+			  <ul>
+				<li>...</li>
+				<li class="mm-dropdown">
+				  <a href="#"><span class="mm-text">Submenu item text 2</span></a>
+				  <ul>
+					<li>...</li>
+					...
+				  </ul>
+				</li>
+				...
+			  </ul>
+			</li>
+-->
+	<div id="main-menu" role="navigation">
+		<div id="main-menu-inner">
+			<div class="menu-content top" id="menu-content-demo">
+				<!-- Menu custom content demo
+					 CSS:        styles/pixel-admin-less/demo.less or styles/pixel-admin-scss/_demo.scss
+					 Javascript: html/assets/demo/demo.js
+				 -->
+				<div>
+					<div class="text-bg"><span class="text-slim">欢迎,</span> <span class="text-semibold">John</span></div>
+
+					<img src="demo/avatars/1.jpg" alt="" class="">
+					<div class="btn-group">
+						<a href="#" class="btn btn-xs btn-primary btn-outline dark"><i class="fa fa-envelope"></i></a>
+						<a href="#" class="btn btn-xs btn-primary btn-outline dark"><i class="fa fa-user"></i></a>
+						<a href="#" class="btn btn-xs btn-primary btn-outline dark"><i class="fa fa-cog"></i></a>
+						<a href="#" class="btn btn-xs btn-danger btn-outline dark"><i class="fa fa-power-off"></i></a>
+					</div>
+					<a href="#" class="close">&times;</a>
+				</div>
+			</div>
+			
+			<ul class="navigation">
+
+			</ul> <!-- / .navigation -->
+			<div id="treeDemo" class="ztree">
+				<a href="pages-invoice.html" class="btn btn-primary btn-block btn-outline dark">收起</a>
+			</div>
+			<div class="menu-content">
+				<a href="pages-invoice.html" class="btn btn-primary btn-block btn-outline dark">收起</a>
+			</div>
+		</div> <!-- / #main-menu-inner -->
+	</div> <!-- / #main-menu -->
+<!-- /4. $MAIN_MENU -->
+
+
+	<div id="content-wrapper">
+
+		<div class="page-header">
+			<h1>欢迎您<span class="text-light-gray">99</span>进入管理界面</h1>
+		</div> <!-- / .page-header -->
+		<div class="row">
+			<div class="col-sm-12">
+
+<!-- 6. $MODALS_BLURRED_BACKGROUND =================================================================
+
+				Modal with blurred background
+
+				To enable blurred background effect just add class .modal-blur to the .modal
+-->
+	
+				<div class="panel">
+					<div class="panel-heading">
+						<span class="panel-title">设备列表</span>
+					</div>
+					<div class="panel-body">
+								<div class="table-info">
+									<table class="table table-bordered">
+										<thead>
+											<tr>
+												<th>序号</th>
+												<th>设备码</th>
+												<th>所属车间</th>
+												<th>所属市县</th>
+												<th>所属工区</th>
+												<th>线别</th>
+												<th>设备状态</th>
+												<th>操作</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td>11111</td>
+												<td>222222222222222</td>
+												<td>兰溪线路车间</td>
+												<td>兰溪市</td>
+												<td>兰溪</td>
+												<td>金千线</td>
+												<td>正常</td>
+												<td>
+													<button class="btn btn-flat btn-labeled btn-primary"><span class="btn-label icon fa fa-camera-retro"></span>查看详情</button>
+													<button class="btn btn-flat btn-labeled btn-primary"><span class="btn-label icon fa fa-camera-retro"></span>修改资料</button>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+
+					</div>
+				</div>
+<!-- /6. $MODALS_BLURRED_BACKGROUND -->
+
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-12">
+
+<!-- 6. $MODALS_BLURRED_BACKGROUND =================================================================
+
+				Modal with blurred background
+
+				To enable blurred background effect just add class .modal-blur to the .modal
+-->
+				<!-- Template -->
+				<div id="add-device-modal" class="modal fade modal-blur" tabindex="-1" role="dialog" style="display: none;">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal">×</button>
+								<h4 class="modal-title">添加设备</h4>
+							</div>
+							<div class="modal-body">
+
+								<form action="" class="panel form-horizontal">
+									<div class="panel-body">
+										<div class="row form-group">
+											<label class="col-sm-4 control-label">设备码:</label>
+											<div class="col-sm-8">
+												<input type="text" name="device_id" class="form-control">
+											</div>
+										</div>
+									</div>
+									<div class="panel-footer text-right">
+										<button class="btn btn-primary" type="button">确定</button>
+										<button class="btn btn-primary" type="button">取消</button>
+									</div>
+								</form>
+							</div>
+						</div> <!-- / .modal-content -->
+					</div> <!-- / .modal-dialog -->
+				</div> <!-- / .modal -->
+				<!-- / Template -->
+	
+				<div class="panel">
+					<div class="panel-heading">
+						<span class="panel-title">设备管理</span>
+					</div>
+					<div class="panel-body">
+						<div class="note note-danger">在此进行设备的添加</div>
+						<button class="btn btn-success" data-toggle="modal" data-target="#add-device-modal">添加设备</button>
+					</div>
+				</div>
+<!-- /6. $MODALS_BLURRED_BACKGROUND -->
+
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-12">
+
+<!-- 6. $MODALS_BLURRED_BACKGROUND =================================================================
+
+				Modal with blurred background
+
+				To enable blurred background effect just add class .modal-blur to the .modal
+-->
+				<!-- Template -->
+				<div id="add-user-modal" class="modal fade modal-blur" tabindex="-1" role="dialog" style="display: none;">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal">×</button>
+								<h4 class="modal-title">添加新用户</h4>
+							</div>
+							<div class="modal-body">
+
+								<form action="" class="panel form-horizontal">
+									<div class="panel-body">
+										<div class="row form-group">
+											<label class="col-sm-4 control-label">用户名:</label>
+											<div class="col-sm-8">
+												<input type="text" name="name" class="form-control">
+											</div>
+										</div>
+										<div class="row form-group">
+											<label class="col-sm-4 control-label">密码:</label>
+											<div class="col-sm-8">
+												<input type="password" name="password" class="form-control">
+											</div>
+										</div>
+										<div class="row form-group">
+											<label class="col-sm-4 control-label">确认密码:</label>
+											<div class="col-sm-8">
+												<input type="password" name="passwordConfirm" class="form-control">
+											</div>
+										</div>
+									</div>
+									<div class="panel-footer text-right">
+										<button class="btn btn-primary" type="button">确定</button>
+										<button class="btn btn-primary" type="button">取消</button>
+									</div>
+								</form>
+							</div>
+						</div> <!-- / .modal-content -->
+					</div> <!-- / .modal-dialog -->
+				</div> <!-- / .modal -->
+				<!-- / Template -->
+	
+				<div class="panel">
+					<div class="panel-heading">
+						<span class="panel-title">用户管理</span>
+					</div>
+					<div class="panel-body">
+						<div class="note note-danger">在此进行用户的添加</div>
+						<button class="btn btn-success" data-toggle="modal" data-target="#add-user-modal">添加新用户</button>
+					</div>
+				</div>
+<!-- /6. $MODALS_BLURRED_BACKGROUND -->
+
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-12">
+
+<!-- 6. $MODALS_BLURRED_BACKGROUND =================================================================
+
+				Modal with blurred background
+
+				To enable blurred background effect just add class .modal-blur to the .modal
+-->
+				<!-- Template -->
+				<div id="bind-device-modal" class="modal fade modal-blur" tabindex="-1" role="dialog" style="display: none;">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal">×</button>
+								<h4 class="modal-title">绑定设备</h4>
+							</div>
+							<div class="modal-body">
+								<form action="" class="panel form-horizontal">
+									<div class="panel-body">
+										<div class="row form-group">
+											<label class="col-sm-4 control-label">用户名:</label>
+											<div class="col-sm-8">
+												<input type="text" name="name" class="form-control">
+											</div>
+										</div>
+										<div class="row form-group">
+											<label class="col-sm-4 control-label">设备码:</label>
+											<div class="col-sm-8">
+												<input type="text" name="device_id" class="form-control">
+											</div>
+										</div>
+									</div>
+									<div class="panel-footer text-right">
+										<button class="btn btn-primary" type="button">确定</button>
+										<button class="btn btn-primary" type="button">取消</button>
+									</div>
+								</form>
+
+
+							</div>
+						</div> <!-- / .modal-content -->
+					</div> <!-- / .modal-dialog -->
+				</div> <!-- / .modal -->
+				<!-- / Template -->	
+				<div class="panel">
+					<div class="panel-heading">
+						<span class="panel-title">绑定设备与账号</span>
+					</div>
+					<div class="panel-body">
+						<div class="note note-danger">在此进行用户与设备的绑定</div>
+						<button class="btn btn-success" data-toggle="modal" data-target="#bind-device-modal">绑定</button>
+					</div>
+				</div>
+<!-- /6. $MODALS_BLURRED_BACKGROUND -->
+
+			</div>
+		</div>
+
+	</div> <!-- / #content-wrapper -->
+	<div id="main-menu-bg"></div>
+</div> <!-- / #main-wrapper -->
+
+<!-- Get jQuery from Google CDN -->
+<!--[if !IE]> -->
+	<script type="text/javascript"> window.jQuery || document.write('<script src="http://ajax.useso.com/ajax/libs/jquery/2.0.3/jquery.min.js">'+"<"+"/script>"); </script>
+<!-- <![endif]-->
+<!--[if lte IE 9]>
+	<script type="text/javascript"> window.jQuery || document.write('<script src="http://ajax.useso.com/ajax/libs/jquery/1.8.3/jquery.min.js">'+"<"+"/script>"); </script>
+<![endif]-->
+
+<!-- z-tree's javascripts -->
+<script type="text/javascript" src="javascripts/jquery.ztree.core-3.5.js"></script>
+<!-- Pixel Admin's javascripts -->
+<script src="javascripts/bootstrap.min.js"></script>
+<script src="javascripts/pixel-admin.min.js"></script>
+
+<script type="text/javascript">
+
+init.push(function () {
+		// Javascript code here
+})
+window.PixelAdmin.start(init);
+
+$(function(){
+
+		var setting = {	};
+
+		var zNodes =[
+			{ name:"父节点1 - 展开", open:true,
+				children: [
+					{ name:"父节点11 - 折叠",
+						children: [
+							{ name:"叶子节点111"},
+							{ name:"叶子节点112"},
+							{ name:"叶子节点113"},
+							{ name:"叶子节点114"}
+						]},
+					{ name:"父节点12 - 折叠",
+						children: [
+							{ name:"叶子节点121"},
+							{ name:"叶子节点122"},
+							{ name:"叶子节点123"},
+							{ name:"叶子节点124"}
+						]},
+					{ name:"父节点13 - 没有子节点", isParent:true}
+				]},
+			{ name:"父节点2 - 折叠",
+				children: [
+					{ name:"父节点21 - 展开", open:true,
+						children: [
+							{ name:"叶子节点211"},
+							{ name:"叶子节点212"},
+							{ name:"叶子节点213"},
+							{ name:"叶子节点214"}
+						]},
+					{ name:"父节点22 - 折叠",
+						children: [
+							{ name:"叶子节点221"},
+							{ name:"叶子节点222"},
+							{ name:"叶子节点223"},
+							{ name:"叶子节点224"}
+						]},
+					{ name:"父节点23 - 折叠",
+						children: [
+							{ name:"叶子节点231"},
+							{ name:"叶子节点232"},
+							{ name:"叶子节点233"},
+							{ name:"叶子节点234"}
+						]}
+				]},
+			{ name:"父节点3 - 没有子节点", isParent:true}
+
+		];
+
+			$.fn.zTree.init($("#treeDemo"), setting, zNodes);
+
+})
+
+</script>
+
+</body>
+</html>

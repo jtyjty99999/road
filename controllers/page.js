@@ -12,7 +12,7 @@
  * Module dependencies.
  */
 
-var comment = require('../dao/comment');
+var comment = require('../dao/index');
 var debug = require('debug')('controller');
 
 exports.index = function *() {

@@ -10,11 +10,8 @@ var page = controllers.page;
 var data = controllers.data;
 
 function routes(app) {
-  app.get('*', data.log);
-  //app.get('/protocol', data.index);
-  app.get('/test', function * () {
-    yield * this.render('test');
-  });
+  app.get('/protocol', data.log);
+  app.get('/index',page.index);
 }
 
 module.exports = routes;

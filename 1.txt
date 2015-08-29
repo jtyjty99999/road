@@ -1,0 +1,94 @@
+[Sat Aug 29 2015 12:31:34 GMT+0800 (中国标准时间)] [worker:7688] #1 new worker start
+[Sat Aug 29 2015 12:31:34 GMT+0800 (中国标准时间)] [worker:9616] #2 new worker start
+[Sat Aug 29 2015 12:31:34 GMT+0800 (中国标准时间)] [worker:9996] #3 new worker start
+[Sat Aug 29 2015 12:31:34 GMT+0800 (中国标准时间)] [worker:8560] #4 new worker start
+[Sat Aug 29 2015 12:31:34 GMT+0800 (中国标准时间)] [worker:7688] #1 worker online
+[Sat Aug 29 2015 12:31:34 GMT+0800 (中国标准时间)] [worker:8560] #4 worker online
+[Sat Aug 29 2015 12:31:34 GMT+0800 (中国标准时间)] [worker:9616] #2 worker online
+[Sat Aug 29 2015 12:31:34 GMT+0800 (中国标准时间)] [worker:9996] #3 worker online
+[Sat Aug 29 2015 12:31:34 GMT+0800 (中国标准时间)] [worker:7688] #1 worker listening on null:8080:4
+[Sat Aug 29 2015 12:31:34 GMT+0800 (中国标准时间)] [worker:9616] #2 worker listening on null:8080:4
+[Sat Aug 29 2015 12:31:34 GMT+0800 (中国标准时间)] [worker:7688] mysql ready, got 4 tables
+[Sat Aug 29 2015 12:31:34 GMT+0800 (中国标准时间)] [worker:8560] #4 worker listening on null:8080:4
+[Sat Aug 29 2015 12:31:34 GMT+0800 (中国标准时间)] [worker:9616] mysql ready, got 4 tables
+[Sat Aug 29 2015 12:31:34 GMT+0800 (中国标准时间)] [worker:8560] mysql ready, got 4 tables
+[Sat Aug 29 2015 12:31:34 GMT+0800 (中国标准时间)] [worker:9996] #3 worker listening on null:8080:4
+[Sat Aug 29 2015 12:31:35 GMT+0800 (中国标准时间)] [worker:9996] mysql ready, got 4 tables
+got!!!/protocol?Name=%ba%bc%d6%dd%cc%fa%bf%c6K123%2b456&Record=Operation&Seq=00000&Data=2015-08-26&Num=1234&Train=123&T0=12%3a33&M0=123&M1=123&M2=123&T1=12%3a33&T2=12%3a33&Rem0=%b7%c7%d5%fd%b3%a3&Dir0=%ce%b4%d6%aa%cf%df&Way=%ca%d6%b6%af%b1%a3%b4%e6
+Name:��������K123+456
+Record:Operation
+Seq:00000
+Data:2015-08-26
+Num:1234
+Train:123
+T0:12:33
+M0:123
+M1:123
+M2:123
+T1:12:33
+T2:12:33
+Rem0:������
+Dir0:δ֪��
+Way:�ֶ�����
+got!!!/protocol?Name=%ba%bc%d6%dd%cc%fa%bf%c6K123%2b456&Record=Shift&Seq=00000&Data=2015-08-25&Shift0=0123&Shift1=1234&Weather=%c7%e7&Safe0=%d5%fd%b3%a3&Safe1=%d5%fd%b3%a3&Safe2=%b7%c7%d5%fd%b3%a3&Safe3=%b7%c7%d5%fd%b3%a3&Safe4=%b7%c7%d5%fd%b3%a3&Safe5=
+Name:��������K123+456
+Record:Shift
+Seq:00000
+Data:2015-08-25
+Shift0:0123
+Shift1:1234
+Weather:��
+Safe0:����
+Safe1:����
+Safe2:������
+Safe3:������
+Safe4:������
+Safe5:
+got!!!/protocol?Name=%ba%bc%d6%dd%cc%fa%bf%c6K123%2b456&Record=Repair&Seq=00000&Equ=%b5%c0%bf%da%c6%cc%c3%e6&Data0=15-08-27+08%3a55&Num0=1234&Ele=%b9%a4%b3%a4&Data1=1234
+Name:��������K123+456
+Record:Repair
+Seq:00000
+Equ:��������
+Data0:15-08-27 08:55
+Num0:1234
+Ele:����
+Data1:1234
+got!!!/protocol?Name=%ba%bc%d6%dd%cc%fa%bf%c6K123%2b456&Record=Operation&Seq=00000&Data=2015-08-26&Num=1234&Train=123&T0=12%3a33&M0=123&M1=123&M2=123&T1=12%3a33&T2=12%3a33&Rem0=%b7%c7%d5%fd%b3%a3&Dir0=%ce%b4%d6%aa%cf%df&Way=%ca%d6%b6%af%b1%a3%b4%e6
+Name:��������K123+456
+Record:Operation
+Seq:00000
+Data:2015-08-26
+Num:1234
+Train:123
+T0:12:33
+M0:123
+M1:123
+M2:123
+T1:12:33
+T2:12:33
+Rem0:������
+Dir0:δ֪��
+Way:�ֶ�����
+got!!!/protocol?Name=%ba%bc%d6%dd%cc%fa%bf%c6K123%2b456&Record=Shift&Seq=00000&Data=2015-08-25&Shift0=0123&Shift1=1234&Weather=%c7%e7&Safe0=%d5%fd%b3%a3&Safe1=%d5%fd%b3%a3&Safe2=%b7%c7%d5%fd%b3%a3&Safe3=%b7%c7%d5%fd%b3%a3&Safe4=%b7%c7%d5%fd%b3%a3&Safe5=
+Name:��������K123+456
+Record:Shift
+Seq:00000
+Data:2015-08-25
+Shift0:0123
+Shift1:1234
+Weather:��
+Safe0:����
+Safe1:����
+Safe2:������
+Safe3:������
+Safe4:������
+Safe5:
+got!!!/protocol?Name=%ba%bc%d6%dd%cc%fa%bf%c6K123%2b456&Record=Repair&Seq=00000&Equ=%b5%c0%bf%da%c6%cc%c3%e6&Data0=15-08-27+08%3a55&Num0=1234&Ele=%b9%a4%b3%a4&Data1=1234
+Name:��������K123+456
+Record:Repair
+Seq:00000
+Equ:��������
+Data0:15-08-27 08:55
+Num0:1234
+Ele:����
+Data1:1234
