@@ -1,0 +1,51 @@
+{
+  "name": "comment",
+  "version": "0.0.1",
+  "description": "服务器",
+  "main": "dispatch.js",
+  "scripts": {
+    "start": "DEBUG=database,controller node-dev --harmony dispatch.js",
+    "test": "make test-all"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@gitlab.alibaba-inc.com:icbu-node/comment.git"
+  },
+  "keywords": [
+    "comment",
+    "icbu"
+  ],
+  "author": "tianyi.jiangty,xiaochen.gaoxc,xuezu,wanjia",
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "dependencies": {
+    "co": "~3.1.0",
+    "co-body": "^1.0.0",
+    "co-urllib": "~0.2.3",
+    "debug": "~2.0.0",
+    "delegates": "0.0.3",
+    "fileloader": "~0.1.0",
+    "graceful": "^0.1.0",
+    "koa": "^0.11.0",
+    "koa-logger": "^1.2.2",
+    "koa-middlewares": "~1.4.0",
+    "koa-onerror": "~1.2.0",
+    "koa-router": "^3.4.0",
+    "koa-static": "^1.4.7",
+    "koa-views": "^2.1.0",
+    "koa-compose":"*",
+    "merge-descriptors": "0.0.2",
+    "mini-logger": "^0.3.0",
+    "mkdirp": "~0.5.0",
+    "multiline": "~1.0.0",
+    "mysql": "~2.5.1",
+    "nunjucks": "~1.0.7",
+    "thunkify-wrap": "~1.0.2"
+  },
+  "devDependencies": {
+    "co-mocha": "~1.0.1",
+    "mocha": "~1.21.4",
+    "node-dev": "~2.4.0",
+    "should": "~4.0.4"
+  }
+}

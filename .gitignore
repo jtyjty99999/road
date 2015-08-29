@@ -1,0 +1,8 @@
+node_modules
+.tmp/
+*.log
+config/config.js
+config/dynamic_config.json
+.DS_Store
+.svn
+.idea/

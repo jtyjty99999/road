@@ -1,0 +1,6 @@
+<h1>Posts</h1>
+<ul>
+{% for item in items %}
+  <li>{{ item.key }}:{{ item.value }}</li>
+{% endfor %}
+</ul>

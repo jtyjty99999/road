@@ -1,0 +1,15 @@
+
+<html>
+
+<head>
+</head>
+
+<body>
+
+{% for item in items %}
+  <li>{{ item.key }}  {{ item.value }}</li>
+{% endfor %}
+
+</body>
+
+</html>
