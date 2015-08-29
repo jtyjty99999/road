@@ -103,7 +103,7 @@ Use search to find needed section.
 				<!-- Logo -->
 				<a href="index.html" class="navbar-brand">
 					<div><img alt="Pixel Admin" src="images/pixel-admin/main-navbar-logo.png"></div>
-					PixelAdmin
+					道口作业交接系统
 				</a>
 
 				<!-- Main navbar toggle -->
@@ -483,6 +483,53 @@ Use search to find needed section.
 		</div>
 
 	</div> <!-- / #content-wrapper -->
+
+	<div id="container-wrapper">
+		<div class="row">
+			<div class="col-sm-12">
+
+<!-- 6. $MODALS_BLURRED_BACKGROUND =================================================================
+
+				Modal with blurred background
+
+				To enable blurred background effect just add class .modal-blur to the .modal
+-->
+				<!-- Template -->
+				<div id="device-info-modal" class="modal fade modal-blur" tabindex="-1" role="dialog" style="display: none;">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal">×</button>
+								<h4 class="modal-title">信息</h4>
+							</div>
+							<div class="modal-body">
+
+
+
+							</div>
+						</div> <!-- / .modal-content -->
+					</div> <!-- / .modal-dialog -->
+				</div> <!-- / .modal -->
+				<!-- / Template -->	
+				<div class="panel">
+					<div class="panel-heading">
+						<span class="panel-title">绑定设备与账号</span>
+					</div>
+					<div class="panel-body">
+						<button class="btn btn-success" data-toggle="modal" data-target="#device-info-modal">当班记录</button>
+						<button class="btn btn-success" data-toggle="modal" data-target="#device-info-modal">交接班记录</button>
+						<button class="btn btn-success" data-toggle="modal" data-target="#device-info-modal">设备状况记录</button>
+						<button class="btn btn-success" data-toggle="modal" data-target="#device-info-modal">违规信息记录</button>
+					</div>
+				</div>
+<!-- /6. $MODALS_BLURRED_BACKGROUND -->
+
+			</div>
+		</div>
+
+
+	</div>
+
 	<div id="main-menu-bg"></div>
 </div> <!-- / #main-wrapper -->
 
