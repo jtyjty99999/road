@@ -1,0 +1,126 @@
+{% extends "./analysis/layout/base.ntpl" %}
+
+{% block content %}
+
+	<style>
+
+		#url{
+
+			display:none;
+		}
+	</style>
+	<div id="content-wrapper">
+		<div class="row">
+			<div class="col-sm-12">
+
+
+<!-- 11. $JQUERY_DATA_TABLES ===========================================================================
+
+				jQuery Data Tables
+-->
+				<!-- Javascript -->
+				<script>
+					init.push(function () {
+						$('#jq-datatables-example').dataTable();
+						$('#jq-datatables-example_wrapper .table-caption').text('方舟首页行为数据');
+						$('#jq-datatables-example_wrapper .dataTables_filter input').attr('placeholder', 'Search...');
+
+						$(document).delegate('jq-datatables-example tr','click',function(){
+
+							var url = $('#url').text();
+
+							var uuid = $(this).attr('data-uuid');
+
+							var cookieid =$(this).attr('data-cookieid');
+
+							location.href = '/aarecord?url='+url+'&uuid='+uuid+'&cookieid='+cookieid;
+
+						})
+
+
+
+					});
+				</script>
+				<!-- / Javascript -->
+
+				<div class="panel">
+					<div class="panel-heading">
+						<span class="panel-title">数据记录</span>
+						<span id = "url">http://rfq.alibaba.com/</span>
+					</div>
+					<div class="panel-body">
+						<div class="table-primary">
+							<table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" id="jq-datatables-example">
+								<thead>
+									<tr>
+										<th>cookieid</th>
+										<th>用户类型</th>
+										<th>操作时长</th>
+										<th>上报时间</th>
+										<th>是否收藏</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr class="gradeA" data-cookieid="222" data-uuid="222">
+										<td>Pre</td>
+										<td>Opera 7.0</td>
+										<td>Win 95+ / OSX.1+</td>
+										<td class="center">-</td>
+										<td class="center">A</td>
+									</tr>
+									<tr class="gradeA" data-cookieid="222" data-uuid="222">
+										<td>Presto</td>
+										<td>Opera 7.5</td>
+										<td>Win 95+ / OSX.2+</td>
+										<td class="center">-</td>
+										<td class="center">A</td>
+									</tr>
+									<tr class="gradeA" data-cookieid="222" data-uuid="222">
+										<td>Presto</td>
+										<td>Opera 8.0</td>
+										<td>Win 95+ / OSX.2+</td>
+										<td class="center">-</td>
+										<td class="center">A</td>
+									</tr>
+									<tr class="gradeA" data-cookieid="222" data-uuid="222">
+										<td>Presto</td>
+										<td>Opera 8.5</td>
+										<td>Win 95+ / OSX.2+</td>
+										<td class="center">-</td>
+										<td class="center">A</td>
+									</tr>
+									<tr class="gradeA" data-cookieid="222" data-uuid="222">
+										<td>Presto</td>
+										<td>Opera 9.0</td>
+										<td>Win 95+ / OSX.3+</td>
+										<td class="center">-</td>
+										<td class="center">A</td>
+									</tr>
+									<tr class="gradeA" data-cookieid="222" data-uuid="222">
+										<td>Presto</td>
+										<td>Opera 9.2</td>
+										<td>Win 88+ / OSX.3+</td>
+										<td class="center">-</td>
+										<td class="center">A</td>
+									</tr>
+									<tr class="gradeA" data-cookieid="222" data-uuid="222">
+										<td>Presto</td>
+										<td>Opera 9.5</td>
+										<td>Win 88+ / OSX.3+</td>
+										<td class="center">-</td>
+										<td class="center">A</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+<!-- /11. $JQUERY_DATA_TABLES -->
+
+			</div>
+		</div>
+
+
+	</div>
+
+{% endblock %}

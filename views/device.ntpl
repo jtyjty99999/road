@@ -1,0 +1,141 @@
+								<form action="" class="panel form-horizontal">
+									<div class="panel-body">
+										<div class="row">
+											<div class="col-sm-6">
+												<div class="form-group no-margin-hr">
+													<label class="control-label">道口名称</label>
+													<input type="text" name="roadname" class="form-control">
+												</div>
+											</div><!-- col-sm-6 -->
+											<div class="col-sm-6">
+												<div class="form-group no-margin-hr">
+													<label class="control-label">设备码</label>
+													<input type="text" name="deviceid" class="form-control">
+												</div>
+											</div><!-- col-sm-6 -->
+										</div><!-- row -->
+										<div class="row">
+											<div class="col-sm-3">
+												<div class="form-group no-margin-hr">
+													<label class="control-label">线别</label>
+													<input type="text" name="roadbelong" class="form-control">
+												</div>
+											</div><!-- col-sm-6 -->
+											<div class="col-sm-3">
+												<div class="form-group no-margin-hr">
+													<label class="control-label">中心里程</label>
+													<input type="text" name="roadmiles" class="form-control">
+												</div>
+											</div><!-- col-sm-6 -->
+											<div class="col-sm-3">
+												<div class="form-group no-margin-hr">
+													<label class="control-label">站间</label>
+													<input type="text" name="roadfromto" class="form-control">
+												</div>
+											</div><!-- col-sm-6 -->
+											<div class="col-sm-3">
+												<div class="form-group no-margin-hr">
+													<label class="control-label">平均车次</label>
+													<input type="text" name="roadcount" class="form-control">
+												</div>
+											</div><!-- col-sm-6 -->
+										</div><!-- row -->										
+										<div class="row">
+											<div class="col-sm-3">
+												<div class="form-group no-margin-hr">
+													<label class="control-label">上行列车了望条件</label>
+													<input type="email" name="roadupsituation" class="form-control">
+												</div>
+											</div><!-- col-sm-6 -->
+											<div class="col-sm-3">
+												<div class="form-group no-margin-hr">
+													<label class="control-label">下行列车了望条件</label>
+													<input type="email" name="roaddownsituation" class="form-control">
+												</div>
+											</div><!-- col-sm-6 -->
+											<div class="col-sm-3">
+												<div class="form-group no-margin-hr">
+													<label class="control-label">右侧公路了望条件</label>
+													<div class="input-group">
+														<span class="input-group-addon">上行</span>
+														<input type="text" class="input-sm form-control" name="roadleftsituationup" placeholder="Start date">
+														<span class="input-group-addon">下行</span>
+														<input type="text" class="input-sm form-control" name="roadleftsituationdown" placeholder="End date">
+													</div>
+												</div>
+											</div><!-- col-sm-6 -->
+											<div class="col-sm-3">
+												<div class="form-group no-margin-hr">
+													<label class="control-label">左侧公路了望条件</label>
+													<div class="input-group">
+														<span class="input-group-addon">上行</span>
+														<input type="text" class="input-sm form-control" name="roadrightsituationup" placeholder="Start date">
+														<span class="input-group-addon">下行</span>
+														<input type="text" class="input-sm form-control" name="roadrightsituationdown" placeholder="End date">
+													</div>
+												</div>
+											</div><!-- col-sm-6 -->
+										</div><!-- row -->
+										<div class="row">
+											<div class="col-sm-3">
+												<div class="form-group no-margin-hr">
+													<label class="control-label">所属车间</label>
+													<input type="email" name="rodeowncar" class="form-control">
+												</div>
+											</div><!-- col-sm-6 -->
+											<div class="col-sm-3">
+												<div class="form-group no-margin-hr">
+													<label class="control-label">所属工区</label>
+													<input type="email" name="roadownarea" class="form-control">
+												</div>
+											</div><!-- col-sm-6 -->
+											<div class="col-sm-3">
+												<div class="form-group no-margin-hr">
+													<label class="control-label">铺面宽度</label>
+													<input type="email" name="roadwidth" class="form-control">
+												</div>
+											</div><!-- col-sm-6 -->
+											<div class="col-sm-3">
+												<div class="form-group no-margin-hr">
+													<label class="control-label">平台长度</label>
+													<div class="input-group">
+														<span class="input-group-addon">左</span>
+														<input type="text" class="input-sm form-control" name="roadlineleft" placeholder="Start date">
+														<span class="input-group-addon">右</span>
+														<input type="text" class="input-sm form-control" name="roadlineright" placeholder="End date">
+													</div>
+												</div>
+											</div><!-- col-sm-6 -->
+										</div><!-- row -->
+										<div class="row">
+											<div class="col-sm-3">
+												<div class="form-group no-margin-hr">
+													<label class="control-label">所属市县</label>
+													<input type="text" name="roadcity" class="form-control">
+												</div>
+											</div><!-- col-sm-6 -->
+											<div class="col-sm-3">
+												<div class="form-group no-margin-hr">
+													<label class="control-label">所属村镇</label>
+													<input type="text" name="roadcountry" class="form-control">
+												</div>
+											</div><!-- col-sm-6 -->
+											<div class="col-sm-3">
+												<div class="form-group no-margin-hr">
+													<label class="control-label">交通流量</label>
+													<input type="text" name="roadtraffic" class="form-control">
+												</div>
+											</div><!-- col-sm-6 -->
+											<div class="col-sm-3">
+												<div class="form-group no-margin-hr">
+													<label class="control-label">道路类型</label>
+													<input type="text" name="roadtype" class="form-control">
+												</div>
+											</div><!-- col-sm-6 -->
+										</div><!-- row -->	
+									</div>
+									<div class="panel-footer text-right">
+										<button class="btn btn-primary" type="button">确定</button>
+										<button class="btn btn-primary" type="button" data-dismiss="modal">取消</button>
+									</div>
+								</form>

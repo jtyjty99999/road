@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+
+
+<!--[if IE 8]>         <html class="ie8"> <![endif]-->
+<!--[if IE 9]>         <html class="ie9 gt-ie8"> <![endif]-->
+<!--[if gt IE 9]><!--> <html class="gt-ie8 gt-ie9 not-ie"> <!--<![endif]-->
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<title>用户轨迹分析平台</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+
+	<!-- Pixel Admin's stylesheets -->
+	<link href="stylesheets/bootstrap.min.css" rel="stylesheet" type="text/css">
+	<link href="stylesheets/pixel-admin.min.css" rel="stylesheet" type="text/css">
+	<link href="stylesheets/widgets.min.css" rel="stylesheet" type="text/css">
+	<link href="stylesheets/rtl.min.css" rel="stylesheet" type="text/css">
+	<link href="stylesheets/themes.min.css" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" href="stylesheets/z-tree/metroStyle/metroStyle.css" type="text/css">
+	<style type="text/css">
+
+	body{
+
+		font-family:Microsoft YaHei;
+	}
+
+	#content-wrapper{
+
+        padding:0;
+    }
+
+    #main-navbar{
+        position: fixed;
+    }
+
+    #notification{
+
+	   position: fixed;
+	    top: 0;
+	    right: 0;
+	    height:400px;
+    }
+
+    #notification-box{
+
+    	height: 300px; 
+     overflow-y: auto; 
+    }
+	</style>
+	<!--[if lt IE 9]>
+		<script src="javascripts/ie.min.js"></script>
+	<![endif]-->
+
+</head>
+
+<body class="theme-default main-menu-animated">
+
+<script>var init = [];</script>
+
+<!-- 2. $MAIN_NAVIGATION ===========================================================================
+
+	Main navigation
+-->
+	<div id="main-navbar" class="navbar navbar-inverse" role="navigation">
+		<!-- Main menu toggle -->
+		<button type="button" id="main-menu-toggle"><i class="navbar-icon fa fa-bars icon"></i><span class="hide-menu-text">HIDE MENU</span></button>
+		
+		<div class="navbar-inner">
+			<!-- Main navbar header -->
+			<div class="navbar-header">
+
+				<!-- Logo -->
+				<a href="/aaindex" class="navbar-brand">
+					<div><img alt="Pixel Admin" src="images/pixel-admin/main-navbar-logo.png"></div>
+					用户轨迹分析平台
+				</a>
+
+				<!-- Main navbar toggle -->
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#main-navbar-collapse"><i class="navbar-icon fa fa-bars"></i></button>
+
+			</div> <!-- / .navbar-header -->
+
+			<div id="main-navbar-collapse" class="collapse navbar-collapse main-navbar-collapse">
+				<div>
+					<ul class="nav navbar-nav">
+						<li>
+							<a href="/aaindex">Home</a>
+						</li>
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">回放速度</a>
+							<ul class="dropdown-menu">
+								<li><a href="#">1X</a></li>
+								<li><a href="#">2X</a></li>
+								<li class="divider"></li>
+								<li><a href="#">10X</a></li>
+								<li><a href="#">20X</a></li>
+							</ul>
+						</li>
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">轨迹叠加</a>
+							<ul class="dropdown-menu">
+								<li><a href="#">叠加随机轨迹</a></li>
+								<li class="divider"></li>
+								<li><a href="###" data-target="#add-user-modal">叠加收藏的轨迹</a></li>
+							</ul>
+						</li>
+					</ul> <!-- / .navbar-nav -->
+
+					<div class="right clearfix">
+						<ul class="nav navbar-nav pull-right right-navbar-nav">
+
+							<li>
+								<form class="navbar-form pull-left" style="padding-top: 6px;">
+									<button class="btn btn-success">启动</button>
+									<button class="btn btn-warning">暂停</button>
+									<button class="btn btn-danger">停止</button>
+									<button class="btn btn-info">收藏此轨迹</button>
+									<label class="checkbox-inline">
+										<input type="checkbox" id="inlineCheckbox1" value="option1" class="px"> <span class="lbl">鼠标轨迹</span>
+									</label>
+									<label class="checkbox-inline">
+										<input type="checkbox" id="inlineCheckbox1" value="option1" class="px"> <span class="lbl">键盘输入</span>
+									</label>
+									<label class="checkbox-inline">
+										<input type="checkbox" id="inlineCheckbox1" value="option1" class="px"> <span class="lbl">自定义轨迹</span>
+									</label>
+								</form>
+							</li>
+
+							<li class="dropdown">
+								<a href="#" class="dropdown-toggle user-menu" data-toggle="dropdown">
+									<img src="demo/avatars/1.jpg">
+									<span>John Doe</span>
+								</a>
+								<ul class="dropdown-menu">
+									<li><a href="#"><span class="label label-warning pull-right">New</span>Profile</a></li>
+									<li><a href="#"><span class="badge badge-primary pull-right">New</span>Account</a></li>
+									<li><a href="#"><i class="dropdown-icon fa fa-cog"></i>&nbsp;&nbsp;Settings</a></li>
+									<li class="divider"></li>
+									<li><a href="pages-signin.html"><i class="dropdown-icon fa fa-power-off"></i>&nbsp;&nbsp;Log Out</a></li>
+								</ul>
+							</li>
+						</ul> <!-- / .navbar-nav -->
+
+				<!-- Javascript -->
+				<script>
+					init.push(function () {
+						$('#jq-datatables-example').dataTable();
+						$('#jq-datatables-example_wrapper .table-caption').text('方舟首页行为数据');
+						$('#jq-datatables-example_wrapper .dataTables_filter input').attr('placeholder', 'Search...');
+					});
+				</script>
+				<!-- / Javascript -->
+
+				<div id="add-user-modal" class="modal fade modal-blur" tabindex="-1" role="dialog" style="display: none;">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal">×</button>
+								<h4 class="modal-title">我收藏的轨迹</h4>
+							</div>
+							<div class="modal-body">
+
+								<div class="table-primary">
+									<table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" id="jq-datatables-example">
+										<thead>
+											<tr>
+												<th>cookieid</th>
+												<th>用户类型</th>
+												<th>操作时长</th>
+												<th>上报时间</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr class="gradeA">
+												<td>Pre</td>
+												<td>Opera 7.0</td>
+												<td>Win 95+ / OSX.1+</td>
+												<td class="center">-</td>
+											</tr>
+											<tr class="gradeA">
+												<td>Presto</td>
+												<td>Opera 7.5</td>
+												<td>Win 95+ / OSX.2+</td>
+												<td class="center">-</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+
+
+							</div>
+						</div> <!-- / .modal-content -->
+					</div> <!-- / .modal-dialog -->
+				</div> <!-- / .modal -->
+
+
+					</div> <!-- / .right -->
+				</div>
+			</div> <!-- / #main-navbar-collapse -->
+		</div> <!-- / .navbar-inner -->
+	</div> <!-- / #main-navbar -->
+<!-- /2. $END_MAIN_NAVIGATION -->
+
+	<div id="content-wrapper">
+		<div class="row">
+			<div class="col-sm-12">
+
+				<iframe src="" style="height:1000px;background:white;width:100%"></iframe>
+
+
+			</div>
+		</div>
+
+		<div class="row" id="notification">
+			<div class="col-sm-12">
+
+				<div class="panel widget-notifications" id="notification-box">
+					<div class="panel-heading">
+						<span class="panel-title"><i class="panel-title-icon fa fa-fire"></i>Notifications</span>
+					</div> <!-- / .panel-heading -->
+					<div class="panel-body padding-sm">
+						<div class="notifications-list">
+
+							<div class="notification">
+								<div class="notification-title text-danger">点击</div>
+								<div class="notification-description"><strong>鼠标点击到</strong>x:<strong>461</strong>.</div>
+								<div class="notification-ago">时间戳  13382732873232</div>
+								<div class="notification-icon fa fa-hdd-o bg-danger"></div>
+							</div> <!-- / .notification -->
+							<div class="notification">
+								<div class="notification-title text-danger">点击</div>
+								<div class="notification-description"><strong>鼠标点击到</strong>x:<strong>461</strong>.</div>
+								<div class="notification-ago">时间戳  13382732873232</div>
+								<div class="notification-icon fa fa-hdd-o bg-danger"></div>
+							</div> <!-- / .notification -->
+
+							<div class="notification">
+								<div class="notification-title text-danger">点击</div>
+								<div class="notification-description"><strong>鼠标点击到</strong>x:<strong>461</strong>.</div>
+								<div class="notification-ago">时间戳  13382732873232</div>
+								<div class="notification-icon fa fa-hdd-o bg-danger"></div>
+							</div> <!-- / .notification -->
+
+							<div class="notification">
+								<div class="notification-title text-danger">点击</div>
+								<div class="notification-description"><strong>鼠标点击到</strong>x:<strong>461</strong>.</div>
+								<div class="notification-ago">时间戳  13382732873232</div>
+								<div class="notification-icon fa fa-hdd-o bg-danger"></div>
+							</div> <!-- / .notification -->
+
+							<div class="notification">
+								<div class="notification-title text-danger">点击</div>
+								<div class="notification-description"><strong>鼠标点击到</strong>x:<strong>461</strong>.</div>
+								<div class="notification-ago">时间戳  13382732873232</div>
+								<div class="notification-icon fa fa-hdd-o bg-danger"></div>
+							</div> <!-- / .notification -->
+
+							<div class="notification">
+								<div class="notification-title text-danger">点击</div>
+								<div class="notification-description"><strong>鼠标点击到</strong>x:<strong>461</strong>.</div>
+								<div class="notification-ago">时间戳  13382732873232</div>
+								<div class="notification-icon fa fa-hdd-o bg-danger"></div>
+							</div> <!-- / .notification -->
+
+
+
+						</div>
+					</div> <!-- / .panel-body -->
+				</div>
+
+
+			</div>
+		</div>
+
+
+
+
+	</div>
+
+<!-- Get jQuery from Google CDN -->
+<!--[if !IE]> -->
+	<script type="text/javascript"> window.jQuery || document.write('<script src="http://ajax.useso.com/ajax/libs/jquery/2.0.3/jquery.min.js">'+"<"+"/script>"); </script>
+<!-- <![endif]-->
+<!--[if lte IE 9]>
+	<script type="text/javascript"> window.jQuery || document.write('<script src="http://ajax.useso.com/ajax/libs/jquery/1.8.3/jquery.min.js">'+"<"+"/script>"); </script>
+<![endif]-->
+
+<!-- Pixel Admin's javascripts -->
+<script src="javascripts/bootstrap.min.js"></script>
+<script src="javascripts/pixel-admin.min.js"></script>
+
+<script type="text/javascript">
+
+
+init.push(function () {
+		// Javascript code here
+})
+window.PixelAdmin.start(init);
+
+
+</script>
+
+</body>
+</html>

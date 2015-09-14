@@ -1,0 +1,104 @@
+{% extends "./analysis/layout/base.ntpl" %}
+
+{% block content %}
+
+	<div id="content-wrapper">
+		<div class="page-header">
+			<h1><i class="fa fa-th-large page-header-icon"></i>&nbsp;&nbsp;用户轨迹分析</h1>
+		</div>
+		<div class="row">
+			<div class="col-sm-12">
+	
+				<div class="panel">
+					<div class="panel-heading">
+						<span class="panel-title">我关注的网站采集点</span>
+					</div>
+					<div class="panel-body">
+
+						<div class="row">
+							<div class="col-sm-4">
+
+								<div class="panel panel-success panel-dark widget-profile">
+									<div class="panel-heading">
+										<div class="widget-profile-bg-icon"><i class="fa fa-flask"></i></div>
+										<div class="widget-profile-header">
+											<span>方舟首页</span><br>
+											email@example.com
+										</div>
+									</div> <!-- / .panel-heading -->
+									<div class="list-group">
+										<a href="/aalist?pageid=222" class="list-group-item"><i class="fa fa-envelope-o list-group-icon"></i>新增数据<span class="badge badge-info">14</span></a>
+										<a href="/aamy?pageid=333" class="list-group-item"><i class="fa fa-tasks list-group-icon"></i>收藏记录数<span class="badge badge-warning">7</span></a>
+										<a href="#" class="list-group-item">修改采集点信息</a>
+									</div>
+								</div>
+
+							</div>
+						</div>
+					</div>
+				</div>
+<!-- /6. $MODALS_BLURRED_BACKGROUND -->
+
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-12">
+	
+				<div class="panel">
+					<div class="panel-heading">
+						<span class="panel-title">我收藏的轨迹</span>
+					</div>
+					<div class="panel-body">
+					<!-- Javascript -->
+					<script>
+						init.push(function () {
+							$('#jq-datatables-example').dataTable();
+							$('#jq-datatables-example_wrapper .table-caption').text('');
+							$('#jq-datatables-example_wrapper .dataTables_filter input').attr('placeholder', 'Search...');
+						});
+					</script>
+					<!-- / Javascript -->
+						<div class="table-primary">
+							<table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" id="jq-datatables-example">
+								<thead>
+									<tr>
+										<th>cookieid</th>
+										<th>用户类型</th>
+										<th>操作时长</th>
+										<th>上报时间</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr class="gradeA">
+										<td>Pre</td>
+										<td>Opera 7.0</td>
+										<td>Win 95+ / OSX.1+</td>
+										<td class="center">-</td>
+									</tr>
+									<tr class="gradeA">
+										<td>Presto</td>
+										<td>Opera 7.5</td>
+										<td>Win 95+ / OSX.2+</td>
+										<td class="center">-</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+
+
+					</div>
+				</div>
+<!-- /6. $MODALS_BLURRED_BACKGROUND -->
+
+			</div>
+		</div>
+
+	</div>
+
+
+
+
+
+
+{% endblock %}

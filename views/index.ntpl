@@ -60,6 +60,16 @@ Use search to find needed section.
 
 		font-family:Microsoft YaHei;
 	}
+
+	#line-schedule-modal .modal-dialog,#device-exchange-modal .modal-dialog,#device-people-modal .modal-dialog,#device-situation-modal .modal-dialog, #device-duty-modal .modal-dialog, #device-error-modal .modal-dialog{
+		    border: 10px solid rgba(134, 134, 134, 0.2);
+
+	}
+
+	#line-schedule-modal .modal-dialog{
+		width: 70%
+
+	}
 	</style>
 	<!--[if lt IE 9]>
 		<script src="javascripts/ie.min.js"></script>
@@ -237,6 +247,419 @@ Use search to find needed section.
 						<span class="panel-title">设备列表</span>
 					</div>
 					<div class="panel-body">
+
+<!--  device detail start  -->
+						<div id="show-device-modal" class="modal fade modal-blur" tabindex="-1" role="dialog" style="display: none;">
+							<div class="modal-dialog" style="width:80%">
+								<div class="modal-content">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal">×</button>
+										<h4 class="modal-title">设备信息</h4>
+									</div>
+									<div class="modal-body">
+
+
+
+										<form action="" class="panel form-horizontal">
+											<div class="panel-body">
+												<div class="row">
+													<div class="col-sm-12">
+														<!-- 列车时刻设置 -->
+														<div id="line-schedule-modal" class="modal fade modal-blur" tabindex="-1" role="dialog" style="display: none;">
+															<div class="modal-dialog">
+																<div class="modal-content">
+																	<div class="modal-header">
+																		<button type="button" class="close" data-dismiss="modal">×</button>
+																		<h4 class="modal-title">列车时刻设置</h4>
+																	</div>
+																	<div class="modal-body">
+
+																		<table class="table table-bordered">
+																				<thead>
+																					<tr>
+																						<th>上行列车</th>
+																						<th>下行列车</th>
+																					</tr>
+																					<tr>
+																						<th>车次</th>
+																						<th>通过时刻</th>
+																						<th>操作</th>
+																						<th>车次</th>
+																						<th>通过时刻</th>
+																						<th>操作</th>
+																					</tr>
+																				</thead>
+																				<tbody>
+																					<tr>
+																						<td>11111</td>
+																						<td>222222222222222</td>
+																						<td>
+																							<button type = "button" class="btn btn-info">修改</button>
+																							<button type = "button" class="btn btn-danger">删除</button>
+																						</td>
+																						<td>兰溪市</td>
+																						<td>兰溪</td>
+																						<td>
+																							<button type = "button" class="btn btn-info">修改</button>
+																							<button type = "button" class="btn btn-danger">删除</button>
+																						</td>
+																					</tr>
+																				</tbody>
+																			</table>
+																	</div>
+																</div> <!-- / .modal-content -->
+															</div> <!-- / .modal-dialog -->
+														</div> <!-- / .modal -->
+														<!-- / Template -->		
+														<button type = "button" class="btn btn-success" data-toggle="modal" data-target="#line-schedule-modal">列车时刻设置</button>
+														<!-- 人员管理 -->
+														<div id="device-people-modal" class="modal fade modal-blur" tabindex="-1" role="dialog" style="display: none;">
+															<div class="modal-dialog">
+																<div class="modal-content">
+																	<div class="modal-header">
+																		<button type="button" class="close" data-dismiss="modal">×</button>
+																		<h4 class="modal-title">人员管理</h4>
+																	</div>
+																	<div class="modal-body">
+
+
+																	</div>
+																</div> <!-- / .modal-content -->
+															</div> <!-- / .modal-dialog -->
+														</div> <!-- / .modal -->
+														<!-- / Template -->		
+														<button type = "button" class="btn btn-success" data-toggle="modal" data-target="#device-people-modal">人员管理</button>
+													<!-- 当班记录 -->
+														<div id="device-duty-modal" class="modal fade modal-blur" tabindex="-1" role="dialog" style="display: none;">
+															<div class="modal-dialog">
+																<div class="modal-content">
+																	<div class="modal-header">
+																		<button type="button" class="close" data-dismiss="modal">×</button>
+																		<h4 class="modal-title">当班记录</h4>
+																	</div>
+																	<div class="modal-body table-info">
+																		<table class="table table-bordered">
+																			<thead>
+																				<tr>
+																					<th>序号</th>
+																					<th>日期</th>
+																					<th>工号</th>
+																					<th>车次</th>
+																					<th>报开时间</th>
+																					<th>报开密码</th>
+																					<th>接收密码1</th>
+																					<th>接收密码2</th>
+																					<th>出务时间</th>
+																					<th>通过时间</th>
+																					<th>状况</th>
+																					<th>列车信息</th>
+																				</tr>
+																			</thead>
+																			<tbody>
+																				<tr>
+																					<td>11111</td>
+																					<td>定时查岗</td>
+																					<td>20111111</td>
+																					<td>12:30</td>
+																					<td>222000</td>
+																					<td>张三</td>
+																					<td>短信报警</td>
+																					<td>张三</td>
+																					<td>短信报警</td>
+																					<td>短信报警</td>
+																					<td>张三</td>
+																					<td>短信报警</td>
+																				</tr>
+																			</tbody>
+																		</table>
+
+																	</div>
+																</div> <!-- / .modal-content -->
+															</div> <!-- / .modal-dialog -->
+														</div> <!-- / .modal -->
+														<!-- / Template -->		
+														<button type = "button" class="btn btn-success" data-toggle="modal" data-target="#device-duty-modal">当班记录</button>
+													<!-- 交接班记录 -->
+														<div id="device-exchange-modal" class="modal fade modal-blur" tabindex="-1" role="dialog" style="display: none;">
+															<div class="modal-dialog">
+																<div class="modal-content">
+																	<div class="modal-header">
+																		<button type="button" class="close" data-dismiss="modal">×</button>
+																		<h4 class="modal-title">交接班记录</h4>
+																	</div>
+																	<div class="modal-body table-info">
+																		<table class="table table-bordered">
+																			<thead>
+																				<tr>
+																					<th>序号</th>
+																					<th>日期</th>
+																					<th>交班时间</th>
+																					<th>交班工号</th>
+																					<th>交班员姓名</th>
+																					<th>接班工号</th>
+																					<th>接班员姓名</th>
+																					<th>天气</th>
+																					<th>安全</th>
+																					<th>备品</th>
+																					<th>设备</th>
+																				</tr>
+																			</thead>
+																			<tbody>
+																				<tr>
+																					<td>11111</td>
+																					<td>定时查岗</td>
+																					<td>20111111</td>
+																					<td>12:30</td>
+																					<td>222000</td>
+																					<td>张三</td>
+																					<td>短信报警</td>
+																					<td>张三</td>
+																					<td>短信报警</td>
+																					<td>张三</td>
+																					<td>短信报警</td>
+																				</tr>
+																			</tbody>
+																		</table>
+
+																	</div>
+																</div> <!-- / .modal-content -->
+															</div> <!-- / .modal-dialog -->
+														</div> <!-- / .modal -->
+														<!-- / Template -->		
+														<button type = "button" class="btn btn-success" data-toggle="modal" data-target="#device-exchange-modal">交接班记录</button>
+														<!-- 设备状况 -->
+														<div id="device-situation-modal" class="modal fade modal-blur" tabindex="-1" role="dialog" style="display: none;">
+															<div class="modal-dialog">
+																<div class="modal-content">
+																	<div class="modal-header">
+																		<button type="button" class="close" data-dismiss="modal">×</button>
+																		<h4 class="modal-title">设备状况</h4>
+																	</div>
+																	<div class="modal-body table-info">
+
+																		<table class="table table-bordered">
+																			<thead>
+																				<tr>
+																					<th>序号</th>
+																					<th>报修设备</th>
+																					<th>报修时间</th>
+																					<th>工号</th>
+																					<th>姓名</th>
+																					<th>受理人</th>
+																					<th>修复时间</th>
+																					<th>工号</th>
+																					<th>姓名</th>
+																				</tr>
+																			</thead>
+																			<tbody>
+																				<tr>
+																					<td>11111</td>
+																					<td>定时查岗</td>
+																					<td>20111111</td>
+																					<td>12:30</td>
+																					<td>222000</td>
+																					<td>张三</td>
+																					<td>短信报警</td>
+																					<td>张三</td>
+																					<td>短信报警</td>
+																				</tr>
+																			</tbody>
+																		</table>
+
+																	</div>
+																</div> <!-- / .modal-content -->
+															</div> <!-- / .modal-dialog -->
+														</div> <!-- / .modal -->
+														<!-- / Template -->									
+														<button type = "button" class="btn btn-success" data-toggle="modal" data-target="#device-situation-modal">设备状况记录</button>
+														<!-- 违规信息 -->
+														<div id="device-error-modal" class="modal fade modal-blur" tabindex="-1" role="dialog" style="display: none;">
+															<div class="modal-dialog">
+																<div class="modal-content">
+																	<div class="modal-header">
+																		<button type="button" class="close" data-dismiss="modal">×</button>
+																		<h4 class="modal-title">违规信息记录</h4>
+																	</div>
+																	<div class="modal-body table-info">
+																		<table class="table table-bordered">
+																			<thead>
+																				<tr>
+																					<th>序号</th>
+																					<th>违规事项</th>
+																					<th>日期</th>
+																					<th>时间</th>
+																					<th>工号</th>
+																					<th>姓名</th>
+																					<th>事项</th>
+																				</tr>
+																			</thead>
+																			<tbody>
+																				<tr>
+																					<td>11111</td>
+																					<td>定时查岗</td>
+																					<td>20111111</td>
+																					<td>12:30</td>
+																					<td>222000</td>
+																					<td>张三</td>
+																					<td>短信报警</td>
+																				</tr>
+																			</tbody>
+																		</table>
+
+																	</div>
+																</div> <!-- / .modal-content -->
+															</div> <!-- / .modal-dialog -->
+														</div> <!-- / .modal -->
+														<!-- / Template -->	
+
+
+														<button type = "button" class="btn btn-success" data-toggle="modal" data-target="#device-error-modal">违规信息记录</button>
+													</div>
+												</div>
+												<div class="row">
+													<div class="col-sm-6">
+														<div class="form-group no-margin-hr">
+															<label class="control-label">道口名称</label>
+															<input disabled type="text" name="roadname" class="form-control">
+														</div>
+													</div><!-- col-sm-6 -->
+													<div class="col-sm-6">
+														<div class="form-group no-margin-hr">
+															<label class="control-label">设备码</label>
+															<input disabled type="text" name="deviceid" class="form-control">
+														</div>
+													</div><!-- col-sm-6 -->
+												</div><!-- row -->
+												<div class="row">
+													<div class="col-sm-3">
+														<div class="form-group no-margin-hr">
+															<label class="control-label">线别</label>
+															<input disabled type="text" name="roadbelong" class="form-control">
+														</div>
+													</div><!-- col-sm-6 -->
+													<div class="col-sm-3">
+														<div class="form-group no-margin-hr">
+															<label class="control-label">中心里程</label>
+															<input disabled type="text" name="roadmiles" class="form-control">
+														</div>
+													</div><!-- col-sm-6 -->
+													<div class="col-sm-3">
+														<div class="form-group no-margin-hr">
+															<label class="control-label">站间</label>
+															<input disabled type="text" name="roadfromto" class="form-control">
+														</div>
+													</div><!-- col-sm-6 -->
+													<div class="col-sm-3">
+														<div class="form-group no-margin-hr">
+															<label class="control-label">平均车次</label>
+															<input disabled type="text" name="roadcount" class="form-control">
+														</div>
+													</div><!-- col-sm-6 -->
+												</div><!-- row -->										
+												<div class="row">
+													<div class="col-sm-3">
+														<div class="form-group no-margin-hr">
+															<label class="control-label">上行列车了望条件</label>
+															<input disabled type="email" name="roadupsituation" class="form-control">
+														</div>
+													</div><!-- col-sm-6 -->
+													<div class="col-sm-3">
+														<div class="form-group no-margin-hr">
+															<label class="control-label">下行列车了望条件</label>
+															<input disabled type="email" name="roaddownsituation" class="form-control">
+														</div>
+													</div><!-- col-sm-6 -->
+													<div class="col-sm-3">
+														<div class="form-group no-margin-hr">
+															<label class="control-label">右侧公路了望条件</label>
+															<div class="input-group">
+																<span class="input-group-addon">上行</span>
+																<input disabled type="text" class="input-sm form-control" name="roadleftsituationup" placeholder="Start date">
+																<span class="input-group-addon">下行</span>
+																<input disabled type="text" class="input-sm form-control" name="roadleftsituationdown" placeholder="End date">
+															</div>
+														</div>
+													</div><!-- col-sm-6 -->
+													<div class="col-sm-3">
+														<div class="form-group no-margin-hr">
+															<label class="control-label">左侧公路了望条件</label>
+															<div class="input-group">
+																<span class="input-group-addon">上行</span>
+																<input disabled type="text" class="input-sm form-control" name="roadrightsituationup" placeholder="Start date">
+																<span class="input-group-addon">下行</span>
+																<input disabled type="text" class="input-sm form-control" name="roadrightsituationdown" placeholder="End date">
+															</div>
+														</div>
+													</div><!-- col-sm-6 -->
+												</div><!-- row -->
+												<div class="row">
+													<div class="col-sm-3">
+														<div class="form-group no-margin-hr">
+															<label class="control-label">所属车间</label>
+															<input disabled type="email" name="rodeowncar" class="form-control">
+														</div>
+													</div><!-- col-sm-6 -->
+													<div class="col-sm-3">
+														<div class="form-group no-margin-hr">
+															<label class="control-label">所属工区</label>
+															<input disabled type="email" name="roadownarea" class="form-control">
+														</div>
+													</div><!-- col-sm-6 -->
+													<div class="col-sm-3">
+														<div class="form-group no-margin-hr">
+															<label class="control-label">铺面宽度</label>
+															<input disabled type="email" name="roadwidth" class="form-control">
+														</div>
+													</div><!-- col-sm-6 -->
+													<div class="col-sm-3">
+														<div class="form-group no-margin-hr">
+															<label class="control-label">平台长度</label>
+															<div class="input-group">
+																<span class="input-group-addon">左</span>
+																<input disabled type="text" class="input-sm form-control" name="roadlineleft" placeholder="Start date">
+																<span class="input-group-addon">右</span>
+																<input disabled type="text" class="input-sm form-control" name="roadlineright" placeholder="End date">
+															</div>
+														</div>
+													</div><!-- col-sm-6 -->
+												</div><!-- row -->
+												<div class="row">
+													<div class="col-sm-3">
+														<div class="form-group no-margin-hr">
+															<label class="control-label">所属市县</label>
+															<input disabled type="text" name="roadcity" class="form-control">
+														</div>
+													</div><!-- col-sm-6 -->
+													<div class="col-sm-3">
+														<div class="form-group no-margin-hr">
+															<label class="control-label">所属村镇</label>
+															<input disabled type="text" name="roadcountry" class="form-control">
+														</div>
+													</div><!-- col-sm-6 -->
+													<div class="col-sm-3">
+														<div class="form-group no-margin-hr">
+															<label class="control-label">交通流量</label>
+															<input disabled type="text" name="roadtraffic" class="form-control">
+														</div>
+													</div><!-- col-sm-6 -->
+													<div class="col-sm-3">
+														<div class="form-group no-margin-hr">
+															<label class="control-label">道路类型</label>
+															<input disabled type="text" name="roadtype" class="form-control">
+														</div>
+													</div><!-- col-sm-6 -->
+												</div><!-- row -->	
+											</div>
+											<div class="panel-footer text-right">
+												<button class="btn btn-primary" type="button">确定</button>
+												<button class="btn btn-primary" type="button" data-dismiss="modal">取消</button>
+											</div>
+										</form>
+									</div>
+								</div> <!-- / .modal-content -->
+							</div> <!-- / .modal-dialog -->
+						</div> <!-- / .modal -->
+<!--  device detail end  -->
 								<div class="table-info">
 									<table class="table table-bordered">
 										<thead>
@@ -261,8 +684,8 @@ Use search to find needed section.
 												<td>金千线</td>
 												<td>正常</td>
 												<td>
-													<button class="btn btn-flat btn-labeled btn-primary"><span class="btn-label icon fa fa-camera-retro"></span>查看详情</button>
-													<button class="btn btn-flat btn-labeled btn-primary"><span class="btn-label icon fa fa-camera-retro"></span>修改资料</button>
+													<button class="btn btn-flat btn-labeled btn-primary" data-toggle="modal" data-target = "#show-device-modal" > <span class="btn-label icon fa fa-camera-retro"></span>查看详情</button>
+													<button class="btn btn-flat btn-labeled btn-primary" data-toggle="modal" data-target = "#add-device-modal"><span class="btn-label icon fa fa-camera-retro"></span>修改资料</button>
 												</td>
 											</tr>
 										</tbody>
@@ -316,7 +739,7 @@ Use search to find needed section.
 -->
 				<!-- Template -->
 				<div id="add-device-modal" class="modal fade modal-blur" tabindex="-1" role="dialog" style="display: none;">
-					<div class="modal-dialog">
+					<div class="modal-dialog" style="width:80%">
 						<div class="modal-content">
 							<div class="modal-header">
 								<button type="button" class="close" data-dismiss="modal">×</button>
@@ -324,20 +747,159 @@ Use search to find needed section.
 							</div>
 							<div class="modal-body">
 
+
+
 								<form action="" class="panel form-horizontal">
 									<div class="panel-body">
-										<div class="row form-group">
-											<label class="col-sm-4 control-label">设备码:</label>
-											<div class="col-sm-8">
-												<input type="text" name="device_id" class="form-control">
-											</div>
-										</div>
+										<div class="row">
+											<div class="col-sm-6">
+												<div class="form-group no-margin-hr">
+													<label class="control-label">道口名称</label>
+													<input type="text" name="roadname" class="form-control">
+												</div>
+											</div><!-- col-sm-6 -->
+											<div class="col-sm-6">
+												<div class="form-group no-margin-hr">
+													<label class="control-label">设备码</label>
+													<input type="text" name="deviceid" class="form-control">
+												</div>
+											</div><!-- col-sm-6 -->
+										</div><!-- row -->
+										<div class="row">
+											<div class="col-sm-3">
+												<div class="form-group no-margin-hr">
+													<label class="control-label">线别</label>
+													<input type="text" name="roadbelong" class="form-control">
+												</div>
+											</div><!-- col-sm-6 -->
+											<div class="col-sm-3">
+												<div class="form-group no-margin-hr">
+													<label class="control-label">中心里程</label>
+													<input type="text" name="roadmiles" class="form-control">
+												</div>
+											</div><!-- col-sm-6 -->
+											<div class="col-sm-3">
+												<div class="form-group no-margin-hr">
+													<label class="control-label">站间</label>
+													<input type="text" name="roadfromto" class="form-control">
+												</div>
+											</div><!-- col-sm-6 -->
+											<div class="col-sm-3">
+												<div class="form-group no-margin-hr">
+													<label class="control-label">平均车次</label>
+													<input type="text" name="roadcount" class="form-control">
+												</div>
+											</div><!-- col-sm-6 -->
+										</div><!-- row -->										
+										<div class="row">
+											<div class="col-sm-3">
+												<div class="form-group no-margin-hr">
+													<label class="control-label">上行列车了望条件</label>
+													<input type="email" name="roadupsituation" class="form-control">
+												</div>
+											</div><!-- col-sm-6 -->
+											<div class="col-sm-3">
+												<div class="form-group no-margin-hr">
+													<label class="control-label">下行列车了望条件</label>
+													<input type="email" name="roaddownsituation" class="form-control">
+												</div>
+											</div><!-- col-sm-6 -->
+											<div class="col-sm-3">
+												<div class="form-group no-margin-hr">
+													<label class="control-label">右侧公路了望条件</label>
+													<div class="input-group">
+														<span class="input-group-addon">上行</span>
+														<input type="text" class="input-sm form-control" name="roadleftsituationup" placeholder="Start date">
+														<span class="input-group-addon">下行</span>
+														<input type="text" class="input-sm form-control" name="roadleftsituationdown" placeholder="End date">
+													</div>
+												</div>
+											</div><!-- col-sm-6 -->
+											<div class="col-sm-3">
+												<div class="form-group no-margin-hr">
+													<label class="control-label">左侧公路了望条件</label>
+													<div class="input-group">
+														<span class="input-group-addon">上行</span>
+														<input type="text" class="input-sm form-control" name="roadrightsituationup" placeholder="Start date">
+														<span class="input-group-addon">下行</span>
+														<input type="text" class="input-sm form-control" name="roadrightsituationdown" placeholder="End date">
+													</div>
+												</div>
+											</div><!-- col-sm-6 -->
+										</div><!-- row -->
+										<div class="row">
+											<div class="col-sm-3">
+												<div class="form-group no-margin-hr">
+													<label class="control-label">所属车间</label>
+													<input type="email" name="rodeowncar" class="form-control">
+												</div>
+											</div><!-- col-sm-6 -->
+											<div class="col-sm-3">
+												<div class="form-group no-margin-hr">
+													<label class="control-label">所属工区</label>
+													<input type="email" name="roadownarea" class="form-control">
+												</div>
+											</div><!-- col-sm-6 -->
+											<div class="col-sm-3">
+												<div class="form-group no-margin-hr">
+													<label class="control-label">铺面宽度</label>
+													<input type="email" name="roadwidth" class="form-control">
+												</div>
+											</div><!-- col-sm-6 -->
+											<div class="col-sm-3">
+												<div class="form-group no-margin-hr">
+													<label class="control-label">平台长度</label>
+													<div class="input-group">
+														<span class="input-group-addon">左</span>
+														<input type="text" class="input-sm form-control" name="roadlineleft" placeholder="Start date">
+														<span class="input-group-addon">右</span>
+														<input type="text" class="input-sm form-control" name="roadlineright" placeholder="End date">
+													</div>
+												</div>
+											</div><!-- col-sm-6 -->
+										</div><!-- row -->
+										<div class="row">
+											<div class="col-sm-3">
+												<div class="form-group no-margin-hr">
+													<label class="control-label">所属市县</label>
+													<input type="text" name="roadcity" class="form-control">
+												</div>
+											</div><!-- col-sm-6 -->
+											<div class="col-sm-3">
+												<div class="form-group no-margin-hr">
+													<label class="control-label">所属村镇</label>
+													<input type="text" name="roadcountry" class="form-control">
+												</div>
+											</div><!-- col-sm-6 -->
+											<div class="col-sm-3">
+												<div class="form-group no-margin-hr">
+													<label class="control-label">交通流量</label>
+													<input type="text" name="roadtraffic" class="form-control">
+												</div>
+											</div><!-- col-sm-6 -->
+											<div class="col-sm-3">
+												<div class="form-group no-margin-hr">
+													<label class="control-label">道路类型</label>
+													<input type="text" name="roadtype" class="form-control">
+												</div>
+											</div><!-- col-sm-6 -->
+										</div><!-- row -->	
 									</div>
 									<div class="panel-footer text-right">
 										<button class="btn btn-primary" type="button">确定</button>
 										<button class="btn btn-primary" type="button" data-dismiss="modal">取消</button>
 									</div>
 								</form>
+
+
+
+
+
+
+
+
+
+						
 							</div>
 						</div> <!-- / .modal-content -->
 					</div> <!-- / .modal-dialog -->
@@ -395,6 +957,16 @@ Use search to find needed section.
 											<label class="col-sm-4 control-label">确认密码:</label>
 											<div class="col-sm-8">
 												<input type="password" name="passwordConfirm" class="form-control">
+											</div>
+										</div>
+										<div class="row form-group">
+											<label class="col-sm-4 control-label">权限:</label>
+											<div class="col-sm-8">
+												<select class="form-control form-group-margin">
+													<option value="1">普通用户</option>
+													<option value="2">管理员</option>
+													<option value="3">超级管理员</option>
+												</select>
 											</div>
 										</div>
 									</div>
@@ -511,17 +1083,7 @@ Use search to find needed section.
 					</div> <!-- / .modal-dialog -->
 				</div> <!-- / .modal -->
 				<!-- / Template -->	
-				<div class="panel">
-					<div class="panel-heading">
-						<span class="panel-title">绑定设备与账号</span>
-					</div>
-					<div class="panel-body">
-						<button class="btn btn-success" data-toggle="modal" data-target="#device-info-modal">当班记录</button>
-						<button class="btn btn-success" data-toggle="modal" data-target="#device-info-modal">交接班记录</button>
-						<button class="btn btn-success" data-toggle="modal" data-target="#device-info-modal">设备状况记录</button>
-						<button class="btn btn-success" data-toggle="modal" data-target="#device-info-modal">违规信息记录</button>
-					</div>
-				</div>
+
 <!-- /6. $MODALS_BLURRED_BACKGROUND -->
 
 			</div>
@@ -535,7 +1097,7 @@ Use search to find needed section.
 
 <!-- Get jQuery from Google CDN -->
 <!--[if !IE]> -->
-	<script type="text/javascript"> window.jQuery || document.write('<script src="http://ajax.useso.com/ajax/libs/jquery/2.0.3/jquery.min.js">'+"<"+"/script>"); </script>
+	<script type="text/javascript"> window.jQuery || document.write('<script src="javascripts/jquery.js">'+"<"+"/script>"); </script>
 <!-- <![endif]-->
 <!--[if lte IE 9]>
 	<script type="text/javascript"> window.jQuery || document.write('<script src="http://ajax.useso.com/ajax/libs/jquery/1.8.3/jquery.min.js">'+"<"+"/script>"); </script>

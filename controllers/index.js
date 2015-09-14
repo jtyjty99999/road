@@ -10,5 +10,6 @@
 module.exports = {
   auth: require('./auth'),
   data: require('./data'),
-  page: require('./page')
+  page: require('./page'),
+    aa: require('./aa')
 };
