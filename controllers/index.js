@@ -12,5 +12,5 @@ module.exports = {
 	data: require('./data'),
 	page: require('./page'),
 	aa: require('./aa'),
-	device: requre('./device')
+	device: require('./device')
 };

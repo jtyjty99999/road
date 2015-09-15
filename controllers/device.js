@@ -13,7 +13,7 @@
  */
 var querystring = require('querystring');
 
-export.modifyDevice = function *(next){
+exports.modifyDevice = function *(next){
 
 	var request = this.request,query = this.request.query,qs  =this.request.querystring;
 
@@ -21,7 +21,7 @@ export.modifyDevice = function *(next){
 	this.body ={};
 }
 
-export.addDevice = function *(next){
+exports.addDevice = function *(next){
 
 	var request = this.request,query = this.request.query,qs  =this.request.querystring;
 
@@ -29,44 +29,14 @@ export.addDevice = function *(next){
 	this.body ={};
 }
 
-export.addDutyUser = function *(next){
+exports.addDutyUser = function *(next){
 
 	var request = this.request,query = this.request.query,qs  =this.request.querystring;
 
 
 	this.body ={};
 }
-export.modifyDutyUser = function *(next){
-
-	var request = this.request,query = this.request.query,qs  =this.request.querystring;
-
-
-	this.body ={};
-}
-
-
-export.deleteDutyUser = function *(next){
-
-	var request = this.request,query = this.request.query,qs  =this.request.querystring;
-
-
-	this.body ={};
-}
-export.addTimeSchedule = function *(next){
-
-	var request = this.request,query = this.request.query,qs  =this.request.querystring;
-
-
-	this.body ={};
-}
-export.modifyTimeSchedule = function *(next){
-
-	var request = this.request,query = this.request.query,qs  =this.request.querystring;
-
-
-	this.body ={};
-}
-export.deleteTimeSchedule = function *(next){
+exports.modifyDutyUser = function *(next){
 
 	var request = this.request,query = this.request.query,qs  =this.request.querystring;
 
@@ -74,7 +44,37 @@ export.deleteTimeSchedule = function *(next){
 	this.body ={};
 }
 
-export.showDutyInfo = function *(next){
+
+exports.deleteDutyUser = function *(next){
+
+	var request = this.request,query = this.request.query,qs  =this.request.querystring;
+
+
+	this.body ={};
+}
+exports.addTimeSchedule = function *(next){
+
+	var request = this.request,query = this.request.query,qs  =this.request.querystring;
+
+
+	this.body ={};
+}
+exports.modifyTimeSchedule = function *(next){
+
+	var request = this.request,query = this.request.query,qs  =this.request.querystring;
+
+
+	this.body ={};
+}
+exports.deleteTimeSchedule = function *(next){
+
+	var request = this.request,query = this.request.query,qs  =this.request.querystring;
+
+
+	this.body ={};
+}
+
+exports.showDutyInfo = function *(next){
 
 	var request = this.request,query = this.request.query,qs  =this.request.querystring;
 
@@ -85,7 +85,7 @@ export.showDutyInfo = function *(next){
 	this.body =res;
 }
 
-export.showExchangeInfo = function *(next){
+exports.showExchangeInfo = function *(next){
 
 	var request = this.request,query = this.request.query,qs  =this.request.querystring;
 
@@ -97,7 +97,7 @@ export.showExchangeInfo = function *(next){
 	this.body =res;
 }
 
-export.showSituationInfo = function *(next){
+exports.showSituationInfo = function *(next){
 
 	var request = this.request,query = this.request.query,qs  =this.request.querystring;
 
@@ -108,15 +108,27 @@ export.showSituationInfo = function *(next){
 	var res = yield * dao.showSituationInfo(deviceId);
 
 	this.body =res;
-
-export.showErrorInfo = function *(next){
+}
+exports.showErrorInfo = function *(next){
 
 	var request = this.request,query = this.request.query,qs  =this.request.querystring;
 
 
 	var deviceId = this.query.deviceId;
 
-	var res = yield * dao.showDutyInfo(deviceId);
+	var res = yield * dao.showErrorInfo(deviceId);
+
+	this.body =res;
+}
+
+exports.showDeviceInfo = function *(next){
+
+	var request = this.request,query = this.request.query,qs  =this.request.querystring;
+
+
+	var deviceId = this.query.deviceId;
+
+	var res = yield * dao.selectUserDevice(deviceId);
 
 	this.body =res;
 }

@@ -64,6 +64,7 @@ var log = function *(next){
 	}
 	this.body = 'Name='+query.Name+',Record='+query.Record+',Seq='+query.Seq;
 }
+//parseInt(Math.random()*1000)  每次工号和列车时刻设置记录一个操作码，每次心跳过来取属于当前设备的一条，code发回去
 
 module.exports = {
 
