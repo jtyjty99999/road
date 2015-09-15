@@ -12,10 +12,12 @@
  * Module dependencies.
  */
 
-var comment = require('../dao/index');
+var dao = require('../dao/index');
 var debug = require('debug')('controller');
 
 exports.index = function *() {
+
+	//var dao = dao.selectUserDevice(userid);
 	var items = [{ title: "foo", id: 1 }, { title: "bar", id: 2}];
 	this.body = yield this.render('index',{items:items});
 }; 

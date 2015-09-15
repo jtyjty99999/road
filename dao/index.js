@@ -23,7 +23,7 @@ var DEVICE_ADD_SQL = multiline(function (){/*
       status, parent_id, app_id, trace_id, avatar, buc_id)
   VALUES(NULL, now(), now(), ?, ?, 0, ?, ?, ?, ?, ?)
 */});
-exports.addDevice = function add(device, callback) {
+exports.addDevice = function (device, callback) {
   assert(typeof device === 'object');
 
   var values = [device.user_name, device.content,
@@ -52,7 +52,7 @@ var DEVICE_INFO_ADD_SQL = multiline(function (){/*
       status, parent_id, app_id, trace_id, avatar, buc_id)
   VALUES(NULL, now(), now(), ?, ?, 0, ?, ?, ?, ?, ?)
 */});
-exports.addDeviceInfo = function add(device, callback) {
+exports.addDeviceInfo = function (device, callback) {
   assert(typeof device === 'object');
 
   var values = [device.user_name, device.content,
@@ -79,7 +79,7 @@ var USER_INFO_ADD_SQL = multiline(function (){/*
       status, parent_id, app_id, trace_id, avatar, buc_id)
   VALUES(NULL, now(), now(), ?, ?, 0, ?, ?, ?, ?, ?)
 */});
-exports.addAccount = function add(device, callback) {
+exports.addAccount = function (device, callback) {
   assert(typeof device === 'object');
 
   var values = [device.user_name, device.content,
@@ -106,7 +106,7 @@ var USER_DEVICE_RELATION_SQL = multiline(function (){/*
     monitor_relation(id, create_time, update_time, user_name, device_id)
   VALUES(NULL, now(), now(), ?, ?)
 */});
-exports.addUserDeviceRelation = function add(device, callback) {
+exports.addUserDeviceRelation = function (device, callback) {
   assert(typeof device === 'object');
 
   var values = [device.user_name, device.id];
@@ -129,7 +129,7 @@ var SELECT_USER_DEVICE_SQL = multiline(function (){/*
   Select device_id from
     monitor_relation where user_name = ?
 */});
-exports.selectUserDevice = function add(user_name, callback) {
+exports.selectUserDevice = function (user_name, callback) {
   assert(typeof device === 'object');
 
   var values = [user_name];
@@ -152,7 +152,7 @@ var SELECT_DEVICE_INFO_SQL = multiline(function (){/*
   Select * from
     monitor_device where device_id = ?
 */});
-exports.selectUserDevice = function add(device_id, callback) {
+exports.selectUserDevice = function (device_id, callback) {
   assert(typeof device === 'object');
 
   var values = [device_id];
@@ -164,6 +164,136 @@ exports.selectUserDevice = function add(device_id, callback) {
     }
   });
 };
+
+
+
+/**
+ * 登录判断账号密码
+ *
+ * @param {Object} 用户对象
+ * @return {Number} 账号id
+ */
+var USER_LOGIN_SQL = multiline(function (){/*
+  select * from
+    monitor_user where user_name = ? and user_password= ?
+*/});
+exports.loginJudge = function (user, callback) {
+  assert(typeof device === 'object');
+
+  var values = [user.user_name, user.user_password];
+  mysql.query(USER_LOGIN_SQL, values, function(err, result) {
+    if (err) {
+      callback(err);
+    } else {
+      callback(null, result.insertId);
+    }
+  });
+};
+
+
+
+
+/**
+ * 查找某设备的当班信息
+ *
+ * @param {Object} 设备id
+ * @return {array} 
+ */
+var SELECT_DEVICE_DUTY_SQL = multiline(function (){/*
+  Select * from
+    monitor_info where device_id = ? and type = "duty"
+*/});
+exports.showDutyInfo = function (device_id, callback) {
+  assert(typeof device === 'object');
+
+  var values = [device_id];
+  mysql.query(SELECT_DEVICE_DUTY_SQL, values, function(err, result) {
+    if (err) {
+      callback(err);
+    } else {
+      callback(null, result);
+    }
+  });
+};
+
+
+/**
+ * 查找某设备的交接班信息
+ *
+ * @param {Object} 设备id
+ * @return {array} 
+ */
+var SELECT_DEVICE_EXCHANGE_SQL = multiline(function (){/*
+  Select * from
+    monitor_info where device_id = ? and type = "exchange"
+*/});
+exports.showExchangeInfo = function (device_id, callback) {
+  assert(typeof device === 'object');
+
+  var values = [device_id];
+  mysql.query(SELECT_DEVICE_EXCHANGE_SQL, values, function(err, result) {
+    if (err) {
+      callback(err);
+    } else {
+      callback(null, result);
+    }
+  });
+};
+
+/**
+ * 查找某设备的违规信息
+ *
+ * @param {Object} 设备id
+ * @return {array} 
+ */
+var SELECT_DEVICE_ERROR_SQL = multiline(function (){/*
+  Select * from
+    monitor_info where device_id = ? and type = "error"
+*/});
+exports.showErrorInfo = function (device_id, callback) {
+  assert(typeof device === 'object');
+
+  var values = [device_id];
+  mysql.query(SELECT_DEVICE_ERROR_SQL, values, function(err, result) {
+    if (err) {
+      callback(err);
+    } else {
+      callback(null, result);
+    }
+  });
+};
+
+/**
+ * 查找某设备的设备状况信息
+ *
+ * @param {Object} 设备id
+ * @return {array} 
+ */
+var SELECT_DEVICE_SITUATION_SQL = multiline(function (){/*
+  Select * from
+    monitor_info where device_id = ? and type = "situation"
+*/});
+exports.showSituationInfo = function (device_id, callback) {
+  assert(typeof device === 'object');
+
+  var values = [device_id];
+  mysql.query(SELECT_DEVICE_SITUATION_SQL, values, function(err, result) {
+    if (err) {
+      callback(err);
+    } else {
+      callback(null, result);
+    }
+  });
+};
+
+
+
+
+
+
+
+
+
 
 
 thunkify(exports);

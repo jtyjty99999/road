@@ -63,11 +63,16 @@ Use search to find needed section.
 
 	#line-schedule-modal .modal-dialog,#device-exchange-modal .modal-dialog,#device-people-modal .modal-dialog,#device-situation-modal .modal-dialog, #device-duty-modal .modal-dialog, #device-error-modal .modal-dialog{
 		    border: 10px solid rgba(134, 134, 134, 0.2);
+		    width: 70%
 
 	}
 
 	#line-schedule-modal .modal-dialog{
-		width: 70%
+
+
+	}
+
+	#device-duty-modal .modal-dialog{
 
 	}
 	</style>
@@ -277,8 +282,12 @@ Use search to find needed section.
 																		<table class="table table-bordered">
 																				<thead>
 																					<tr>
-																						<th>上行列车</th>
-																						<th>下行列车</th>
+																						<th>上行列车
+																							<button type = "button" class="btn btn-info">新增上行列车时刻</button>
+																						</th>
+																						<th>下行列车
+																							<button type = "button" class="btn btn-info">新增下行列车时刻</button>
+																						</th>
 																					</tr>
 																					<tr>
 																						<th>车次</th>
@@ -318,10 +327,45 @@ Use search to find needed section.
 																<div class="modal-content">
 																	<div class="modal-header">
 																		<button type="button" class="close" data-dismiss="modal">×</button>
-																		<h4 class="modal-title">人员管理</h4>
+																		<h4 class="modal-title">人员管理																							<button type = "button" class="btn btn-info">新增</button></h4>
 																	</div>
 																	<div class="modal-body">
-
+																		<table class="table table-bordered">
+																				<thead>
+																					<tr>
+																						<th>修改日期
+																						</th>
+																						<th>20150101
+																						</th>
+																					</tr>
+																					<tr>
+																						<th>交接班时间1</th>
+																						<th>10:10:10</th>
+																					</tr>
+																				</thead>
+																				<tbody>
+																					<tr>
+																						<td>工号1</td>
+																						<td>111</td>
+																						<td>姓名</td>
+																						<td>张三</td>
+																						<td>
+																							<button type = "button" class="btn btn-info">修改</button>
+																							<button type = "button" class="btn btn-danger">删除</button>
+																						</td>
+																					</tr>
+																					<tr>
+																						<td>工号1</td>
+																						<td>111</td>
+																						<td>姓名</td>
+																						<td>张三</td>
+																						<td>
+																							<button type = "button" class="btn btn-info">修改</button>
+																							<button type = "button" class="btn btn-danger">删除</button>
+																						</td>
+																					</tr>
+																				</tbody>
+																			</table>
 
 																	</div>
 																</div> <!-- / .modal-content -->
@@ -514,6 +558,7 @@ Use search to find needed section.
 
 
 														<button type = "button" class="btn btn-success" data-toggle="modal" data-target="#device-error-modal">违规信息记录</button>
+														<a target="_black" type = "button" class="btn btn-success" href="http://www.baidu.com/">视频记录</a>
 													</div>
 												</div>
 												<div class="row">

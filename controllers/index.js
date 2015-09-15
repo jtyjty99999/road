@@ -8,8 +8,9 @@
 
 
 module.exports = {
-  auth: require('./auth'),
-  data: require('./data'),
-  page: require('./page'),
-    aa: require('./aa')
+	auth: require('./auth'),
+	data: require('./data'),
+	page: require('./page'),
+	aa: require('./aa'),
+	device: requre('./device')
 };
