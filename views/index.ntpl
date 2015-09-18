@@ -561,9 +561,9 @@ Use search to find needed section.
 															<label class="control-label">右侧公路了望条件</label>
 															<div class="input-group">
 																<span class="input-group-addon">上行</span>
-																<input readonly type="text" class="input-sm form-control" name="roadleftsituationup" placeholder="Start date">
+																<input readonly type="text" class="input-sm form-control" name="roadleftsituationup" placeholder="">
 																<span class="input-group-addon">下行</span>
-																<input readonly type="text" class="input-sm form-control" name="roadleftsituationdown" placeholder="End date">
+																<input readonly type="text" class="input-sm form-control" name="roadleftsituationdown" placeholder="">
 															</div>
 														</div>
 													</div><!-- col-sm-6 -->
@@ -572,9 +572,9 @@ Use search to find needed section.
 															<label class="control-label">左侧公路了望条件</label>
 															<div class="input-group">
 																<span class="input-group-addon">上行</span>
-																<input readonly type="text" class="input-sm form-control" name="roadrightsituationup" placeholder="Start date">
+																<input readonly type="text" class="input-sm form-control" name="roadrightsituationup" placeholder="">
 																<span class="input-group-addon">下行</span>
-																<input readonly type="text" class="input-sm form-control" name="roadrightsituationdown" placeholder="End date">
+																<input readonly type="text" class="input-sm form-control" name="roadrightsituationdown" placeholder="">
 															</div>
 														</div>
 													</div><!-- col-sm-6 -->
@@ -603,9 +603,9 @@ Use search to find needed section.
 															<label class="control-label">平台长度</label>
 															<div class="input-group">
 																<span class="input-group-addon">左</span>
-																<input readonly type="text" class="input-sm form-control" name="roadlineleft" placeholder="Start date">
+																<input readonly type="text" class="input-sm form-control" name="roadlineleft" placeholder="">
 																<span class="input-group-addon">右</span>
-																<input readonly type="text" class="input-sm form-control" name="roadlineright" placeholder="End date">
+																<input readonly type="text" class="input-sm form-control" name="roadlineright" placeholder="">
 															</div>
 														</div>
 													</div><!-- col-sm-6 -->
@@ -806,9 +806,9 @@ Use search to find needed section.
 													<label class="control-label">右侧公路了望条件</label>
 													<div class="input-group">
 														<span class="input-group-addon">上行</span>
-														<input type="text" class="input-sm form-control" name="roadleftsituationup" placeholder="Start date">
+														<input type="text" class="input-sm form-control" name="roadleftsituationup" placeholder="">
 														<span class="input-group-addon">下行</span>
-														<input type="text" class="input-sm form-control" name="roadleftsituationdown" placeholder="End date">
+														<input type="text" class="input-sm form-control" name="roadleftsituationdown" placeholder="">
 													</div>
 												</div>
 											</div><!-- col-sm-6 -->
@@ -817,9 +817,9 @@ Use search to find needed section.
 													<label class="control-label">左侧公路了望条件</label>
 													<div class="input-group">
 														<span class="input-group-addon">上行</span>
-														<input type="text" class="input-sm form-control" name="roadrightsituationup" placeholder="Start date">
+														<input type="text" class="input-sm form-control" name="roadrightsituationup" placeholder="">
 														<span class="input-group-addon">下行</span>
-														<input type="text" class="input-sm form-control" name="roadrightsituationdown" placeholder="End date">
+														<input type="text" class="input-sm form-control" name="roadrightsituationdown" placeholder="">
 													</div>
 												</div>
 											</div><!-- col-sm-6 -->
@@ -850,9 +850,9 @@ Use search to find needed section.
 													<label class="control-label">平台长度</label>
 													<div class="input-group">
 														<span class="input-group-addon">左</span>
-														<input type="text" class="input-sm form-control" name="roadlineleft" placeholder="Start date">
+														<input type="text" class="input-sm form-control" name="roadlineleft" placeholder="">
 														<span class="input-group-addon">右</span>
-														<input type="text" class="input-sm form-control" name="roadlineright" placeholder="End date">
+														<input type="text" class="input-sm form-control" name="roadlineright" placeholder="">
 													</div>
 												</div>
 											</div><!-- col-sm-6 -->
