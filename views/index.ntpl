@@ -75,6 +75,11 @@ Use search to find needed section.
 	#device-duty-modal .modal-dialog{
 
 	}
+
+	.table-info{
+
+		    overflow-x: scroll;
+	}
 	</style>
 	<!--[if lt IE 9]>
 		<script src="javascripts/ie.min.js"></script>
@@ -96,7 +101,7 @@ Use search to find needed section.
 	* 'main-menu-fixed'    - Fixes the main menu
 	* 'main-menu-animated' - Animate main menu
 -->
-<body class="theme-default main-menu-animated">
+<body class="theme-default main-menu-animated" data-userid="{{user_id}}">
 
 <script>var init = [];</script>
 
@@ -130,16 +135,7 @@ Use search to find needed section.
 				<div>
 					<ul class="nav navbar-nav">
 						<li>
-							<a href="#">Home</a>
-						</li>
-						<li class="dropdown">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown</a>
-							<ul class="dropdown-menu">
-								<li><a href="#">First item</a></li>
-								<li><a href="#">Second item</a></li>
-								<li class="divider"></li>
-								<li><a href="#">Third item</a></li>
-							</ul>
+							<a href="/index">主页</a>
 						</li>
 					</ul> <!-- / .navbar-nav -->
 
@@ -153,17 +149,9 @@ Use search to find needed section.
 							</li>
 
 							<li class="dropdown">
-								<a href="#" class="dropdown-toggle user-menu" data-toggle="dropdown">
-									<img src="demo/avatars/1.jpg">
-									<span>John Doe</span>
+								<a href="/logout">
+									<span>登出</span>
 								</a>
-								<ul class="dropdown-menu">
-									<li><a href="#"><span class="label label-warning pull-right">New</span>Profile</a></li>
-									<li><a href="#"><span class="badge badge-primary pull-right">New</span>Account</a></li>
-									<li><a href="#"><i class="dropdown-icon fa fa-cog"></i>&nbsp;&nbsp;Settings</a></li>
-									<li class="divider"></li>
-									<li><a href="pages-signin.html"><i class="dropdown-icon fa fa-power-off"></i>&nbsp;&nbsp;Log Out</a></li>
-								</ul>
 							</li>
 						</ul> <!-- / .navbar-nav -->
 					</div> <!-- / .right -->
@@ -235,7 +223,7 @@ Use search to find needed section.
 	<div id="content-wrapper">
 
 		<div class="page-header">
-			<h1>欢迎您<span class="text-light-gray">99</span>进入管理界面</h1>
+			<h1>欢迎您<span class="text-light-gray">{{name}}</span>进入管理界面</h1>
 		</div> <!-- / .page-header -->
 		<div class="row">
 			<div class="col-sm-12">
@@ -265,7 +253,8 @@ Use search to find needed section.
 
 
 
-										<form action="" class="panel form-horizontal">
+										<form action="" class="panel form-horizontal" id="device-detail-form">
+											<input type="hidden" name="deviceid" class="form-control" id="device-id-instance">
 											<div class="panel-body">
 												<div class="row">
 													<div class="col-sm-12">
@@ -282,10 +271,10 @@ Use search to find needed section.
 																		<table class="table table-bordered">
 																				<thead>
 																					<tr>
-																						<th>上行列车
+																						<th colspan="3">上行列车
 																							<button type = "button" class="btn btn-info">新增上行列车时刻</button>
 																						</th>
-																						<th>下行列车
+																						<th colspan="3">下行列车
 																							<button type = "button" class="btn btn-info">新增下行列车时刻</button>
 																						</th>
 																					</tr>
@@ -395,25 +384,16 @@ Use search to find needed section.
 																					<th>接收密码2</th>
 																					<th>出务时间</th>
 																					<th>通过时间</th>
-																					<th>状况</th>
-																					<th>列车信息</th>
+																					<th>备注</th>
+																					<th>列车方向</th>
+																					<th>存储方式</th>
+																					<th>时间来源</th>
+																					<th>持续时间</th>
+																					<th>通过时间</th>
+																					<th>备注</th>
 																				</tr>
 																			</thead>
-																			<tbody>
-																				<tr>
-																					<td>11111</td>
-																					<td>定时查岗</td>
-																					<td>20111111</td>
-																					<td>12:30</td>
-																					<td>222000</td>
-																					<td>张三</td>
-																					<td>短信报警</td>
-																					<td>张三</td>
-																					<td>短信报警</td>
-																					<td>短信报警</td>
-																					<td>张三</td>
-																					<td>短信报警</td>
-																				</tr>
+																			<tbody id="dutyList">
 																			</tbody>
 																		</table>
 
@@ -422,7 +402,7 @@ Use search to find needed section.
 															</div> <!-- / .modal-dialog -->
 														</div> <!-- / .modal -->
 														<!-- / Template -->		
-														<button type = "button" class="btn btn-success" data-toggle="modal" data-target="#device-duty-modal">当班记录</button>
+														<button type = "button" class="btn btn-success" data-toggle="modal" data-target="#device-duty-modal" id="showDutyButton">当班记录</button>
 													<!-- 交接班记录 -->
 														<div id="device-exchange-modal" class="modal fade modal-blur" tabindex="-1" role="dialog" style="display: none;">
 															<div class="modal-dialog">
@@ -436,32 +416,20 @@ Use search to find needed section.
 																			<thead>
 																				<tr>
 																					<th>序号</th>
-																					<th>日期</th>
 																					<th>交班时间</th>
 																					<th>交班工号</th>
-																					<th>交班员姓名</th>
 																					<th>接班工号</th>
-																					<th>接班员姓名</th>
 																					<th>天气</th>
-																					<th>安全</th>
-																					<th>备品</th>
-																					<th>设备</th>
+																					<th>交班安全</th>
+																					<th>交班备品</th>
+																					<th>交班设备</th>
+																					<th>接班安全</th>
+																					<th>接班备品</th>
+																					<th>接班设备</th>
 																				</tr>
 																			</thead>
-																			<tbody>
-																				<tr>
-																					<td>11111</td>
-																					<td>定时查岗</td>
-																					<td>20111111</td>
-																					<td>12:30</td>
-																					<td>222000</td>
-																					<td>张三</td>
-																					<td>短信报警</td>
-																					<td>张三</td>
-																					<td>短信报警</td>
-																					<td>张三</td>
-																					<td>短信报警</td>
-																				</tr>
+																			<tbody id="exchangeList">
+																			
 																			</tbody>
 																		</table>
 
@@ -470,7 +438,7 @@ Use search to find needed section.
 															</div> <!-- / .modal-dialog -->
 														</div> <!-- / .modal -->
 														<!-- / Template -->		
-														<button type = "button" class="btn btn-success" data-toggle="modal" data-target="#device-exchange-modal">交接班记录</button>
+														<button type = "button" class="btn btn-success" data-toggle="modal" data-target="#device-exchange-modal" id="showExchangeButton">交接班记录</button>
 														<!-- 设备状况 -->
 														<div id="device-situation-modal" class="modal fade modal-blur" tabindex="-1" role="dialog" style="display: none;">
 															<div class="modal-dialog">
@@ -485,28 +453,15 @@ Use search to find needed section.
 																			<thead>
 																				<tr>
 																					<th>序号</th>
-																					<th>报修设备</th>
+																					<th>报修设备名称</th>
 																					<th>报修时间</th>
 																					<th>工号</th>
-																					<th>姓名</th>
 																					<th>受理人</th>
 																					<th>修复时间</th>
 																					<th>工号</th>
-																					<th>姓名</th>
 																				</tr>
 																			</thead>
-																			<tbody>
-																				<tr>
-																					<td>11111</td>
-																					<td>定时查岗</td>
-																					<td>20111111</td>
-																					<td>12:30</td>
-																					<td>222000</td>
-																					<td>张三</td>
-																					<td>短信报警</td>
-																					<td>张三</td>
-																					<td>短信报警</td>
-																				</tr>
+																			<tbody id="situationList">
 																			</tbody>
 																		</table>
 
@@ -515,7 +470,7 @@ Use search to find needed section.
 															</div> <!-- / .modal-dialog -->
 														</div> <!-- / .modal -->
 														<!-- / Template -->									
-														<button type = "button" class="btn btn-success" data-toggle="modal" data-target="#device-situation-modal">设备状况记录</button>
+														<button type = "button" class="btn btn-success" data-toggle="modal" data-target="#device-situation-modal" id="showSituationButton">设备状况记录</button>
 														<!-- 违规信息 -->
 														<div id="device-error-modal" class="modal fade modal-blur" tabindex="-1" role="dialog" style="display: none;">
 															<div class="modal-dialog">
@@ -529,24 +484,11 @@ Use search to find needed section.
 																			<thead>
 																				<tr>
 																					<th>序号</th>
-																					<th>违规事项</th>
-																					<th>日期</th>
 																					<th>时间</th>
-																					<th>工号</th>
-																					<th>姓名</th>
 																					<th>事项</th>
 																				</tr>
 																			</thead>
-																			<tbody>
-																				<tr>
-																					<td>11111</td>
-																					<td>定时查岗</td>
-																					<td>20111111</td>
-																					<td>12:30</td>
-																					<td>222000</td>
-																					<td>张三</td>
-																					<td>短信报警</td>
-																				</tr>
+																			<tbody id="errorList"> 
 																			</tbody>
 																		</table>
 
@@ -557,7 +499,7 @@ Use search to find needed section.
 														<!-- / Template -->	
 
 
-														<button type = "button" class="btn btn-success" data-toggle="modal" data-target="#device-error-modal">违规信息记录</button>
+														<button type = "button" class="btn btn-success" data-toggle="modal" data-target="#device-error-modal" id="showErrorButton">违规信息记录</button>
 														<a target="_black" type = "button" class="btn btn-success" href="http://www.baidu.com/">视频记录</a>
 													</div>
 												</div>
@@ -565,13 +507,13 @@ Use search to find needed section.
 													<div class="col-sm-6">
 														<div class="form-group no-margin-hr">
 															<label class="control-label">道口名称</label>
-															<input disabled type="text" name="roadname" class="form-control">
+															<input readonly type="text" name="roadname" class="form-control">
 														</div>
 													</div><!-- col-sm-6 -->
 													<div class="col-sm-6">
 														<div class="form-group no-margin-hr">
 															<label class="control-label">设备码</label>
-															<input disabled type="text" name="deviceid" class="form-control">
+															<input readonly type="text" name="deviceid" class="form-control">
 														</div>
 													</div><!-- col-sm-6 -->
 												</div><!-- row -->
@@ -579,25 +521,25 @@ Use search to find needed section.
 													<div class="col-sm-3">
 														<div class="form-group no-margin-hr">
 															<label class="control-label">线别</label>
-															<input disabled type="text" name="roadbelong" class="form-control">
+															<input readonly type="text" name="roadbelong" class="form-control">
 														</div>
 													</div><!-- col-sm-6 -->
 													<div class="col-sm-3">
 														<div class="form-group no-margin-hr">
 															<label class="control-label">中心里程</label>
-															<input disabled type="text" name="roadmiles" class="form-control">
+															<input readonly type="text" name="roadmiles" class="form-control">
 														</div>
 													</div><!-- col-sm-6 -->
 													<div class="col-sm-3">
 														<div class="form-group no-margin-hr">
 															<label class="control-label">站间</label>
-															<input disabled type="text" name="roadfromto" class="form-control">
+															<input readonly type="text" name="roadfromto" class="form-control">
 														</div>
 													</div><!-- col-sm-6 -->
 													<div class="col-sm-3">
 														<div class="form-group no-margin-hr">
 															<label class="control-label">平均车次</label>
-															<input disabled type="text" name="roadcount" class="form-control">
+															<input readonly type="text" name="roadcount" class="form-control">
 														</div>
 													</div><!-- col-sm-6 -->
 												</div><!-- row -->										
@@ -605,13 +547,13 @@ Use search to find needed section.
 													<div class="col-sm-3">
 														<div class="form-group no-margin-hr">
 															<label class="control-label">上行列车了望条件</label>
-															<input disabled type="email" name="roadupsituation" class="form-control">
+															<input readonly type="email" name="roadupsituation" class="form-control">
 														</div>
 													</div><!-- col-sm-6 -->
 													<div class="col-sm-3">
 														<div class="form-group no-margin-hr">
 															<label class="control-label">下行列车了望条件</label>
-															<input disabled type="email" name="roaddownsituation" class="form-control">
+															<input readonly type="email" name="roaddownsituation" class="form-control">
 														</div>
 													</div><!-- col-sm-6 -->
 													<div class="col-sm-3">
@@ -619,9 +561,9 @@ Use search to find needed section.
 															<label class="control-label">右侧公路了望条件</label>
 															<div class="input-group">
 																<span class="input-group-addon">上行</span>
-																<input disabled type="text" class="input-sm form-control" name="roadleftsituationup" placeholder="Start date">
+																<input readonly type="text" class="input-sm form-control" name="roadleftsituationup" placeholder="Start date">
 																<span class="input-group-addon">下行</span>
-																<input disabled type="text" class="input-sm form-control" name="roadleftsituationdown" placeholder="End date">
+																<input readonly type="text" class="input-sm form-control" name="roadleftsituationdown" placeholder="End date">
 															</div>
 														</div>
 													</div><!-- col-sm-6 -->
@@ -630,9 +572,9 @@ Use search to find needed section.
 															<label class="control-label">左侧公路了望条件</label>
 															<div class="input-group">
 																<span class="input-group-addon">上行</span>
-																<input disabled type="text" class="input-sm form-control" name="roadrightsituationup" placeholder="Start date">
+																<input readonly type="text" class="input-sm form-control" name="roadrightsituationup" placeholder="Start date">
 																<span class="input-group-addon">下行</span>
-																<input disabled type="text" class="input-sm form-control" name="roadrightsituationdown" placeholder="End date">
+																<input readonly type="text" class="input-sm form-control" name="roadrightsituationdown" placeholder="End date">
 															</div>
 														</div>
 													</div><!-- col-sm-6 -->
@@ -641,19 +583,19 @@ Use search to find needed section.
 													<div class="col-sm-3">
 														<div class="form-group no-margin-hr">
 															<label class="control-label">所属车间</label>
-															<input disabled type="email" name="rodeowncar" class="form-control">
+															<input readonly type="email" name="roadowncar" class="form-control">
 														</div>
 													</div><!-- col-sm-6 -->
 													<div class="col-sm-3">
 														<div class="form-group no-margin-hr">
 															<label class="control-label">所属工区</label>
-															<input disabled type="email" name="roadownarea" class="form-control">
+															<input readonly type="email" name="roadownarea" class="form-control">
 														</div>
 													</div><!-- col-sm-6 -->
 													<div class="col-sm-3">
 														<div class="form-group no-margin-hr">
 															<label class="control-label">铺面宽度</label>
-															<input disabled type="email" name="roadwidth" class="form-control">
+															<input readonly type="email" name="roadwidth" class="form-control">
 														</div>
 													</div><!-- col-sm-6 -->
 													<div class="col-sm-3">
@@ -661,9 +603,9 @@ Use search to find needed section.
 															<label class="control-label">平台长度</label>
 															<div class="input-group">
 																<span class="input-group-addon">左</span>
-																<input disabled type="text" class="input-sm form-control" name="roadlineleft" placeholder="Start date">
+																<input readonly type="text" class="input-sm form-control" name="roadlineleft" placeholder="Start date">
 																<span class="input-group-addon">右</span>
-																<input disabled type="text" class="input-sm form-control" name="roadlineright" placeholder="End date">
+																<input readonly type="text" class="input-sm form-control" name="roadlineright" placeholder="End date">
 															</div>
 														</div>
 													</div><!-- col-sm-6 -->
@@ -672,25 +614,25 @@ Use search to find needed section.
 													<div class="col-sm-3">
 														<div class="form-group no-margin-hr">
 															<label class="control-label">所属市县</label>
-															<input disabled type="text" name="roadcity" class="form-control">
+															<input readonly type="text" name="roadcity" class="form-control">
 														</div>
 													</div><!-- col-sm-6 -->
 													<div class="col-sm-3">
 														<div class="form-group no-margin-hr">
 															<label class="control-label">所属村镇</label>
-															<input disabled type="text" name="roadcountry" class="form-control">
+															<input readonly type="text" name="roadcountry" class="form-control">
 														</div>
 													</div><!-- col-sm-6 -->
 													<div class="col-sm-3">
 														<div class="form-group no-margin-hr">
 															<label class="control-label">交通流量</label>
-															<input disabled type="text" name="roadtraffic" class="form-control">
+															<input readonly type="text" name="roadtraffic" class="form-control">
 														</div>
 													</div><!-- col-sm-6 -->
 													<div class="col-sm-3">
 														<div class="form-group no-margin-hr">
 															<label class="control-label">道路类型</label>
-															<input disabled type="text" name="roadtype" class="form-control">
+															<input readonly type="text" name="roadtype" class="form-control">
 														</div>
 													</div><!-- col-sm-6 -->
 												</div><!-- row -->	
@@ -720,19 +662,25 @@ Use search to find needed section.
 											</tr>
 										</thead>
 										<tbody>
+								  {% for item in deviceListInfo %}
+								  
+
 											<tr>
-												<td>11111</td>
-												<td>222222222222222</td>
-												<td>兰溪线路车间</td>
-												<td>兰溪市</td>
-												<td>兰溪</td>
-												<td>金千线</td>
+												<td>{{item[0].id}}</td>
+												<td>{{item[0].deviceid}}</td>
+												<td>{{item[0].roadowncar}}</td>
+												<td>{{item[0].roadcity}}</td>
+												<td>{{item[0].roadownarea}}</td>
+												<td>{{item[0].roadbelong}}</td>
 												<td>正常</td>
 												<td>
-													<button class="btn btn-flat btn-labeled btn-primary" data-toggle="modal" data-target = "#show-device-modal" > <span class="btn-label icon fa fa-camera-retro"></span>查看详情</button>
+													<button class="btn btn-flat btn-labeled btn-primary showDevice" data-toggle="modal" data-target = "#show-device-modal" data-deviceid="{{item[0].deviceid}}"> <span class="btn-label icon fa fa-camera-retro"></span>查看详情</button>
 													<button class="btn btn-flat btn-labeled btn-primary" data-toggle="modal" data-target = "#add-device-modal"><span class="btn-label icon fa fa-camera-retro"></span>修改资料</button>
 												</td>
 											</tr>
+
+									{% endfor %}
+
 										</tbody>
 									</table>
 								</div>
@@ -771,6 +719,7 @@ Use search to find needed section.
 
 			</div>
 		</div>
+{% if usertype==1 %}
 
 
 		<div class="row">
@@ -794,7 +743,9 @@ Use search to find needed section.
 
 
 
-								<form action="" class="panel form-horizontal">
+								<form action="" class="panel form-horizontal" id="device_add_form">
+									<input type="hidden" name="roadTopManager" id="roadTopManager" class="form-control">
+									<input type="hidden" name="roadTopManagerCode" id="roadTopManagerCode" class="form-control">
 									<div class="panel-body">
 										<div class="row">
 											<div class="col-sm-6">
@@ -806,7 +757,7 @@ Use search to find needed section.
 											<div class="col-sm-6">
 												<div class="form-group no-margin-hr">
 													<label class="control-label">设备码</label>
-													<input type="text" name="deviceid" class="form-control">
+													<input type="text" name="deviceid" id="deviceid" class="form-control">
 												</div>
 											</div><!-- col-sm-6 -->
 										</div><!-- row -->
@@ -814,7 +765,8 @@ Use search to find needed section.
 											<div class="col-sm-3">
 												<div class="form-group no-margin-hr">
 													<label class="control-label">线别</label>
-													<input type="text" name="roadbelong" class="form-control">
+													<input type="text" name="roadbelong" id="roadbelong" class="form-control" readonly>
+													<input type="hidden" name="roadbelongCode" id="roadbelongCode" class="form-control">
 												</div>
 											</div><!-- col-sm-6 -->
 											<div class="col-sm-3">
@@ -876,13 +828,15 @@ Use search to find needed section.
 											<div class="col-sm-3">
 												<div class="form-group no-margin-hr">
 													<label class="control-label">所属车间</label>
-													<input type="email" name="rodeowncar" class="form-control">
+													<input type="text" name="roadowncar" id="roadowncar" class="form-control" readonly>
+													<input type="hidden" name="roadowncarCode" id="roadowncarCode" class="form-control">
 												</div>
 											</div><!-- col-sm-6 -->
 											<div class="col-sm-3">
 												<div class="form-group no-margin-hr">
 													<label class="control-label">所属工区</label>
-													<input type="email" name="roadownarea" class="form-control">
+													<input type="text" name="roadownarea" id="roadownarea" class="form-control" readonly>
+													<input type="hidden" name="roadownareaCode" id="roadownareaCode" class="form-control">
 												</div>
 											</div><!-- col-sm-6 -->
 											<div class="col-sm-3">
@@ -931,7 +885,7 @@ Use search to find needed section.
 										</div><!-- row -->	
 									</div>
 									<div class="panel-footer text-right">
-										<button class="btn btn-primary" type="button">确定</button>
+										<button class="btn btn-primary" type="button" id="addDeviceButton">确定</button>
 										<button class="btn btn-primary" type="button" data-dismiss="modal">取消</button>
 									</div>
 								</form>
@@ -965,6 +919,85 @@ Use search to find needed section.
 			</div>
 		</div>
 
+
+		<div class="row">
+			<div class="col-sm-12">
+
+<!-- 6. $MODALS_BLURRED_BACKGROUND =================================================================
+
+				Modal with blurred background
+
+				To enable blurred background effect just add class .modal-blur to the .modal
+-->
+				<!-- Template -->
+				<div id="add-user-modal" class="modal fade modal-blur" tabindex="-1" role="dialog" style="display: none;">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal">×</button>
+								<h4 class="modal-title">添加识别码</h4>
+							</div>
+							<div class="modal-body">
+
+								<form action="" class="panel form-horizontal">
+
+									<div class="panel-body">
+										<div class="row form-group">
+											<label class="col-sm-4 control-label">名称:</label>
+											<div class="col-sm-8">
+												<input type="text" id="idName" class="form-control">
+											</div>
+										</div>
+										<div class="row form-group">
+											<label class="col-sm-4 control-label">识别码:</label>
+											<div class="col-sm-8">
+												<input type="text" id="idCode" class="form-control">
+											</div>
+										</div>
+										<div class="row form-group">
+											<label class="col-sm-4 control-label">类型:</label>
+											<div class="col-sm-8">
+												<select class="form-control form-group-margin" id="idType">
+													<option value="1">铁路局</option>
+													<option value="2">工务段</option>
+													<option value="3">车间</option>
+													<option value="4">线路</option>
+												</select>
+											</div>
+										</div>
+										<div class="row form-group">
+											<label class="col-sm-4 control-label">上级识别码:</label>
+											<div class="col-sm-8">
+												<input type="text" id="idParentCode" class="form-control">
+											</div>
+										</div>
+									</div>
+									<div class="panel-footer text-right">
+										<button class="btn btn-primary" type="button" id="addIdCodeButton">确定</button>
+										<button class="btn btn-primary" type="button" data-dismiss="modal">取消</button>
+									</div>
+								</form>
+							</div>
+						</div> <!-- / .modal-content -->
+					</div> <!-- / .modal-dialog -->
+				</div> <!-- / .modal -->
+				<!-- / Template -->
+	
+				<div class="panel">
+					<div class="panel-heading">
+						<span class="panel-title">识别码管理</span>
+					</div>
+					<div class="panel-body">
+						<div class="note note-danger">在此进行识别码的添加</div>
+						<button class="btn btn-success" data-toggle="modal" data-target="#add-user-modal">添加新识别码</button>
+					</div>
+				</div>
+<!-- /6. $MODALS_BLURRED_BACKGROUND -->
+
+			</div>
+		</div>
+
+
 		<div class="row">
 			<div class="col-sm-12">
 
@@ -989,13 +1022,13 @@ Use search to find needed section.
 										<div class="row form-group">
 											<label class="col-sm-4 control-label">用户名:</label>
 											<div class="col-sm-8">
-												<input type="text" name="name" class="form-control">
+												<input type="text" name="name" class="form-control" id="username">
 											</div>
 										</div>
 										<div class="row form-group">
 											<label class="col-sm-4 control-label">密码:</label>
 											<div class="col-sm-8">
-												<input type="password" name="password" class="form-control">
+												<input type="password" name="password" class="form-control" id="password">
 											</div>
 										</div>
 										<div class="row form-group">
@@ -1007,16 +1040,16 @@ Use search to find needed section.
 										<div class="row form-group">
 											<label class="col-sm-4 control-label">权限:</label>
 											<div class="col-sm-8">
-												<select class="form-control form-group-margin">
-													<option value="1">普通用户</option>
+												<select class="form-control form-group-margin" id="usertype">
+													<option value="3">普通用户</option>
 													<option value="2">管理员</option>
-													<option value="3">超级管理员</option>
+													<option value="1">超级管理员</option>
 												</select>
 											</div>
 										</div>
 									</div>
 									<div class="panel-footer text-right">
-										<button class="btn btn-primary" type="button">确定</button>
+										<button class="btn btn-primary" type="button" id="addUserButton">确定</button>
 										<button class="btn btn-primary" type="button" data-dismiss="modal">取消</button>
 									</div>
 								</form>
@@ -1055,26 +1088,27 @@ Use search to find needed section.
 						<div class="modal-content">
 							<div class="modal-header">
 								<button type="button" class="close" data-dismiss="modal">×</button>
-								<h4 class="modal-title">绑定设备</h4>
+								<h4 class="modal-title">关联设备</h4>
 							</div>
 							<div class="modal-body">
 								<form action="" class="panel form-horizontal">
+
 									<div class="panel-body">
 										<div class="row form-group">
 											<label class="col-sm-4 control-label">用户名:</label>
 											<div class="col-sm-8">
-												<input type="text" name="name" class="form-control">
+												<input type="text" name="" class="form-control" id="relateUsername">
 											</div>
 										</div>
 										<div class="row form-group">
 											<label class="col-sm-4 control-label">设备码:</label>
 											<div class="col-sm-8">
-												<input type="text" name="device_id" class="form-control">
+												<input type="text" name="device_id" class="form-control" id="relateDeviceId">
 											</div>
 										</div>
 									</div>
 									<div class="panel-footer text-right">
-										<button class="btn btn-primary" type="button">确定</button>
+										<button class="btn btn-primary" type="button" id="addUserDeviceRelationButton">确定</button>
 										<button class="btn btn-primary" type="button" data-dismiss="modal">取消</button>
 									</div>
 								</form>
@@ -1087,17 +1121,18 @@ Use search to find needed section.
 				<!-- / Template -->	
 				<div class="panel">
 					<div class="panel-heading">
-						<span class="panel-title">绑定设备与账号</span>
+						<span class="panel-title">关联设备与账号</span>
 					</div>
 					<div class="panel-body">
-						<div class="note note-danger">在此进行用户与设备的绑定</div>
-						<button class="btn btn-success" data-toggle="modal" data-target="#bind-device-modal">绑定</button>
+						<div class="note note-danger">在此进行用户与设备的关联</div>
+						<button class="btn btn-success" data-toggle="modal" data-target="#bind-device-modal">关联</button>
 					</div>
 				</div>
 <!-- /6. $MODALS_BLURRED_BACKGROUND -->
 
 			</div>
 		</div>
+	{% endif %}	
 
 	</div> <!-- / #content-wrapper -->
 
@@ -1251,6 +1286,307 @@ $(function(){
 		];
 
 			$.fn.zTree.init($("#treeDemo"), setting, zNodes);
+
+
+	var $document = $(document);
+
+//新增区域码
+	$document.delegate('#addIdCodeButton','click',function(){
+
+
+		$.ajax({
+			url: "/ajax/addAreaCode",
+			data:{
+				type:$('#idType').val(),
+				code:$('#idCode').val(),
+				name:$('#idName').val(),
+				parent_code:$('#idParentCode').val(),
+			},
+			success: function(data) {
+				alert(data.msg);
+			},
+			error:function(){
+
+				alert('添加失败')
+			}
+		});
+
+	})
+//解析设备码
+	$document.delegate('#deviceid','keyup',function(){
+
+
+		var val = $('#deviceid').val();
+
+		if(val.length!==15){
+			return
+		}
+		$.ajax({
+			url: "/ajax/parseCode",
+			data:{
+				code:val
+			},
+			success: function(res) {
+				
+				var data = res.data;
+				$('#roadbelong').val(data.t4Name);
+				$('#roadownarea').val(data.t2Name);
+				$('#roadowncar').val(data.t3Name)
+				$('#roadTopManager').val(data.t1Name)
+				$('#roadbelongCode').val(data.t4);
+				$('#roadownareaCode').val(data.t2);
+				$('#roadowncarCode').val(data.t3)
+				$('#roadTopManagerCode').val(data.t1);
+			},
+			error:function(){
+
+				alert('添加失败')
+			}
+		});
+
+	})
+
+//新增设备
+
+	$document.delegate('#addDeviceButton','click',function(){
+
+		$('#deviceid').prop('disabled',false);
+		$.ajax({
+			url: "/ajax/addDevice",
+			data:$('#device_add_form').serialize(),
+			success: function(data) {
+				alert(data.msg);
+			},
+			error:function(){
+
+				alert('添加失败')
+			}
+		});
+
+	})
+
+	//关联设备
+
+	$document.delegate('#addUserDeviceRelationButton','click',function(){
+
+
+		$.ajax({
+			url: "/ajax/addUserDeviceRelation",
+			data:{
+
+				username:$('#relateUsername').val(),
+				deviceid:$('#relateDeviceId').val(),
+			},
+			success: function(data) {
+				alert(data.msg);
+			},
+			error:function(){
+
+				alert('添加失败')
+			}
+		});
+
+	})
+
+	//新增用户
+
+	$document.delegate('#addUserButton','click',function(){
+
+
+		$.ajax({
+			url: "/ajax/addUser",
+			data:{
+
+				username:$('#username').val(),
+				type:$('#usertype').val(),
+				password:$('#password').val()
+			},
+			success: function(data) {
+				alert(data.msg);
+			},
+			error:function(){
+
+				alert('添加失败')
+			}
+		});
+
+	})
+
+	//查看详情
+
+	$document.delegate('.showDevice','click',function(){
+
+		var deviceid = $(this).attr('data-deviceid');
+		$('#deviceid').prop('disabled',true);
+		$.ajax({
+			url: "/ajax/showDeviceInfo",
+			data:{
+
+				deviceid:deviceid,
+			},
+			success: function(res) {
+				
+				var data =res.data[0]
+
+
+				$('#device-detail-form').find('input').each(function(i,d){
+
+					var inputName = $(d).attr('name');
+
+					if(data[inputName]){
+
+						$(d).val(data[inputName])
+
+					}
+
+				})
+			},
+			error:function(){
+
+				alert('添加失败')
+			}
+		});
+
+	})	
+
+	//展示当班信息
+	$document.delegate('#showDutyButton','click',function(){
+
+		var deviceid = $('#device-id-instance').val();
+
+
+		$.ajax({
+			url: "/ajax/showDutyInfo",
+			data:{
+
+				deviceId:deviceid,
+			},
+			success: function(res) {
+
+				var html = '';
+
+				
+				res.forEach(function(d,i){
+
+				html += '<tr><td>'+d.id+'</td><td>'+d.data+'</td><td>'+d.num+'</td><td>'+d.train+'</td><td>'+d.t0+'</td><td>'+d.m0+'</td><td>'+d.m1+'</td><td>'+d.m2+'</td><td>'+d.t1+'</td><td>'+d.t2+'</td><td>'+d.rem0+'</td><td>'+d.dir+'</td><td>'+d.way+'</td><td>'+d.sou+'</td><td>'+d.t3+'</td><td>'+d.t4+'</td><td>'+d.rem1+'</td></tr>';
+
+				})
+
+				$('#dutyList').html(html)
+			},
+			error:function(){
+
+				alert('添加失败')
+			}
+		});
+
+	})	
+
+
+	//展示交接班信息
+	$document.delegate('#showExchangeButton','click',function(){
+
+		var deviceid = $('#device-id-instance').val();
+
+
+		$.ajax({
+			url: "/ajax/showExchangeInfo",
+			data:{
+
+				deviceId:deviceid,
+			},
+			success: function(res) {
+				console.log(res)
+
+
+				var html = '';
+
+				
+				res.forEach(function(d,i){
+
+				html += '<tr><td>'+d.id+'</td><td>'+d.data+'</td><td>'+d.shift0+'</td><td>'+d.shift1+'</td><td>'+d.weather+'</td><td>'+d.safe0+'</td><td>'+d.safe1+'</td><td>'+d.safe2+'</td><td>'+d.safe3+'</td><td>'+d.safe4+'</td><td>'+d.safe5+'</td></tr>';
+
+				})
+
+				$('#exchangeList').html(html)
+			},
+			error:function(){
+
+				alert('添加失败')
+			}
+		});
+
+	})	
+
+	//展示报警信息
+	$document.delegate('#showErrorButton','click',function(){
+
+		var deviceid = $('#device-id-instance').val();
+
+
+		$.ajax({
+			url: "/ajax/showErrorInfo",
+			data:{
+
+				deviceId:deviceid,
+			},
+			success: function(res) {
+				console.log(res)
+
+
+				var html = '';
+
+				
+				res.forEach(function(d,i){
+
+				html += '<tr><td>'+d.id+'</td><td>'+d.time+'</td><td>'+d.con+'</td></tr>';
+
+				})
+
+				$('#errorList').html(html)
+			},
+			error:function(){
+
+				alert('添加失败')
+			}
+		});
+
+	})	
+	//展示设备状况信息
+	$document.delegate('#showSituationButton','click',function(){
+
+		var deviceid = $('#device-id-instance').val();
+
+
+		$.ajax({
+			url: "/ajax/showSituationInfo",
+			data:{
+
+				deviceId:deviceid,
+			},
+			success: function(res) {
+				console.log(res)
+
+
+				var html = '';
+
+				
+				res.forEach(function(d,i){
+
+				html += '<tr><td>'+d.id+'</td><td>'+d.equ+'</td><td>'+d.data0+'</td><td>'+d.num0+'</td><td>'+d.ele+'</td><td>'+d.data1+'</td><td>'+d.num1+'</td></tr>';
+
+				})
+
+				$('#situationList').html(html)
+			},
+			error:function(){
+
+				alert('添加失败')
+			}
+		});
+
+	})	
+	
 
 })
 

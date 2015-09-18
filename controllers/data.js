@@ -13,7 +13,7 @@
  */
 var iconv=require('iconv-lite');
 var querystring = require('querystring');
-
+var dao = require('../dao/index');
 //HTTP://183.247.161.70:8080/protocol?Name=萧萧联络线K4+723&Record=Operation&Seq=0&Data=2015/1/1&Num=0003&Train=K8500&T0=21:14&M0=008&M1=568&M2=&T1=21:18&T2=21:43&Rem0=正  常&Dir=未知&Way=手动存储&Sou=手动时间&T3=00009S&T4=&Rem1=不正常
 
 var index = function *() {
@@ -60,9 +60,67 @@ var log = function *(next){
 	for(var key in query){
 
 		s = query[key];
+
+		query[key] = gbkdecodeURIComponent(s);
 		console.log(key+':'+gbkdecodeURIComponent(s))
 	}
+
+
+	if(query.Flag=='End'){
+
+
+		query.deviceid = query.Name;
+
+		if(query.Record=='Operation'){
+
+			try{
+				yield dao.insertDutyInfo(query);
+				console.log('insert Duty Info from:'+query.Name)
+			}catch(e){
+
+				console.log(e)
+			}
+			
+		}else if(query.Record=='Shift'){
+
+			try{
+				yield dao.insertExchangeInfo(query);
+				console.log('insert Exchange Info from:'+query.Name)
+			}catch(e){
+
+				console.log(e)
+			}
+
+		}else if(query.Record=='Alarm'){
+
+			try{
+				yield dao.insertErrorInfo(query);
+				console.log('insert Error Info from:'+query.Name)
+			}catch(e){
+
+				console.log(e)
+			}
+
+		}else if(query.Record=='Repair'){
+
+			try{
+				yield dao.insertSituationInfo(query);
+				console.log('insert Situation Info from:'+query.Name)
+			}catch(e){
+
+				console.log(e)
+			}
+
+		}else if(query.Record=='Heart'){
+			//处理心跳请求
+
+		}
+
+
+	}
+
 	this.body = 'Name='+query.Name+',Record='+query.Record+',Seq='+query.Seq;
+
 }
 //parseInt(Math.random()*1000)  每次工号和列车时刻设置记录一个操作码，每次心跳过来取属于当前设备的一条，code发回去
 

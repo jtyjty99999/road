@@ -19,17 +19,20 @@ var multiline = require('multiline');
  */
 var DEVICE_ADD_SQL = multiline(function (){/*
   INSERT INTO
-    monitor_device(id, create_time, update_time, user_name, content,
-      status, parent_id, app_id, trace_id, avatar, buc_id)
-  VALUES(NULL, now(), now(), ?, ?, 0, ?, ?, ?, ?, ?)
+    monitor_device(id, create_time, update_time, user_id, deviceid,
+      roadTopManager, roadTopManagerCode, roadname, roadbelongCode, roadmiles, roadfromto,roadcount,roadupsituation,
+      roaddownsituation,roadleftsituationup,roadleftsituationdown,rodeowncarCode,roadownareaCode,
+      roadwidth,roadlineleft,roadlineright,roadcity,roadcountry,roadtraffic,roadtype,roadbelong,roadowncar,roadownarea)
+  VALUES(NULL, now(), now(), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?,?)
 */});
 exports.addDevice = function (device, callback) {
   assert(typeof device === 'object');
 
-  var values = [device.user_name, device.content,
-    device.parent_id, device.app_id, device.trace_id,
-    device.avatar, device.bud_id];
-  mysql.query(COMMENT_ADD_SQL, values, function(err, result) {
+  var values = [device.user_id, device.deviceid,
+      device.roadTopManager, device.roadTopManagerCode, device.roadname, device.roadbelongCode, device.roadmiles, device.roadfromto,device.roadcount,device.roadupsituation,
+      device.roaddownsituation,device.roadleftsituationup,device.roadleftsituationdown,device.rodeowncarCode,device.roadownareaCode,device.roadwidth,device.roadlineleft,
+      device.roadlineright,device.roadcity,device.roadcountry,device.roadtraffic,device.roadtype,device.roadbelong,device.roadowncar,device.roadownarea];
+  mysql.query(DEVICE_ADD_SQL, values, function(err, result) {
     if (err) {
       callback(err);
     } else {
@@ -75,16 +78,15 @@ exports.addDeviceInfo = function (device, callback) {
  */
 var USER_INFO_ADD_SQL = multiline(function (){/*
   INSERT INTO
-    monitor_user(id, create_time, update_time, user_name, content,
-      status, parent_id, app_id, trace_id, avatar, buc_id)
-  VALUES(NULL, now(), now(), ?, ?, 0, ?, ?, ?, ?, ?)
+    monitor_user(create_time, update_time, username, user_id,
+      type,password)
+  VALUES(now(), now(), ?, ?, ?,?)
 */});
-exports.addAccount = function (device, callback) {
-  assert(typeof device === 'object');
+exports.addUser = function (user, callback) {
+  assert(typeof user === 'object');
 
-  var values = [device.user_name, device.content,
-    device.parent_id, device.app_id, device.trace_id,
-    device.avatar, device.bud_id];
+  var values = [user.username, user.user_id,
+    user.type,user.password];
   mysql.query(USER_INFO_ADD_SQL, values, function(err, result) {
     if (err) {
       callback(err);
@@ -103,13 +105,12 @@ exports.addAccount = function (device, callback) {
  */
 var USER_DEVICE_RELATION_SQL = multiline(function (){/*
   INSERT INTO
-    monitor_relation(id, create_time, update_time, user_name, device_id)
-  VALUES(NULL, now(), now(), ?, ?)
+    monitor_relation(id, create_time, update_time, username, deviceid,user_id)
+  VALUES(NULL, now(), now(), ?, ?,?)
 */});
-exports.addUserDeviceRelation = function (device, callback) {
-  assert(typeof device === 'object');
+exports.addUserDeviceRelation = function (deviceid,username,user_id, callback) {
 
-  var values = [device.user_name, device.id];
+  var values = [username,deviceid,user_id];
   mysql.query(USER_DEVICE_RELATION_SQL, values, function(err, result) {
     if (err) {
       callback(err);
@@ -126,13 +127,12 @@ exports.addUserDeviceRelation = function (device, callback) {
  * @return {Array} 
  */
 var SELECT_USER_DEVICE_SQL = multiline(function (){/*
-  Select device_id from
-    monitor_relation where user_name = ?
+  Select deviceid from
+    monitor_relation where user_id = ?
 */});
-exports.selectUserDevice = function (user_name, callback) {
-  assert(typeof device === 'object');
+exports.selectUserDevice = function (user_id, callback) {
 
-  var values = [user_name];
+  var values = [user_id];
   mysql.query(SELECT_USER_DEVICE_SQL, values, function(err, result) {
     if (err) {
       callback(err);
@@ -142,6 +142,59 @@ exports.selectUserDevice = function (user_name, callback) {
   });
 };
 
+
+
+
+
+/**
+ * 添加一个识别代码
+ *
+ * @param {Object} 识别对象
+ * @return {Array} 
+ */
+var ADD_ID_CODE_SQL = multiline(function (){/*
+  INSERT INTO
+    monitor_place_code(id, create_time, update_time, user_id, type,code,name,parent_code)
+  VALUES(NULL, now(), now(), ?, ?,?,?,?)
+*/});
+exports.addAreaCode = function (obj, callback) {
+  assert(typeof obj === 'object');
+
+  var values = [obj.user_id,obj.type,obj.code,obj.name,obj.parent_code];
+  mysql.query(ADD_ID_CODE_SQL, values, function(err, result) {
+    if (err) {
+      callback(err);
+    } else {
+      callback(null, result);
+    }
+  });
+};
+
+
+/**
+ * 查找一个识别代码
+ *
+ * @param {Object} 识别对象
+ * @return {Array} 
+ */
+var FIND_ID_CODE_SQL = multiline(function (){/*
+  select * from
+    monitor_place_code where type = ? and code = ?
+*/});
+exports.findAreaCode = function (type,code, callback) {
+
+  var values = [type,code];
+  mysql.query(FIND_ID_CODE_SQL, values, function(err, result) {
+
+    if (err) {
+      callback(err);
+    } else {
+      callback(null, result);
+    }
+  });
+};
+
+
 /**
  * 查找某设备的资料
  *
@@ -150,13 +203,13 @@ exports.selectUserDevice = function (user_name, callback) {
  */
 var SELECT_DEVICE_INFO_SQL = multiline(function (){/*
   Select * from
-    monitor_device where device_id = ?
+    monitor_device where deviceid = ?
 */});
-exports.selectUserDevice = function (device_id, callback) {
-  assert(typeof device === 'object');
+exports.selectUserDeviceInfo = function (device_id, callback) {
 
   var values = [device_id];
   mysql.query(SELECT_DEVICE_INFO_SQL, values, function(err, result) {
+
     if (err) {
       callback(err);
     } else {
@@ -175,23 +228,95 @@ exports.selectUserDevice = function (device_id, callback) {
  */
 var USER_LOGIN_SQL = multiline(function (){/*
   select * from
-    monitor_user where user_name = ? and user_password= ?
+    monitor_user where username = ? and password= ?
 */});
 exports.loginJudge = function (user, callback) {
-  assert(typeof device === 'object');
+  assert(typeof user === 'object');
 
   var values = [user.user_name, user.user_password];
   mysql.query(USER_LOGIN_SQL, values, function(err, result) {
     if (err) {
       callback(err);
     } else {
-      callback(null, result.insertId);
+      callback(null, result);
+    }
+  });
+};
+
+/**
+ * 判断用户名是否存在
+ *
+ * @param {Object} 用户名
+ * @return {Number} 
+ */
+var USER_EXIST_SQL = multiline(function (){/*
+  select user_id from
+    monitor_user where username = ?
+*/});
+exports.userIsExist = function (username, callback) {
+
+  var values = [username];
+  mysql.query(USER_EXIST_SQL, values, function(err, result) {
+    if (err) {
+      callback(err);
+    } else {
+      callback(null, result);
+    }
+  });
+};
+
+/**
+ * 判断设备是否存在
+ *
+ * @param {Object} 设备码
+ * @return {Number} 
+ */
+var DEVICE_EXIST_SQL = multiline(function (){/*
+  select deviceid from
+    monitor_device where deviceid = ?
+*/});
+exports.deviceIsExist = function (deviceid, callback) {
+
+
+  var values = [deviceid];
+  mysql.query(DEVICE_EXIST_SQL, values, function(err, result) {
+    if (err) {
+      callback(err);
+    } else {
+      callback(null, result);
     }
   });
 };
 
 
 
+/**
+ * 插入某设备的当班信息
+ *
+ * @param {Object} 设备id
+ * @return {array} 
+ */
+var INSERT_DEVICE_DUTY_SQL = multiline(function (){/*
+  INSERT INTO
+    monitor_duty_info(id, create_time, update_time, deviceid, data,num,train,t0,m0,m1,m2,t1,t2,rem0,dir,way,sou,t3,t4,rem1)
+  VALUES(NULL, now(), now(), ?, ?,?,?,?, ?, ?,?,?,?, ?, ?,?,?,?,?,?)
+*/});
+exports.insertDutyInfo = function (dutyInfo, callback) {
+ // console.log(dutyInfo)
+  assert(typeof dutyInfo === 'object');
+
+  var values = [dutyInfo.deviceid,dutyInfo.Data,
+  dutyInfo.Num,dutyInfo.Train,dutyInfo.T0,dutyInfo.M0,
+  dutyInfo.M1,dutyInfo.M2,dutyInfo.T1,dutyInfo.T2,dutyInfo.Rem0,
+  dutyInfo.Dir,dutyInfo.Way,dutyInfo.Sou,dutyInfo.T3,dutyInfo.t4,dutyInfo.Rem1];
+  mysql.query(INSERT_DEVICE_DUTY_SQL, values, function(err, result) {
+    if (err) {
+      callback(err);
+    } else {
+      callback(null, result);
+    }
+  });
+};
 
 /**
  * 查找某设备的当班信息
@@ -201,13 +326,42 @@ exports.loginJudge = function (user, callback) {
  */
 var SELECT_DEVICE_DUTY_SQL = multiline(function (){/*
   Select * from
-    monitor_info where device_id = ? and type = "duty"
+    monitor_duty_info where deviceid = ?
 */});
 exports.showDutyInfo = function (device_id, callback) {
-  assert(typeof device === 'object');
-
+console.log(device_id)
   var values = [device_id];
   mysql.query(SELECT_DEVICE_DUTY_SQL, values, function(err, result) {
+    console.log(err,result)
+    if (err) {
+      callback(err);
+    } else {
+      callback(null, result);
+    }
+  });
+};
+
+
+
+/**
+ * 插入某设备的交接班信息
+ *
+ * @param {Object} 设备id
+ * @return {array} 
+ */
+var INSERT_DEVICE_EXCHANGE_SQL = multiline(function (){/*
+  INSERT INTO
+    monitor_exchange_info(id, create_time, update_time, deviceid, data,shift0,shift1,weather,safe0,safe1,safe2,safe3,safe4,safe5)
+  VALUES(NULL, now(), now(), ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ?)
+*/});
+exports.insertExchangeInfo = function (dutyInfo, callback) {
+ // console.log(dutyInfo)
+  assert(typeof dutyInfo === 'object');
+
+  var values = [dutyInfo.deviceid,dutyInfo.Data,
+  dutyInfo.Shift0,dutyInfo.Shift1,dutyInfo.Weather,dutyInfo.Safe0,
+  dutyInfo.Safe1,dutyInfo.Safe2,dutyInfo.Safe3,dutyInfo.Safe4,dutyInfo.Safe5];
+  mysql.query(INSERT_DEVICE_EXCHANGE_SQL, values, function(err, result) {
     if (err) {
       callback(err);
     } else {
@@ -225,10 +379,9 @@ exports.showDutyInfo = function (device_id, callback) {
  */
 var SELECT_DEVICE_EXCHANGE_SQL = multiline(function (){/*
   Select * from
-    monitor_info where device_id = ? and type = "exchange"
+    monitor_exchange_info where deviceid = ?
 */});
 exports.showExchangeInfo = function (device_id, callback) {
-  assert(typeof device === 'object');
 
   var values = [device_id];
   mysql.query(SELECT_DEVICE_EXCHANGE_SQL, values, function(err, result) {
@@ -240,6 +393,33 @@ exports.showExchangeInfo = function (device_id, callback) {
   });
 };
 
+
+/**
+ * 插入某设备的违规信息
+ *
+ * @param {Object} 设备id
+ * @return {array} 
+ */
+var INSERT_DEVICE_ERROR_SQL = multiline(function (){/*
+  INSERT INTO
+    monitor_error_info(id, create_time, update_time, deviceid, time,con)
+  VALUES(NULL, now(), now(), ? , ?,?)
+*/});
+exports.insertErrorInfo = function (dutyInfo, callback) {
+ // console.log(dutyInfo)
+  assert(typeof dutyInfo === 'object');
+
+  var values = [dutyInfo.deviceid,dutyInfo.Time,dutyInfo.Con];
+  mysql.query(INSERT_DEVICE_ERROR_SQL, values, function(err, result) {
+    if (err) {
+      callback(err);
+    } else {
+      callback(null, result);
+    }
+  });
+};
+
+
 /**
  * 查找某设备的违规信息
  *
@@ -248,10 +428,9 @@ exports.showExchangeInfo = function (device_id, callback) {
  */
 var SELECT_DEVICE_ERROR_SQL = multiline(function (){/*
   Select * from
-    monitor_info where device_id = ? and type = "error"
+    monitor_error_info where deviceid = ?
 */});
 exports.showErrorInfo = function (device_id, callback) {
-  assert(typeof device === 'object');
 
   var values = [device_id];
   mysql.query(SELECT_DEVICE_ERROR_SQL, values, function(err, result) {
@@ -264,6 +443,32 @@ exports.showErrorInfo = function (device_id, callback) {
 };
 
 /**
+ * 插入某设备的设备状况信息
+ *
+ * @param {Object} 设备id
+ * @return {array} 
+ */
+var INSERT_DEVICE_SITUATION_SQL = multiline(function (){/*
+  INSERT INTO
+    monitor_situation_info(id, create_time, update_time,deviceid, equ, data0,num0,ele,data1,num1)
+  VALUES(NULL, now(), now(), ? , ?,?,?,?,?,?)
+*/});
+exports.insertSituationInfo = function (dutyInfo, callback) {
+ // console.log(dutyInfo)
+  assert(typeof dutyInfo === 'object');
+
+  var values = [dutyInfo.deviceid,dutyInfo.equ,dutyInfo.data0,dutyInfo.num0,dutyInfo.ele,dutyInfo.data1,dutyInfo.num1];
+  mysql.query(INSERT_DEVICE_SITUATION_SQL, values, function(err, result) {
+    if (err) {
+      callback(err);
+    } else {
+      callback(null, result);
+    }
+  });
+};
+
+
+/**
  * 查找某设备的设备状况信息
  *
  * @param {Object} 设备id
@@ -271,10 +476,9 @@ exports.showErrorInfo = function (device_id, callback) {
  */
 var SELECT_DEVICE_SITUATION_SQL = multiline(function (){/*
   Select * from
-    monitor_info where device_id = ? and type = "situation"
+    monitor_situation_info where deviceid = ?
 */});
 exports.showSituationInfo = function (device_id, callback) {
-  assert(typeof device === 'object');
 
   var values = [device_id];
   mysql.query(SELECT_DEVICE_SITUATION_SQL, values, function(err, result) {

@@ -17,7 +17,8 @@ function routes(app) {
   app.get('/protocol', data.log);
   app.get('/index',page.index);
   app.get('/login',page.login);
-
+  app.get('/logout',page.logout);
+  app.get('/checkLogin',page.checkLogin);
 
   //*用户轨迹分析用*//
 
@@ -28,6 +29,23 @@ function routes(app) {
     app.get('/aamy',aa.my);
     app.get('/aarecord',aa.record);
 
+
+/*添加识别码*/
+
+
+app.get('/ajax/addAreaCode',device.addAreaCode);//添加识别码
+
+app.get('/ajax/parseCode',device.parseCode);//查找识别码
+
+
+/*关联设备*/
+
+app.get('/ajax/addUserDeviceRelation',device.addUserDeviceRelation);//查找识别码
+
+
+/*新增邮件*/
+
+app.get('/ajax/addUser',device.addUser);//查找识别码
 
 /*设备详情操作*/
 
