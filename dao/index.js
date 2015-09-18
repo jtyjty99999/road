@@ -457,7 +457,7 @@ exports.insertSituationInfo = function (dutyInfo, callback) {
  // console.log(dutyInfo)
   assert(typeof dutyInfo === 'object');
 
-  var values = [dutyInfo.deviceid,dutyInfo.equ,dutyInfo.data0,dutyInfo.num0,dutyInfo.ele,dutyInfo.data1,dutyInfo.num1];
+  var values = [dutyInfo.deviceid,dutyInfo.Equ,dutyInfo.Data0,dutyInfo.Num0,dutyInfo.Ele,dutyInfo.Data1,dutyInfo.Num1];
   mysql.query(INSERT_DEVICE_SITUATION_SQL, values, function(err, result) {
     if (err) {
       callback(err);
