@@ -41,6 +41,37 @@ exports.addDevice = function (device, callback) {
   });
 };
 
+/**
+ * 修改设备
+ *
+ * @param {Object} 设备对象
+ * @return {Number} 设备id
+ */
+var DEVICE_MODIFY_SQL = multiline(function (){/*
+  UPDATE
+    monitor_device set update_time = now(), roadTopManager = ?, roadTopManagerCode=?, roadname=?, roadbelongCode=?, roadmiles=?, roadfromto=?,
+    roadcount=?,roadupsituation=?,roaddownsituation=?,roadleftsituationup=?,roadleftsituationdown=?,rodeowncarCode=?,roadownareaCode=?,
+      roadwidth=?,roadlineleft=?,roadlineright=?,roadcity=?,roadcountry=?,roadtraffic=?,roadtype=?,roadbelong=?,roadowncar=?,roadownarea=? where deviceid = ?
+*/});
+exports.modifyDevice = function (device, callback) {
+  assert(typeof device === 'object');
+
+  var values = [
+      device.roadTopManager, device.roadTopManagerCode, device.roadname, device.roadbelongCode, device.roadmiles, device.roadfromto,device.roadcount,device.roadupsituation,
+      device.roaddownsituation,device.roadleftsituationup,device.roadleftsituationdown,device.rodeowncarCode,device.roadownareaCode,device.roadwidth,device.roadlineleft,
+      device.roadlineright,device.roadcity,device.roadcountry,device.roadtraffic,device.roadtype,device.roadbelong,device.roadowncar,device.roadownarea,device.deviceid];
+
+  mysql.query(DEVICE_MODIFY_SQL, values, function(err, result) {
+    if (err) {
+      callback(err);
+    } else {
+      callback(null, result.insertId);
+    }
+  });
+};
+
+
+
 
 
 /**
