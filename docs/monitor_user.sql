@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50621
 File Encoding         : 65001
 
-Date: 2015-09-15 18:55:36
+Date: 2015-09-26 19:59:42
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -20,12 +20,18 @@ SET FOREIGN_KEY_CHECKS=0;
 -- ----------------------------
 DROP TABLE IF EXISTS `monitor_user`;
 CREATE TABLE `monitor_user` (
-  `id` int(8) NOT NULL,
+  `user_id` int(8) NOT NULL,
   `username` varchar(30) NOT NULL,
   `password` varchar(30) NOT NULL,
-  PRIMARY KEY (`id`)
+  `type` int(5) NOT NULL,
+  `create_time` datetime DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
+  PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of monitor_user
 -- ----------------------------
+INSERT INTO `monitor_user` VALUES ('1', 'admin', 'admin', '1', null, null);
+INSERT INTO `monitor_user` VALUES ('7447452', 'HZHTTH01', 'HZHTTH', '3', '2015-09-24 13:34:25', '2015-09-24 13:34:25');
+INSERT INTO `monitor_user` VALUES ('8147992', 'guest', 'guest', '3', '2015-09-18 17:34:13', '2015-09-18 17:34:13');
