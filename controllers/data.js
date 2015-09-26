@@ -53,6 +53,7 @@ var log = function *(next){
 
 	var s;
 	var request = this.request,query = this.request.query,qs  =this.request.querystring;
+
 	console.log('got!!!'+this.request.url)
 
 	query = querystring.parse(qs,null,null,{decodeURIComponent:function(s){return s}})
@@ -113,6 +114,99 @@ var log = function *(next){
 
 		}else if(query.Record=='Heart'){
 			//处理心跳请求
+			var operation,finalString='',type,id,resultCache;
+
+			if(query.Code){ //判断成功后才删除此操作
+
+				yield dao.deleteOperation(query.Code);
+			}
+
+			try{
+
+				operation = yield dao.selectOperation(query.Name);
+
+			}catch(e){
+
+				console.log(e)
+			}
+
+			if(operation.length!==0){
+
+				console.log('detected unsync operation;')
+				console.log(operation);
+				type = operation[0]['type'],id=operation[0]['id'];
+
+				if(type=='03'){
+
+					//工号上行		
+
+					try{
+
+						resultCache = yield dao.selectDutyPeople({
+									deviceid:query.Name
+							});			
+
+						resultCache.forEach(function(d,i){
+
+							if(i<10){
+								i='0'+i
+							}
+							finalString+=',Num'+i+'='+d.number+'-'+d.name;
+						});
+
+						console.log(this.body = 'Name='+query.Name+',Record='+query.Record+',Para=03,code='+id+finalString)
+						this.body = 'Name='+query.Name+',Record='+query.Record+',Para=03,code='+id+finalString;
+						return
+
+					}catch(e){
+
+						console.log(e)
+					}
+
+
+				}else if(type=='05'){
+
+
+					//时刻上行
+
+					try{
+
+						resultCache = yield dao.deleteTimeTable({
+									deviceid:query.Name
+							});			
+
+						resultCache.forEach(function(d,i){
+
+							if(i<10){
+
+								i='00'+i;
+
+							}else if(i<99){
+
+								i='0'+i;
+							}
+							finalString+=',Train'+i+'='+d.train_count+'-'+d.train_time;
+						});
+
+						console.log('Name='+query.Name+',Record='+query.Record+',Para=05'+finalString+',Code='+id)
+						this.body = 'Name='+query.Name+',Record='+query.Record+',Para=05'+finalString+',Code='+id
+
+					}catch(e){
+
+						console.log(e)
+					}
+
+
+				}
+
+
+			}else{
+
+				console.log('no unsync operation;');
+				this.body = 'Name='+query.Name+',Record='+query.Record+',Para=00';
+				return
+			}
+
 
 		}
 

@@ -56,12 +56,12 @@ app.get('/ajax/showDeviceInfo',device.showDeviceInfo);//展示设备信息
 app.get('/ajax/addDutyUser',device.addDutyUser);//新增值班人员
 app.get('/ajax/modifyDutyUser',device.modifyDutyUser);//修改值班人员
 app.get('/ajax/deleteDutyUser',device.deleteDutyUser);//删除值班人员
-
+app.get('/ajax/selectDutyUser',device.selectDutyUser);//查看值班人员
 
 app.get('/ajax/addTimeSchedule',device.addTimeSchedule);//新增时刻表
 app.get('/ajax/modifyTimeSchedule',device.modifyTimeSchedule);//修改时刻表
 app.get('/ajax/deleteTimeSchedule',device.deleteTimeSchedule);//删除时刻表
-
+app.get('/ajax/selectTimeSchedule',device.selectTimeSchedule);//查看时刻表
 
 app.get('/ajax/showDutyInfo',device.showDutyInfo);//当班信息
 app.get('/ajax/showExchangeInfo',device.showExchangeInfo);//交接班信息

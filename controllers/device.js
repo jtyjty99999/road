@@ -319,45 +319,207 @@ exports.addDutyUser = function *(next){
 
 	var request = this.request,query = this.request.query,qs  =this.request.querystring;
 
+	try{
 
-	this.body ={};
+		yield dao.addDutyPeople({
+			name:query.name,
+			number:query.number,
+			deviceid:query.deviceId
+
+		});
+
+		var random = parseInt(Math.random()*1000);
+		yield dao.addOperation({
+			id:random,
+			type:'03',
+			deviceid:query.deviceId
+		})
+
+		this.body = {
+				code:200,msg:"添加成功"
+		}
+	}
+
+	catch(e){
+		console.log(e);
+		this.body ={code:500,msg:"添加失败"};
+
+	}	
+
+
+
 }
 exports.modifyDutyUser = function *(next){
 
 	var request = this.request,query = this.request.query,qs  =this.request.querystring;
 
+	try{
 
-	this.body ={};
+		yield dao.modifyDutyPeople({
+			name:query.name,
+			number:query.number,
+			id:query.id
+
+		});
+
+		this.body = {
+				code:200,msg:"修改成功"
+		}
+	}
+
+	catch(e){
+		console.log(e);
+		this.body ={code:500,msg:"修改失败"};
+
+	}	
 }
-
-
 exports.deleteDutyUser = function *(next){
 
 	var request = this.request,query = this.request.query,qs  =this.request.querystring;
 
 
-	this.body ={};
+	try{
+
+		yield dao.deleteDutyUser(query.id);
+		console.log(query)
+		var random = parseInt(Math.random()*1000);
+		yield dao.addOperation({
+			id:random,
+			type:'03',
+			deviceid:query.deviceid
+		})
+
+		this.body = {
+				code:200,msg:"删除成功"
+		}
+	}
+
+	catch(e){
+		console.log(e);
+		this.body ={code:500,msg:"删除失败"};
+
+	}	
+
+
+}
+
+exports.selectDutyUser = function *(next){
+
+	var request = this.request,query = this.request.query,qs  =this.request.querystring;
+	var res= [];
+
+	try{
+
+		res = yield dao.selectDutyPeople({
+			deviceid:query.deviceId
+		});
+
+		this.body = {
+				code:200,msg:"获取成功",data:res
+		}
+	}
+
+	catch(e){
+		console.log(e);
+		this.body ={code:500,msg:"获取列表失败"};
+
+	}	
 }
 exports.addTimeSchedule = function *(next){
 
 	var request = this.request,query = this.request.query,qs  =this.request.querystring;
 
 
-	this.body ={};
+	try{
+
+		yield dao.addTimeTable({
+			train_time:query.train_time,
+			train_count:query.train_count,
+			deviceid:query.deviceId
+
+		});
+
+		this.body = {
+				code:200,msg:"添加成功"
+		}
+	}
+
+	catch(e){
+		console.log(e);
+		this.body ={code:500,msg:"添加失败"};
+
+	}	
+
+}
+
+exports.deleteTimeSchedule = function *(next){
+
+	var request = this.request,query = this.request.query,qs  =this.request.querystring;
+
+
+	try{
+
+		yield dao.deleteTimeTable(query.id);
+
+		this.body = {
+				code:200,msg:"删除成功"
+		}
+	}
+
+	catch(e){
+		console.log(e);
+		this.body ={code:500,msg:"删除失败"};
+
+	}	
 }
 exports.modifyTimeSchedule = function *(next){
 
 	var request = this.request,query = this.request.query,qs  =this.request.querystring;
 
 
-	this.body ={};
+	try{
+
+		yield dao.modifyTimeTable({
+			train_time:query.train_time,
+			train_count:query.train_count,
+			id:query.id
+
+		});
+
+		this.body = {
+				code:200,msg:"修改成功"
+		}
+	}
+
+	catch(e){
+		console.log(e);
+		this.body ={code:500,msg:"修改失败"};
+
+	}	
 }
-exports.deleteTimeSchedule = function *(next){
+exports.selectTimeSchedule = function *(next){
 
 	var request = this.request,query = this.request.query,qs  =this.request.querystring;
 
 
-	this.body ={};
+	var res= [];
+
+	try{
+
+		res = yield dao.selectTimeTable({
+			deviceid:query.deviceId
+		});
+
+		this.body = {
+				code:200,msg:"获取成功",data:res
+		}
+	}
+
+	catch(e){
+		console.log(e);
+		this.body ={code:500,msg:"获取列表失败"};
+
+	}	
 }
 
 exports.showDutyInfo = function *(next){

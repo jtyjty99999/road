@@ -80,13 +80,6 @@ Use search to find needed section.
 
 		    overflow-x: scroll;
 	}
-	#addDutyUserButton{
-
-		margin-top:24px;
-	}
-	#device-people-modal .form-group{
-		margin-bottom: 0
-	}
 	</style>
 	<!--[if lt IE 9]>
 		<script src="javascripts/ie.min.js"></script>
@@ -338,33 +331,7 @@ Use search to find needed section.
 																<div class="modal-content">
 																	<div class="modal-header">
 																		<button type="button" class="close" data-dismiss="modal">×</button>
-																		<h4 class="modal-title">人员管理</h4>
-																		<form action="" class="panel form-horizontal">
-																			<div class="panel-body">
-																				<div class="row">
-																					<div class="col-sm-5">
-																						<div class="form-group no-margin-hr">
-																							<label class="control-label">姓名</label>
-																							<input type="text" name="dutyUserName" id="dutyUserName" class="form-control">
-																						</div>
-																					</div><!-- col-sm-6 -->
-																					<div class="col-sm-5">
-																						<div class="form-group no-margin-hr">
-																							<label class="control-label">工号</label>
-																							<input type="text" name="dutyUserNumber" id="dutyUserNumber" class="form-control">
-																						</div>
-																					</div><!-- col-sm-6 -->
-																					<div class="col-sm-2">
-																						<div class="form-group no-margin-hr">
-																							<button class="btn btn-primary" type="button" id="addDutyUserButton">新增</button>
-																						</div>
-
-																					</div>
-																				</div>
-																			</div>
-																			<div class="panel-footer text-right">
-																			</div>
-																		</form>
+																		<h4 class="modal-title">人员管理																							<button type = "button" class="btn btn-info" id="showAddDutyPeopleModal">新增</button></h4>
 																	</div>
 																	<div class="modal-body">
 																		<table class="table table-bordered">
@@ -1143,6 +1110,7 @@ Use search to find needed section.
 						</div> <!-- / .modal-content -->
 					</div> <!-- / .modal-dialog -->
 				</div> <!-- / .modal -->
+
 				<!-- / Template -->	
 				<div class="panel">
 					<div class="panel-heading">
@@ -1199,7 +1167,42 @@ Use search to find needed section.
 
 	<div id="main-menu-bg"></div>
 </div> <!-- / #main-wrapper -->
+														<div id="add-dutyPeople-modal" class="modal modal-blur" tabindex="-1" role="dialog" style="display: none;">
+															<div class="modal-dialog">
+																<div class="modal-content">
+																	<div class="modal-header">
+																		<button type="button" class="close" data-dismiss="modal">×</button>
+																		<h4 class="modal-title">新增人员</h4>
+																	</div>
+																	<div class="modal-body">
 
+																		<form action="" class="panel form-horizontal">
+																			<div class="panel-body">
+																				<div class="row form-group">
+																					<label class="col-sm-4 control-label">姓名:</label>
+																					<div class="col-sm-8">
+																						<input type="text" name="dutyname" class="form-control" id="dutyUsername">
+																					</div>
+																				</div>
+																				<div class="row form-group">
+																					<label class="col-sm-4 control-label">工号:</label>
+																					<div class="col-sm-8">
+																						<input type="text" name="dutynumber" class="form-control" id="dutyUserNumber">
+																					</div>
+																				</div>
+																			</div>
+																			<div class="panel-footer text-right">
+																				<button class="btn btn-primary" type="button" id="addDutyUserButton">确定</button>
+																				<button class="btn btn-primary" type="button" data-dismiss="modal">取消</button>
+																			</div>
+																		</form>
+
+
+																	</div>
+																</div> <!-- / .modal-content -->
+															</div> <!-- / .modal-dialog -->
+														</div> <!-- / .modal -->
+														
 <!-- Get jQuery from Google CDN -->
 <!--[if !IE]> -->
 	<script type="text/javascript"> window.jQuery || document.write('<script src="javascripts/jquery.js">'+"<"+"/script>"); </script>
@@ -1711,7 +1714,7 @@ $(function(){
 				var res = data.data;
 
 				res.forEach(function(d,i){
-					html += '<tr><td>'+'工号'+'</td><td>'+d.number+'</td><td>'+'姓名'+'</td><td>'+d.name+'</td><td>'+'<button data-peopleId='+d.id+' type = "button" class="btn btn-danger deleteDutyUserBtn">删除</button>'+'</td></tr>';
+					html += '<tr><td>'+工号+'</td><td>'+d.number+'</td><td>'+姓名+'</td><td>'+d.name+'</td><td>'+'<button type = "button" class="btn btn-info">修改</button><button type = "button" class="btn btn-danger">删除</button>'+'</td></tr>';
 
 				})
 
@@ -1738,53 +1741,27 @@ $(function(){
 		showPeople()
 
 	})	
+	//显示新增人员的窗口，手工方式绑定
+	$document.delegate('#showAddDutyPeopleModal','click',function(){
+		console.log(1111)
+		$('#add-dutyPeople-modal').show().css('z-index',99999);
 
-
+	})	
 
 
 	//新增值班人员
 	$document.delegate('#addDutyUserButton','click',function(){
 
 		var deviceid = $('#device-id-instance').val();
-		
-		if($('#dutyUserNumber').val().length>4){
 
-			alert('工号只能输入4位数');
-			return 
-		}
 
 		$.ajax({
 			url: "/ajax/addDutyUser",
 			data:{
 
 				deviceId:deviceid,
-				name:$('#dutyUserName').val(),
+				name:$('#dutyUsername').val(),
 				number:$('#dutyUserNumber').val()
-			},
-			success: function(data) {
-				alert(data.msg);
-
-				showPeople();
-			},
-			error:function(){
-
-				alert('获取失败')
-			}
-		});
-
-	})		
-
-	//删除值班人员
-	$document.delegate('.deleteDutyUserBtn','click',function(){
-		var id = $(this).attr('data-peopleId');
-		var deviceid = $('#device-id-instance').val();
-
-
-		$.ajax({
-			url: "/ajax/deleteDutyUser",
-			data:{
-				id:id,
-				deviceid:deviceid
 			},
 			success: function(data) {
 				alert(data.msg);
@@ -1825,12 +1802,12 @@ $(function(){
 
 					if(d.type=='up'){
 
-						uphtml += '<tr><td>'+d.number+'</td><td>'+d.name+'</td><td>'+'<button type = "button" class="btn btn-danger">删除</button>'+'</td></tr>';
+						uphtml += '<tr><td>'+d.number+'</td><td>'+d.name+'</td><td>'+'<button type = "button" class="btn btn-info">修改</button><button type = "button" class="btn btn-danger">删除</button>'+'</td></tr>';
 
 
 					}else{
 
-						downhtml += '<tr><td>'+d.number+'</td><td>'+d.name+'</td><td>'+'<button type = "button" class="btn btn-danger">删除</button>'+'</td></tr>';
+						downhtml += '<tr><td>'+d.number+'</td><td>'+d.name+'</td><td>'+'<button type = "button" class="btn btn-info">修改</button><button type = "button" class="btn btn-danger">删除</button>'+'</td></tr>';
 
 					}
 

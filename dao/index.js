@@ -333,13 +333,13 @@ var INSERT_DEVICE_DUTY_SQL = multiline(function (){/*
   VALUES(NULL, now(), now(), ?, ?,?,?,?, ?, ?,?,?,?, ?, ?,?,?,?,?,?)
 */});
 exports.insertDutyInfo = function (dutyInfo, callback) {
- // console.log(dutyInfo)
+
   assert(typeof dutyInfo === 'object');
 
   var values = [dutyInfo.deviceid,dutyInfo.Data,
   dutyInfo.Num,dutyInfo.Train,dutyInfo.T0,dutyInfo.M0,
   dutyInfo.M1,dutyInfo.M2,dutyInfo.T1,dutyInfo.T2,dutyInfo.Rem0,
-  dutyInfo.Dir,dutyInfo.Way,dutyInfo.Sou,dutyInfo.T3,dutyInfo.t4,dutyInfo.Rem1];
+  dutyInfo.Dir0,dutyInfo.Way,dutyInfo.Sou,dutyInfo.T3,dutyInfo.T4,dutyInfo.Rem1];
   mysql.query(INSERT_DEVICE_DUTY_SQL, values, function(err, result) {
     if (err) {
       callback(err);
@@ -523,9 +523,282 @@ exports.showSituationInfo = function (device_id, callback) {
 
 
 
+/**
+ * 修改列车时刻
+ *
+ * @param {Object} 时刻id
+ * @return {Number} 设备id
+ */
+var TIMETABLE_MODIFY_SQL = multiline(function (){/*
+  UPDATE
+    monitor_line_timetable set update_time = now(), train_count = ?, train_time=? where id = ?
+*/});
+exports.modifyTimetable = function (timetable, callback) {
+  assert(typeof timetable === 'object');
+
+  var values = [timetable.train_count,timetable.train_time,timetable.id];
+
+  mysql.query(TIMETABLE_MODIFY_SQL, values, function(err, result) {
+    if (err) {
+      callback(err);
+    } else {
+      callback(null, result);
+    }
+  });
+};
 
 
 
+
+/**
+ * 新增列车时刻
+ *
+ * @param {Object} 信息对象
+ * @return {Number} id
+ */
+var TIMETABLE_ADD_SQL = multiline(function (){/*
+  INSERT INTO
+    monitor_line_timetable(id, create_time, update_time, type, deviceid,
+      train_count, train_time)
+  VALUES(NULL, now(), now(), ?, ?, ?, ?)
+*/});
+exports.addTimeTable = function (timetable, callback) {
+  assert(typeof timetable === 'object');
+
+  var values = [timetable.type, timetable.deviceid,
+    timetable.train_count,timetable.train_time];
+  mysql.query(TIMETABLE_ADD_SQL, values, function(err, result) {
+    if (err) {
+      callback(err);
+    } else {
+      callback(null, result.insertId);
+    }
+  });
+};
+
+/**
+ * 查找列车时刻
+ *
+ * @param {String} deviceid
+ * @return {Number} id
+ */
+var TIMETABLE_SELETE_SQL = multiline(function (){/*
+  SELECT * from
+    monitor_line_timetable where deviceid= ?
+*/});
+exports.selectTimeTable = function (timetable, callback) {
+  assert(typeof timetable === 'object');
+
+  var values = [timetable.deviceid];
+  mysql.query(TIMETABLE_SELETE_SQL, values, function(err, result) {
+    if (err) {
+      callback(err);
+    } else {
+      callback(null, result);
+    }
+  });
+};
+
+
+/**
+ * 删除一个时刻
+ *
+ * @param {Object} id
+ * @return {Number} 设备id
+ */
+var DELETE_TIMETABLE_SQL = multiline(function (){/*
+  delete from
+    monitor_line_timetable where id = ?
+*/});
+exports.deleteTimeTable = function (id, callback) {
+
+  var values = [id];
+
+  mysql.query(DELETE_TIMETABLE_SQL, values, function(err, result) {
+    if (err) {
+      callback(err);
+    } else {
+      callback(null, result);
+    }
+  });
+};
+
+
+/**
+ * 修改值班人员
+ *
+ * @param {Object} 人员object
+ * @return {Number} 设备id
+ */
+var DUTYPEOPLE_MODIFY_SQL = multiline(function (){/*
+  UPDATE
+    monitor_line_dutypeople set update_time = now(), name = ?, number=? where id = ?
+*/});
+exports.modifyDutyPeople = function (people, callback) {
+  assert(typeof people === 'object');
+
+  var values = [people.name,people.number,people.id];
+
+  mysql.query(DUTYPEOPLE_MODIFY_SQL, values, function(err, result) {
+    if (err) {
+      callback(err);
+    } else {
+      callback(null, result);
+    }
+  });
+};
+
+
+
+
+/**
+ * 新增值班人员
+ *
+ * @param {Object} 信息对象
+ * @return {Number} id
+ */
+var DUTYPEOPLE_ADD_SQL = multiline(function (){/*
+  INSERT INTO
+    monitor_line_dutypeople(id, create_time, update_time, deviceid,
+      number, name)
+  VALUES(NULL, now(), now(), ?, ?, ?)
+*/});
+exports.addDutyPeople= function (people, callback) {
+  assert(typeof people === 'object');
+
+  var values = [people.deviceid,
+    people.number,people.name];
+  mysql.query(DUTYPEOPLE_ADD_SQL, values, function(err, result) {
+    if (err) {
+      callback(err);
+    } else {
+      callback(null, result.insertId);
+    }
+  });
+};
+
+/**
+ * 查找值班人员
+ *
+ * @param {String} deviceid
+ * @return {Number} id
+ */
+var DUTYPEOPLE_SELETE_SQL = multiline(function (){/*
+  SELECT * from
+    monitor_line_dutypeople where deviceid= ?
+*/});
+exports.selectDutyPeople = function (people, callback) {
+  assert(typeof people === 'object');
+
+  var values = [people.deviceid];
+  mysql.query(DUTYPEOPLE_SELETE_SQL, values, function(err, result) {
+    if (err) {
+      callback(err);
+    } else {
+      callback(null, result);
+    }
+  });
+};
+
+
+/**
+ * 删除一个值班人员
+ *
+ * @param {Object} id
+ * @return {Number} 设备id
+ */
+var DELETE_DUTYPEOPLE_SQL = multiline(function (){/*
+  delete from
+    monitor_line_dutypeople where id = ?
+*/});
+exports.deleteDutyUser = function (id, callback) {
+
+  var values = [id];
+
+  mysql.query(DELETE_DUTYPEOPLE_SQL, values, function(err, result) {
+    if (err) {
+      callback(err);
+    } else {
+      callback(null, result);
+    }
+  });
+};
+
+
+
+/**
+ * 删除一条操作
+ *
+ * @param {Object} id
+ * @return {Number} 设备id
+ */
+var DELETE_OPERATION_SQL = multiline(function (){/*
+  delete from
+    monitor_operation where id = ?
+*/});
+exports.deleteOperation = function (id, callback) {
+
+  var values = [id];
+
+  mysql.query(DELETE_OPERATION_SQL, values, function(err, result) {
+    if (err) {
+      callback(err);
+    } else {
+      callback(null, result);
+    }
+  });
+};
+
+
+
+
+/**
+ * 新增操作
+ *
+ * @param {Object} 操作对象
+ * @return {Number} id
+ */
+var OPERATION_ADD_SQL = multiline(function (){/*
+  INSERT INTO
+    monitor_operation(id, create_time, update_time, deviceid,
+      type)
+  VALUES(?, now(), now(), ?, ?)
+*/});
+exports.addOperation= function (operation, callback) {
+  assert(typeof operation === 'object');
+
+  var values = [operation.id,
+    operation.deviceid,operation.type];
+  mysql.query(OPERATION_ADD_SQL, values, function(err, result) {
+    if (err) {
+      callback(err);
+    } else {
+      callback(null, result.insertId);
+    }
+  });
+};
+
+/**
+ * 查找操作
+ *
+ * @param {String} deviceid
+ * @return {Number} id
+ */
+var OPERATION_SELETE_SQL = multiline(function (){/*
+  SELECT * from
+    monitor_operation where deviceid= ? limit 1
+*/});
+exports.selectOperation = function (id, callback) {
+
+  var values = [id];
+  mysql.query(OPERATION_SELETE_SQL, values, function(err, result) {
+    if (err) {
+      callback(err);
+    } else {
+      callback(null, result);
+    }
+  });
+};
 
 
 
