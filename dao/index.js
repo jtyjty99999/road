@@ -329,10 +329,10 @@ var SELECT_DEVICE_DUTY_SQL = multiline(function (){/*
     monitor_duty_info where deviceid = ?
 */});
 exports.showDutyInfo = function (device_id, callback) {
-console.log(device_id)
+
   var values = [device_id];
   mysql.query(SELECT_DEVICE_DUTY_SQL, values, function(err, result) {
-    console.log(err,result)
+
     if (err) {
       callback(err);
     } else {
