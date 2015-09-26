@@ -41,10 +41,10 @@ var config = {
   },
   database: {
     host: 'localhost',
-    port: 3306,
+    port: 3307,
     user: 'root',
     database: 'monitor',
-    password: 'root',
+    password: '',
     multipleStatements: true,
     connectionLimit: 10
   }

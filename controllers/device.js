@@ -134,19 +134,60 @@ exports.addDevice = function *(next){
 
 	query.user_id = this.session.user?this.session.user.user_id:'';
 
+	var res1;
+
+
 	try{
 
-		yield dao.addDevice(query);
-		this.body = {
-			code:200,msg:"添加成功"
-		}
+		res1 = yield dao.deviceIsExist(query.deviceid);
+
 	}
 
 	catch(e){
+
 		console.log(e);
 		this.body ={code:500,msg:"添加失败"};
 
 	}
+
+
+	if(res1.length==0){
+
+		try{
+
+			yield dao.addDevice(query);
+			this.body = {
+				code:200,msg:"添加成功"
+			}
+		}
+
+		catch(e){
+			console.log(e);
+			this.body ={code:500,msg:"添加失败"};
+
+		}		
+
+	}else{
+
+
+		try{
+
+			yield dao.modifyDevice(query);
+			this.body = {
+				code:200,msg:"修改成功"
+			}
+		}
+
+		catch(e){
+			console.log(e);
+			this.body ={code:500,msg:"添加失败"};
+
+		}
+
+	}
+
+
+
 }
 
 exports.addUserDeviceRelation = function *(next){
