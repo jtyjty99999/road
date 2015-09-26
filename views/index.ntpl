@@ -693,7 +693,7 @@ Use search to find needed section.
 
 											<tr>
 												<td>{{item[0].id}}</td>
-												<td>{{item[0].roadbelong}}</td>
+												<td>{{item[0].lineName}}</td>
 												<td>{{item[0].roadowncar}}</td>
 												<td>{{item[0].roadownarea}}</td>
 												<td>{{item[0].roadTopManager}}</td>

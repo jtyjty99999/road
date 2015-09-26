@@ -15,6 +15,24 @@
 var dao = require('../dao/index');
 var debug = require('debug')('controller');
 
+function getLineName(deviceid){
+
+
+	var c = deviceid.substring(deviceid.length-6);
+
+	var n = c.substring(3,6);
+
+	var m = c.substring(0,3);
+
+	if(m.length==1){
+		m = '00'+m;
+	}else if(m.length==2){
+
+		m = '0'+m;
+	}
+	return 'k'+m+'+'+n
+}
+
 exports.index = function *(next) {
 
 	if(!this.session.user){
@@ -46,7 +64,10 @@ var deviceListInfo = [];
 
 		  });
 
-		  //console.log(deviceListInfo)
+		  deviceListInfo = deviceListInfo.map(function(d){
+		  	d[0].lineName = getLineName(d[0].deviceid);
+		  	return d
+		  })
 
 
 	}catch(e){
