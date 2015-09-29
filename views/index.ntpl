@@ -87,6 +87,9 @@ Use search to find needed section.
 	#device-people-modal .form-group{
 		margin-bottom: 0
 	}
+	.addTimeTableButton{
+		margin-top: 24px
+	}
 	</style>
 	<!--[if lt IE 9]>
 		<script src="javascripts/ie.min.js"></script>
@@ -217,10 +220,16 @@ Use search to find needed section.
 
 			</ul> <!-- / .navigation -->
 			<div id="treeDemo" class="ztree">
-				<a href="pages-invoice.html" class="btn btn-primary btn-block btn-outline dark">收起</a>
 			</div>
 			<div class="menu-content">
 				<a href="pages-invoice.html" class="btn btn-primary btn-block btn-outline dark">收起</a>
+{% if usertype==1 %}
+				<a  data-toggle="modal" data-target="#add-device-modal" id="add-device-modal-button" class="btn btn-primary btn-block">添加设备</a>
+
+				<a href="pages-invoice.html" class="btn btn-primary btn-block" data-toggle="modal" data-target="#add-user-modal">添加用户</a>
+				<a href="pages-invoice.html" class="btn btn-primary btn-block" data-toggle="modal" data-target="#bind-device-modal">关联设备</a>
+				<a href="pages-invoice.html" class="btn btn-primary btn-block" data-toggle="modal" data-target="#add-code-modal">添加区域代码</a>
+{% endif %}
 			</div>
 		</div> <!-- / #main-menu-inner -->
 	</div> <!-- / #main-menu -->
@@ -278,7 +287,26 @@ Use search to find needed section.
 																				<thead>
 																					<tr>
 																						<th colspan="3">上行列车
-																							<button type = "button" class="btn btn-info">新增上行列车时刻</button>
+																							<div class="row">
+																										<div class="col-sm-5">
+																											<div class="form-group no-margin-hr">
+																												<label class="control-label">车次</label>
+																												<input type="text" name="dutyUserName" id="dutyUserName" class="form-control">
+																											</div>
+																										</div><!-- col-sm-6 -->
+																										<div class="col-sm-5">
+																											<div class="form-group no-margin-hr">
+																												<label class="control-label">通过时刻</label>
+																												<input type="text" name="dutyUserNumber" id="dutyUserNumber" class="form-control">
+																											</div>
+																										</div><!-- col-sm-6 -->
+																										<div class="col-sm-2">
+																											<div class="form-group no-margin-hr">
+																												<button class="btn btn-primary addTimeTableButton" data-type="up" type="button">新增</button>
+																											</div>
+
+																										</div>
+																									</div>
 																						</th>
 																					</tr>
 																					<tr>
@@ -301,9 +329,29 @@ Use search to find needed section.
 
 																		<table class="table table-bordered">
 																				<thead>
+																					
 																					<tr>
 																						<th colspan="3">下行列车
-																							<button type = "button" class="btn btn-info">新增下行列车时刻</button>
+																							<div class="row">
+																										<div class="col-sm-5">
+																											<div class="form-group no-margin-hr">
+																												<label class="control-label">车次</label>
+																												<input type="text" name="dutyUserName" id="dutyUserName" class="form-control">
+																											</div>
+																										</div><!-- col-sm-6 -->
+																										<div class="col-sm-5">
+																											<div class="form-group no-margin-hr">
+																												<label class="control-label">通过时刻</label>
+																												<input type="text" name="dutyUserNumber" id="dutyUserNumber" class="form-control">
+																											</div>
+																										</div><!-- col-sm-6 -->
+																										<div class="col-sm-2">
+																											<div class="form-group no-margin-hr">
+																												<button class="btn btn-primary addTimeTableButton" data-type="down" type="button">新增</button>
+																											</div>
+
+																										</div>
+																									</div>
 																						</th>
 																					</tr>
 																					<tr>
@@ -317,7 +365,6 @@ Use search to find needed section.
 																						<td>兰溪市</td>
 																						<td>兰溪</td>
 																						<td>
-																							<button type = "button" class="btn btn-info">修改</button>
 																							<button type = "button" class="btn btn-danger">删除</button>
 																						</td>
 																					</tr>
@@ -930,15 +977,6 @@ Use search to find needed section.
 				</div> <!-- / .modal -->
 				<!-- / Template -->
 	
-				<div class="panel">
-					<div class="panel-heading">
-						<span class="panel-title">设备管理</span>
-					</div>
-					<div class="panel-body">
-						<div class="note note-danger">在此进行设备的添加</div>
-						<button class="btn btn-success" data-toggle="modal" data-target="#add-device-modal" id="add-device-modal-button">添加设备</button>
-					</div>
-				</div>
 <!-- /6. $MODALS_BLURRED_BACKGROUND -->
 
 			</div>
@@ -955,7 +993,7 @@ Use search to find needed section.
 				To enable blurred background effect just add class .modal-blur to the .modal
 -->
 				<!-- Template -->
-				<div id="add-user-modal" class="modal fade modal-blur" tabindex="-1" role="dialog" style="display: none;">
+				<div id="add-code-modal" class="modal fade modal-blur" tabindex="-1" role="dialog" style="display: none;">
 					<div class="modal-dialog">
 						<div class="modal-content">
 							<div class="modal-header">
@@ -1008,15 +1046,6 @@ Use search to find needed section.
 				</div> <!-- / .modal -->
 				<!-- / Template -->
 	
-				<div class="panel">
-					<div class="panel-heading">
-						<span class="panel-title">识别码管理</span>
-					</div>
-					<div class="panel-body">
-						<div class="note note-danger">在此进行识别码的添加</div>
-						<button class="btn btn-success" data-toggle="modal" data-target="#add-user-modal">添加新识别码</button>
-					</div>
-				</div>
 <!-- /6. $MODALS_BLURRED_BACKGROUND -->
 
 			</div>
@@ -1084,15 +1113,6 @@ Use search to find needed section.
 				</div> <!-- / .modal -->
 				<!-- / Template -->
 	
-				<div class="panel">
-					<div class="panel-heading">
-						<span class="panel-title">用户管理</span>
-					</div>
-					<div class="panel-body">
-						<div class="note note-danger">在此进行用户的添加</div>
-						<button class="btn btn-success" data-toggle="modal" data-target="#add-user-modal">添加新用户</button>
-					</div>
-				</div>
 <!-- /6. $MODALS_BLURRED_BACKGROUND -->
 
 			</div>
@@ -1144,15 +1164,6 @@ Use search to find needed section.
 					</div> <!-- / .modal-dialog -->
 				</div> <!-- / .modal -->
 				<!-- / Template -->	
-				<div class="panel">
-					<div class="panel-heading">
-						<span class="panel-title">关联设备与账号</span>
-					</div>
-					<div class="panel-body">
-						<div class="note note-danger">在此进行用户与设备的关联</div>
-						<button class="btn btn-success" data-toggle="modal" data-target="#bind-device-modal">关联</button>
-					</div>
-				</div>
 <!-- /6. $MODALS_BLURRED_BACKGROUND -->
 
 			</div>
@@ -1825,12 +1836,12 @@ $(function(){
 
 					if(d.type=='up'){
 
-						uphtml += '<tr><td>'+d.number+'</td><td>'+d.name+'</td><td>'+'<button type = "button" class="btn btn-danger">删除</button>'+'</td></tr>';
+						uphtml += '<tr><td>'+d.number+'</td><td>'+d.name+'</td><td>'+'<button data-timeid='+d.id+' type = "button" class="btn btn-danger deleteTimeTabelButton">删除</button>'+'</td></tr>';
 
 
 					}else{
 
-						downhtml += '<tr><td>'+d.number+'</td><td>'+d.name+'</td><td>'+'<button type = "button" class="btn btn-danger">删除</button>'+'</td></tr>';
+						downhtml += '<tr><td>'+d.number+'</td><td>'+d.name+'</td><td>'+'<button data-timeid='+d.id+' type = "button" class="btn btn-danger deleteTimeTabelButton">删除</button>'+'</td></tr>';
 
 					}
 
@@ -1855,6 +1866,61 @@ $(function(){
 
 	})	
 
+
+
+
+	//新增列车时刻
+	$document.delegate('.addTimeTableButton','click',function(){
+
+		var deviceid = $('#device-id-instance').val();
+		var type = $(this).attr('data-type');		
+
+		$.ajax({
+			url: "/ajax/addTimeSchedule",
+			data:{
+
+				deviceId:deviceid,
+				name:$('#dutyUserName').val(),
+				number:$('#dutyUserNumber').val(),
+				type:type
+			},
+			success: function(data) {
+				alert(data.msg);
+
+				//showPeople();
+			},
+			error:function(){
+
+				alert('获取失败')
+			}
+		});
+
+	})		
+
+	//删除列车时刻
+	$document.delegate('.deleteTimeTabelButton','click',function(){
+		var id = $(this).attr('data-timeid');
+		var deviceid = $('#device-id-instance').val();
+
+
+		$.ajax({
+			url: "/ajax/deleteTimeSchedule",
+			data:{
+				id:id,
+				deviceid:deviceid
+			},
+			success: function(data) {
+				alert(data.msg);
+
+				//showPeople();
+			},
+			error:function(){
+
+				alert('获取失败')
+			}
+		});
+
+	})		
 
 
 
