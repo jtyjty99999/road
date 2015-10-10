@@ -150,12 +150,19 @@ exports.addDevice = function *(next){
 
 	}
 
-
 	if(res1.length==0){
 
 		try{
 
 			yield dao.addDevice(query);
+
+/*admin自动关联*/
+			if(this.session.user.user_name=='admin'){
+
+				yield dao.addUserDeviceRelation(query.deviceid,'admin',this.session.user.user_id);	
+			}
+
+
 			this.body = {
 				code:200,msg:"添加成功"
 			}
