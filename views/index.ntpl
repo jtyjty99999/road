@@ -203,7 +203,7 @@ Use search to find needed section.
 					 Javascript: html/assets/demo/demo.js
 				 -->
 				<div>
-					<div class="text-bg"><span class="text-slim">欢迎,</span> <span class="text-semibold">John</span></div>
+					<div class="text-bg"><span class="text-slim">欢迎,</span> <span class="text-semibold">{{name}}</span></div>
 
 					<img src="demo/avatars/1.jpg" alt="" class="">
 					<div class="btn-group">
@@ -1209,6 +1209,7 @@ Use search to find needed section.
 	</div>
 
 	<div id="main-menu-bg"></div>
+	<div id="navData" style = "display:none">{{navInfo}}</div>
 </div> <!-- / #main-wrapper -->
 
 <!-- Get jQuery from Google CDN -->
@@ -1274,52 +1275,64 @@ $(function(){
 
 		var setting = {	};
 
-		var zNodes =[
-			{ name:"上海铁路局", open:true,
-				children: [
-					{ name:"杭州公务段",
-						children: [
-							{ name:"兰溪车间"},
-							{ name:"兰溪车间"},
-							{ name:"兰溪车间"},
-							{ name:"兰溪车间"}
-						]},
-					{ name:"宁波公务段",
-						children: [
-							{ name:"兰溪车间"},
-							{ name:"兰溪车间"},
-							{ name:"兰溪车间"},
-							{ name:"兰溪车间"}
-						]},
-					{ name:"台州公务段", isParent:true}
-				]},
-			{ name:"南京铁路局",
-				children: [
-					{ name:"南京公务段", open:true,
-						children: [
-							{ name:"兰溪车间"},
-							{ name:"兰溪车间"},
-							{ name:"兰溪车间"},
-							{ name:"兰溪车间"}
-						]},
-					{ name:"南京公务段",
-						children: [
-							{ name:"兰溪车间"},
-							{ name:"兰溪车间"},
-							{ name:"兰溪车间"},
-							{ name:"兰溪车间"}
-						]},
-					{ name:"南京公务段",
-						children: [
-							{ name:"兰溪车间"},
-							{ name:"兰溪车间"},
-							{ name:"兰溪车间"},
-							{ name:"兰溪车间"}
-						]}
-				]},
-			{ name:"其他", isParent:true}
+		var zNodes;
 
-		];
+		try{
+
+			zNodes = JSON.parse($('#navData').text());
+		}catch(e){
+
+			zNodes =[
+						{ name:"上海铁路局", open:true,
+							children: [
+								{ name:"杭州公务段",
+									children: [
+										{ name:"兰溪车间"},
+										{ name:"兰溪车间"},
+										{ name:"兰溪车间"},
+										{ name:"兰溪车间"}
+									]},
+								{ name:"宁波公务段",
+									children: [
+										{ name:"兰溪车间"},
+										{ name:"兰溪车间"},
+										{ name:"兰溪车间"},
+										{ name:"兰溪车间"}
+									]},
+								{ name:"台州公务段", isParent:true}
+							]},
+						{ name:"南京铁路局",
+							children: [
+								{ name:"南京公务段", open:true,
+									children: [
+										{ name:"兰溪车间"},
+										{ name:"兰溪车间"},
+										{ name:"兰溪车间"},
+										{ name:"兰溪车间"}
+									]},
+								{ name:"南京公务段",
+									children: [
+										{ name:"兰溪车间"},
+										{ name:"兰溪车间"},
+										{ name:"兰溪车间"},
+										{ name:"兰溪车间"}
+									]},
+								{ name:"南京公务段",
+									children: [
+										{ name:"兰溪车间"},
+										{ name:"兰溪车间"},
+										{ name:"兰溪车间"},
+										{ name:"兰溪车间"}
+									]}
+							]},
+						{ name:"其他", isParent:true}
+
+					];
+
+		}
+
+ 
+		
 
 			$.fn.zTree.init($("#treeDemo"), setting, zNodes);
 
@@ -1541,7 +1554,7 @@ $(function(){
 
 	})
 
-
+	var dutyTable;
 
 	//展示当班信息
 	$document.delegate('#showDutyButton','click',function(){
@@ -1559,16 +1572,27 @@ $(function(){
 
 				var html = '';
 
-				
 				res.forEach(function(d,i){
 
 				html += '<tr><td>'+d.id+'</td><td>'+d.data+'</td><td>'+d.num+'</td><td>'+d.train+'</td><td>'+d.t0+'</td><td>'+d.m0+'</td><td>'+d.m1+'</td><td>'+d.m2+'</td><td>'+d.t1+'</td><td>'+d.t2+'</td><td>'+d.rem0+'</td><td>'+d.dir+'</td><td>'+d.way+'</td><td>'+d.t3+'</td><td>'+d.t4+'</td><td>'+d.rem1+'</td></tr>';
 
 				})
 
-				$('#dutyList').html(html);
+/*
 
-				$('#dutyList_table').dataTable();
+*/
+
+				if(dutyTable){
+					dutyTable.destroy();
+					$('#dutyList_table').parent().parent().empty().append('<table class="table table-bordered" id="dutyList_table"><thead><tr><th>序号</th><th>日期</th><th>工号</th><th>车次</th><th>报开时间</th><th>报开密码</th><th>接收密码1</th><th>接收密码2</th><th>出务时间</th><th>通过时间</th><th>备注</th><th>列车方向</th><th>存储方式</th><th>持续时间</th><th>通过时间</th><th>备注</th></tr></thead><tbody id="dutyList"></tbody></table>');
+
+
+				}
+
+				$('#dutyList').html(html);				
+					dutyTable = $('#dutyList_table').dataTable();
+				
+				
 				$('#dutyList_table_wrapper .table-caption').text('');
 				$('#dutyList_table_wrapper .dataTables_filter input').attr('placeholder', 'Search...');
 
@@ -1582,7 +1606,7 @@ $(function(){
 
 	})	
 
-
+	var exchangeTable; 
 	//展示交接班信息
 	$document.delegate('#showExchangeButton','click',function(){
 
@@ -1601,16 +1625,27 @@ $(function(){
 
 				var html = '';
 
-				
+				if(exchangeTable){
+					exchangeTable.destroy();
+				}
+
 				res.forEach(function(d,i){
 
 				html += '<tr><td>'+d.id+'</td><td>'+d.data+'</td><td>'+d.shift0+'</td><td>'+d.shift1+'</td><td>'+d.weather+'</td><td>'+d.safe0+'</td><td>'+d.safe1+'</td><td>'+d.safe2+'</td><td>'+d.safe3+'</td><td>'+d.safe4+'</td><td>'+d.safe5+'</td></tr>';
 
 				})
 
+				if(exchangeTable){
+					exchangeTable.destroy();
+					$('#exchangeList_table').parent().parent().empty().append('<table class="table table-bordered" id="exchangeList_table"><thead><tr><th>序号</th><th>交班时间</th><th>交班工号</th><th>接班工号</th><th>天气</th><th>交班安全</th><th>交班备品</th><th>交班设备</th><th>接班安全</th><th>接班备品</th><th>接班设备</th></tr></thead><tbody id="exchangeList"></tbody></table>');
+
+
+				}
+
 				$('#exchangeList').html(html);
 
-				$('#exchangeList_table').dataTable();
+				exchangeTable = $('#exchangeList_table').dataTable();
+
 				$('#exchangeList_table_wrapper .table-caption').text('');
 				$('#exchangeList_table_wrapper .dataTables_filter input').attr('placeholder', 'Search...');
 			
@@ -1623,6 +1658,7 @@ $(function(){
 
 	})	
 
+var errorListTable;
 	//展示报警信息
 	$document.delegate('#showErrorButton','click',function(){
 
@@ -1648,8 +1684,15 @@ $(function(){
 
 				})
 
+
+				if(errorListTable){
+					errorListTable.destroy();
+					$('#errorList_table').parent().parent().empty().append('<table class="table table-bordered" id="errorList_table"><thead><tr><th>序号</th><th>时间</th><th>事项</th></tr></thead><tbody id="errorList"></tbody></table>');
+				}
+
 				$('#errorList').html(html)
-				$('#errorList_table').dataTable();
+
+				errorListTable = $('#errorList_table').dataTable();
 				$('#errorList_table_wrapper .table-caption').text('');
 				$('#errorList_table_wrapper .dataTables_filter input').attr('placeholder', 'Search...');
 			
@@ -1662,6 +1705,8 @@ $(function(){
 		});
 
 	})	
+
+var situationListTable;
 	//展示设备状况信息
 	$document.delegate('#showSituationButton','click',function(){
 
@@ -1687,9 +1732,14 @@ $(function(){
 
 				})
 
+				if(situationListTable){
+					situationListTable.destroy();
+					$('#situationList_table').parent().parent().empty().append('<table class="table table-bordered" id="situationList_table"><thead><tr><th>序号</th><th>报修设备名称</th><th>报修时间</th><th>工号</th><th>受理人</th><th>修复时间</th><th>工号</th></tr></thead><tbody id="situationList"></tbody></table>');
+				}
+
 				$('#situationList').html(html)
 
-				$('#situationList_table').dataTable();
+				situationListTable = $('#situationList_table').dataTable();
 				$('#situationList_table_wrapper .table-caption').text('');
 				$('#situationList_table_wrapper .dataTables_filter input').attr('placeholder', 'Search...');
 

@@ -33,7 +33,125 @@ function getLineName(deviceid){
 	return 'k'+m+'+'+n
 }
 
+
+function run(arr) {
+
+	var result = [];
+
+
+	arr.forEach(function(d, i) {
+
+		if (search(result, 'code', d[0].roadTopManagerCode)) {
+			result.push({
+
+				name: d[0].roadTopManager,
+				children: [],
+				code: d[0].roadTopManagerCode,
+				url:"/index?roadTopManagerCode="+d[0].roadTopManagerCode,
+				target:"_self"
+			})
+
+		}
+
+	})
+
+	arr.forEach(function(d, i) {
+
+		result.forEach(function(d2, i2) {
+
+			if (d2.code == d[0].roadTopManagerCode) {
+
+				if (search(d2.children, 'code', d[0].roadownareaCode)) {
+					d2.children.push({
+
+						name: d[0].roadownarea,
+						children: [],
+						code: d[0].roadownareaCode,
+						url:"/index?roadTopManagerCode="+d[0].roadTopManagerCode+'&roadownareaCode='+ d[0].roadownareaCode,
+						target:"_self"
+					})
+
+				}
+
+
+
+			}
+
+		})
+
+
+	})
+
+
+
+	arr.forEach(function(d, i) {
+
+		result.forEach(function(d2, i2) {
+
+			if (d2.code == d[0].roadTopManagerCode) {
+
+
+				d2.children.forEach(function(d3, i3) {
+
+
+
+					if (d3.code == d[0].roadownareaCode) {
+
+
+						if (search(d3.children, 'code', d[0].roadowncarCode)) {
+							d3.children.push({
+
+								name: d[0].roadowncar,
+								children: [],
+								code: d[0].roadowncarCode,
+								url:"/index?roadTopManagerCode="+d[0].roadTopManagerCode+'&roadownareaCode='+ d[0].roadownareaCode+'&roadowncarCode='+d[0].roadowncarCode,
+								target:"_self"
+							})
+
+						}
+
+
+
+					}
+
+
+				})
+
+
+
+			}
+
+		})
+
+
+	})
+
+	return result
+
+}
+
+//console.log(run(a));
+
+function search(arr, key, value) {
+
+	var res = true;
+
+	arr.forEach(function(d, i) {
+
+		if (d[key] == value) {
+
+			res = false;
+		}
+	})
+
+	return res
+
+
+}
+
 exports.index = function *(next) {
+
+	var query = this.request.query;
 
 	if(!this.session.user){
 
@@ -75,12 +193,37 @@ var deviceListInfo = [];
 
 	}
 
+var navInfo = JSON.stringify(run(deviceListInfo));
+//roadTopManagerCode=01&roadownareaCode=03&roadowncarCode=03
+	if(query.roadTopManagerCode){
+
+		deviceListInfo = deviceListInfo.filter(function(el){
+
+			return el[0].roadTopManagerCode==query.roadTopManagerCode
+		})
+	}
+	if(query.roadownareaCode){
+
+		deviceListInfo = deviceListInfo.filter(function(el){
+
+			return el[0].roadownareaCode==query.roadownareaCode
+		})
+	}
+	if(query.roadowncarCode){
+
+		deviceListInfo = deviceListInfo.filter(function(el){
+
+			return el[0].roadowncarCode==query.roadowncarCode
+		})
+	}
+
 	var renderData = {
 
 		name:this.session.user.user_name,
 		user_id:this.session.user.user_id,
 		deviceListInfo:deviceListInfo,
-		usertype:this.session.user.usertype
+		usertype:this.session.user.usertype,
+		navInfo:navInfo
 
 	}
 

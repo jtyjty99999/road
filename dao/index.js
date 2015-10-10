@@ -21,7 +21,7 @@ var DEVICE_ADD_SQL = multiline(function (){/*
   INSERT INTO
     monitor_device(id, create_time, update_time, user_id, deviceid,
       roadTopManager, roadTopManagerCode, roadname, roadbelongCode, roadmiles, roadfromto,roadcount,roadupsituation,
-      roaddownsituation,roadleftsituationup,roadleftsituationdown,rodeowncarCode,roadownareaCode,
+      roaddownsituation,roadleftsituationup,roadleftsituationdown,roadowncarCode,roadownareaCode,
       roadwidth,roadlineleft,roadlineright,roadcity,roadcountry,roadtraffic,roadtype,roadbelong,roadowncar,roadownarea)
   VALUES(NULL, now(), now(), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?,?)
 */});
@@ -30,7 +30,7 @@ exports.addDevice = function (device, callback) {
 
   var values = [device.user_id, device.deviceid,
       device.roadTopManager, device.roadTopManagerCode, device.roadname, device.roadbelongCode, device.roadmiles, device.roadfromto,device.roadcount,device.roadupsituation,
-      device.roaddownsituation,device.roadleftsituationup,device.roadleftsituationdown,device.rodeowncarCode,device.roadownareaCode,device.roadwidth,device.roadlineleft,
+      device.roaddownsituation,device.roadleftsituationup,device.roadleftsituationdown,device.roadowncarCode,device.roadownareaCode,device.roadwidth,device.roadlineleft,
       device.roadlineright,device.roadcity,device.roadcountry,device.roadtraffic,device.roadtype,device.roadbelong,device.roadowncar,device.roadownarea];
   mysql.query(DEVICE_ADD_SQL, values, function(err, result) {
     if (err) {
@@ -50,7 +50,7 @@ exports.addDevice = function (device, callback) {
 var DEVICE_MODIFY_SQL = multiline(function (){/*
   UPDATE
     monitor_device set update_time = now(), roadTopManager = ?, roadTopManagerCode=?, roadname=?, roadbelongCode=?, roadmiles=?, roadfromto=?,
-    roadcount=?,roadupsituation=?,roaddownsituation=?,roadleftsituationup=?,roadleftsituationdown=?,rodeowncarCode=?,roadownareaCode=?,
+    roadcount=?,roadupsituation=?,roaddownsituation=?,roadleftsituationup=?,roadleftsituationdown=?,roadowncarCode=?,roadownareaCode=?,
       roadwidth=?,roadlineleft=?,roadlineright=?,roadcity=?,roadcountry=?,roadtraffic=?,roadtype=?,roadbelong=?,roadowncar=?,roadownarea=? where deviceid = ?
 */});
 exports.modifyDevice = function (device, callback) {
@@ -58,7 +58,7 @@ exports.modifyDevice = function (device, callback) {
 
   var values = [
       device.roadTopManager, device.roadTopManagerCode, device.roadname, device.roadbelongCode, device.roadmiles, device.roadfromto,device.roadcount,device.roadupsituation,
-      device.roaddownsituation,device.roadleftsituationup,device.roadleftsituationdown,device.rodeowncarCode,device.roadownareaCode,device.roadwidth,device.roadlineleft,
+      device.roaddownsituation,device.roadleftsituationup,device.roadleftsituationdown,device.roadowncarCode,device.roadownareaCode,device.roadwidth,device.roadlineleft,
       device.roadlineright,device.roadcity,device.roadcountry,device.roadtraffic,device.roadtype,device.roadbelong,device.roadowncar,device.roadownarea,device.deviceid];
 
   mysql.query(DEVICE_MODIFY_SQL, values, function(err, result) {

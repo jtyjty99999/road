@@ -1,0 +1,161 @@
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+
+
+<script type="text/javascript">
+
+
+
+var a = [{
+	a: '01',
+	b: '03',
+	c: '05',
+	a0: "hehe01",
+	b0: "hehe03",
+	c0: "hehe05"
+}, {
+	a: '01',
+	b: '03',
+	c: '06',
+	a0: "hehe01",
+	b0: "hehe03",
+	c0: "hehe06"
+}, {
+	a: '02',
+	b: '02',
+	c: '04',
+	a0: "hehe02",
+	b0: "hehe02",
+	c0: "hehe04"
+}, {
+	a: '02',
+	b: '02',
+	c: '05',
+	a0: "hehe02",
+	b0: "hehe02",
+	c0: "hehe05"
+}, {
+	a: '01',
+	b: '04',
+	c: '05',
+	a0: "hehe01",
+	b0: "hehe04",
+	c0: "hehe05"
+}]
+
+
+function run(arr) {
+
+	var result = [];
+
+
+	arr.forEach(function(d, i) {
+
+		if (search(result, 'code', d.a)) {
+			result.push({
+
+				name: d.a0,
+				children: [],
+				code: d.a
+			})
+
+		}
+
+	})
+
+	arr.forEach(function(d, i) {
+
+		result.forEach(function(d2, i2) {
+
+			if (d2.code == d.a) {
+
+				if (search(d2.children, 'code', d.b)) {
+					d2.children.push({
+
+						name: d.b0,
+						children: [],
+						code: d.b
+					})
+
+				}
+
+
+
+			}
+
+		})
+
+
+	})
+
+
+
+	arr.forEach(function(d, i) {
+
+		result.forEach(function(d2, i2) {
+
+			if (d2.code == d.a) {
+
+
+				d2.children.forEach(function(d3, i3) {
+
+
+
+					if (d3.code == d.b) {
+
+
+						if (search(d3.children, 'code', d.c)) {
+							d3.children.push({
+
+								name: d.c0,
+								children: [],
+								code: d.c
+							})
+
+						}
+
+
+
+					}
+
+
+				})
+
+
+
+			}
+
+		})
+
+
+	})
+
+	return result
+
+}
+
+console.log(run(a));
+
+function search(arr, key, value) {
+
+	var res = true;
+
+	arr.forEach(function(d, i) {
+
+		if (d[key] == value) {
+
+			res = false;
+		}
+	})
+
+	return res
+
+
+}
+
+</script>
+</body>
+</html>
