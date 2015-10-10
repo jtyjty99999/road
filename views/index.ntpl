@@ -222,7 +222,6 @@ Use search to find needed section.
 			<div id="treeDemo" class="ztree">
 			</div>
 			<div class="menu-content">
-				<a href="pages-invoice.html" class="btn btn-primary btn-block btn-outline dark">收起</a>
 {% if usertype==1 %}
 				<a  data-toggle="modal" data-target="#add-device-modal" id="add-device-modal-button" class="btn btn-primary btn-block">添加设备</a>
 
