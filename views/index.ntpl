@@ -54,13 +54,25 @@ Use search to find needed section.
 		font-family:Microsoft YaHei!important;
 
 	}
+	#menu-content-demo:nth-child(1){
 
+		margin-left:-20px;
+	}
 
 	body{
 
 		font-family:Microsoft YaHei;
 	}
-
+	.DT-lf-right{
+		margin-right: 56px
+	}
+	    
+.modal-dialog{
+	width: 100%!important
+}
+.dataTables_info{
+	color:black!important;
+}
 	#line-schedule-modal .modal-dialog,#device-exchange-modal .modal-dialog,#device-people-modal .modal-dialog,#device-situation-modal .modal-dialog, #device-duty-modal .modal-dialog, #device-error-modal .modal-dialog{
 		    border: 10px solid rgba(134, 134, 134, 0.2);
 		    width: 70%
@@ -205,7 +217,7 @@ Use search to find needed section.
 				<div>
 					<div class="text-bg"><span class="text-slim">欢迎,</span> <span class="text-semibold">{{name}}</span></div>
 
-					<img src="demo/avatars/1.jpg" alt="" class="">
+		<!--			<img src="demo/avatars/1.jpg" alt="" class=""> -->
 					<div class="btn-group">
 						<a href="#" class="btn btn-xs btn-primary btn-outline dark"><i class="fa fa-envelope"></i></a>
 						<a href="#" class="btn btn-xs btn-primary btn-outline dark"><i class="fa fa-user"></i></a>
@@ -724,8 +736,9 @@ Use search to find needed section.
 									<table class="table table-bordered">
 										<thead>
 											<tr>
-												<th>序号</th>
 												<th>线别</th>
+												<th>里程</th>
+												<th>道口名称</th>
 												<th>所属车间</th>
 												<th>所属站段</th>
 												<th>所属铁路局</th>
@@ -738,8 +751,9 @@ Use search to find needed section.
 								  
 
 											<tr>
-												<td>{{item[0].id}}</td>
+												<td>{{item[0].roadbelong}}</td>
 												<td>{{item[0].lineName}}</td>
+												<td>{{item[0].roadname}}</td>
 												<td>{{item[0].roadowncar}}</td>
 												<td>{{item[0].roadownarea}}</td>
 												<td>{{item[0].roadTopManager}}</td>
@@ -1095,7 +1109,6 @@ Use search to find needed section.
 											<div class="col-sm-8">
 												<select class="form-control form-group-margin" id="usertype">
 													<option value="3">普通用户</option>
-													<option value="2">管理员</option>
 													<option value="1">超级管理员</option>
 												</select>
 											</div>
@@ -1365,7 +1378,6 @@ $(function(){
 
 
 		var val = $('#deviceid').val();
-
 		if(val.length!==15){
 			return
 		}
@@ -1397,6 +1409,7 @@ $(function(){
 	//查看详情
 
 	$document.delegate('.showDevice','click',function(){
+		var that =this;
 
 		var deviceid = $(this).attr('data-deviceid');
 		$('#deviceid').prop('disabled',true);
@@ -1422,6 +1435,9 @@ $(function(){
 					}
 
 				})
+
+				$('body').attr('data-roadname',$(that).parent('td').siblings().eq(0).text()+$(that).parent('td').siblings().eq(1).text());
+
 			},
 			error:function(){
 
@@ -1553,6 +1569,30 @@ $(function(){
 
 	})
 
+
+var language= {
+        processing:     "查询中...",
+        search:         "搜索：",
+        lengthMenu:    "每页 _MENU_ 条记录",
+        info:           "现在是第 _START_ 条到第 _END_ 条记录，总计 _TOTAL_ 条记录",
+        infoEmpty:      "未查询到任何记录",
+        infoFiltered:   "(总计 _MAX_ 条记录)",
+        infoPostFix:    "",
+        loadingRecords: "加载中...",
+        zeroRecords:    "没有任何记录",
+        emptyTable:     "没有任何记录",
+        paginate: {
+            first:      "首页",
+            previous:   "上一页",
+            next:       "下一页",
+            last:       "尾页"
+        },
+        aria: {
+            sortAscending:  ": 升序排列",
+            sortDescending: ": 降序排列"
+        }
+}
+
 	var dutyTable;
 
 	//展示当班信息
@@ -1570,10 +1610,10 @@ $(function(){
 			success: function(res) {
 
 				var html = '';
-
+				var length = res.length;
 				res.forEach(function(d,i){
 
-				html += '<tr><td>'+d.id+'</td><td>'+d.data+'</td><td>'+d.num+'</td><td>'+d.train+'</td><td>'+d.t0+'</td><td>'+d.m0+'</td><td>'+d.m1+'</td><td>'+d.m2+'</td><td>'+d.t1+'</td><td>'+d.t2+'</td><td>'+d.rem0+'</td><td>'+d.dir+'</td><td>'+d.way+'</td><td>'+d.t3+'</td><td>'+d.t4+'</td><td>'+d.rem1+'</td></tr>';
+				html += '<tr><td>'+(length-i)+'</td><td>'+d.data+'</td><td>'+d.num+'</td><td>'+d.train+'</td><td>'+d.t0+'</td><td>'+d.m0+'</td><td>'+d.m1+'</td><td>'+d.m2+'</td><td>'+d.t1+'</td><td>'+d.t2+'</td><td>'+d.rem0+'</td><td>'+d.dir+'</td><td>'+d.way+'</td><td>'+d.t3+'</td><td>'+d.t4+'</td><td>'+d.rem1+'</td></tr>';
 
 				})
 
@@ -1589,12 +1629,15 @@ $(function(){
 				}
 
 				$('#dutyList').html(html);				
-					dutyTable = $('#dutyList_table').dataTable();
+					dutyTable = $('#dutyList_table').dataTable({
+					  "ordering": false,
+					  language:language
+					});
 				
 				
 				$('#dutyList_table_wrapper .table-caption').text('');
-				$('#dutyList_table_wrapper .dataTables_filter input').attr('placeholder', 'Search...');
-
+				$('#dutyList_table_wrapper .dataTables_filter input').attr('placeholder', '请输入任意关键字');
+				$('#device-duty-modal .modal-title').text($('body').attr('data-roadname'));
 
 			},
 			error:function(){
@@ -1619,7 +1662,7 @@ $(function(){
 				deviceId:deviceid,
 			},
 			success: function(res) {
-				console.log(res)
+				//console.log(res)
 
 
 				var html = '';
@@ -1627,10 +1670,9 @@ $(function(){
 				if(exchangeTable){
 					exchangeTable.destroy();
 				}
-
+				var length = res.length;
 				res.forEach(function(d,i){
-
-				html += '<tr><td>'+d.id+'</td><td>'+d.data+'</td><td>'+d.shift0+'</td><td>'+d.shift1+'</td><td>'+d.weather+'</td><td>'+d.safe0+'</td><td>'+d.safe1+'</td><td>'+d.safe2+'</td><td>'+d.safe3+'</td><td>'+d.safe4+'</td><td>'+d.safe5+'</td></tr>';
+				html += '<tr><td>'+(length-i)+'</td><td>'+d.data+'</td><td>'+d.shift0+'</td><td>'+d.shift1+'</td><td>'+d.weather+'</td><td>'+d.safe0+'</td><td>'+d.safe1+'</td><td>'+d.safe2+'</td><td>'+d.safe3+'</td><td>'+d.safe4+'</td><td>'+d.safe5+'</td></tr>';
 
 				})
 
@@ -1643,11 +1685,15 @@ $(function(){
 
 				$('#exchangeList').html(html);
 
-				exchangeTable = $('#exchangeList_table').dataTable();
+				exchangeTable = $('#exchangeList_table').dataTable({
+					  "ordering": false,
+					  language:language
+					});
+
 
 				$('#exchangeList_table_wrapper .table-caption').text('');
-				$('#exchangeList_table_wrapper .dataTables_filter input').attr('placeholder', 'Search...');
-			
+				$('#exchangeList_table_wrapper .dataTables_filter input').attr('placeholder', '请输入任意关键字');	
+				$('#device-exchange-modal .modal-title').text($('body').attr('data-roadname'));
 			},
 			error:function(){
 
@@ -1671,7 +1717,7 @@ var errorListTable;
 				deviceId:deviceid,
 			},
 			success: function(res) {
-				console.log(res)
+				//console.log(res)
 
 
 				var html = '';
@@ -1679,7 +1725,7 @@ var errorListTable;
 				
 				res.forEach(function(d,i){
 
-				html += '<tr><td>'+d.id+'</td><td>'+d.time+'</td><td>'+d.con+'</td></tr>';
+				html += '<tr><td>'+(length-i)+'</td><td>'+d.time+'</td><td>'+d.con+'</td></tr>';
 
 				})
 
@@ -1691,11 +1737,13 @@ var errorListTable;
 
 				$('#errorList').html(html)
 
-				errorListTable = $('#errorList_table').dataTable();
+				errorListTable = $('#errorList_table').dataTable({
+					  "ordering": false,
+					  language:language
+					});
 				$('#errorList_table_wrapper .table-caption').text('');
-				$('#errorList_table_wrapper .dataTables_filter input').attr('placeholder', 'Search...');
-			
-
+				$('#errorList_table_wrapper .dataTables_filter input').attr('placeholder', '请输入任意关键字');	
+				$('#device-error-modal .modal-title').text($('body').attr('data-roadname'));
 			},
 			error:function(){
 
@@ -1719,15 +1767,16 @@ var situationListTable;
 				deviceId:deviceid,
 			},
 			success: function(res) {
-				console.log(res)
+				//console.log(res)
 
 
 				var html = '';
 
-				
+				var length = res.length;
+
 				res.forEach(function(d,i){
 
-				html += '<tr><td>'+d.id+'</td><td>'+d.equ+'</td><td>'+d.data0+'</td><td>'+d.num0+'</td><td>'+d.ele+'</td><td>'+d.data1+'</td><td>'+d.num1+'</td></tr>';
+				html += '<tr><td>'+(length-i)+'</td><td>'+d.equ+'</td><td>'+d.data0+'</td><td>'+d.num0+'</td><td>'+d.ele+'</td><td>'+d.data1+'</td><td>'+d.num1+'</td></tr>';
 
 				})
 
@@ -1738,14 +1787,17 @@ var situationListTable;
 
 				$('#situationList').html(html)
 
-				situationListTable = $('#situationList_table').dataTable();
+				situationListTable = $('#situationList_table').dataTable({
+					  "ordering": false,
+					  language:language
+					});
 				$('#situationList_table_wrapper .table-caption').text('');
-				$('#situationList_table_wrapper .dataTables_filter input').attr('placeholder', 'Search...');
-
+				$('#situationList_table_wrapper .dataTables_filter input').attr('placeholder', '请输入任意关键字');
+				$('#device-situation-modal .modal-title').text($('body').attr('data-roadname'));
 			},
 			error:function(){
 
-				alert('添加失败')
+				alert('获取失败')
 			}
 		});
 

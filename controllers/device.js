@@ -32,7 +32,7 @@ exports.parseCode = function *(next){
 	console.log(t1,t2,t3,t4)
 	try{
 
-		t1Name = yield dao.findAreaCode(1,t1);
+		t1Name = yield dao.findAreaCode(1,t1,'');
 		t1Name = t1Name[0]['name'];
 	}catch(e){
 
@@ -41,7 +41,7 @@ exports.parseCode = function *(next){
 
 	try{
 
-		t2Name = yield dao.findAreaCode(2,t2);
+		t2Name = yield dao.findAreaCode(2,t2,t1);
 		t2Name = t2Name[0]['name'];
 	}catch(e){
 
@@ -50,7 +50,7 @@ exports.parseCode = function *(next){
 
 	try{
 
-		t3Name = yield dao.findAreaCode(3,t3);
+		t3Name = yield dao.findAreaCode(3,t3,t2);
 		t3Name = t3Name[0]['name'];
 	}catch(e){
 
@@ -58,7 +58,7 @@ exports.parseCode = function *(next){
 	}
 	try{
 
-		t4Name = yield dao.findAreaCode(4,t4);
+		t4Name = yield dao.findAreaCode(4,t4,t3);
 		t4Name = t4Name[0]['name'];
 	}catch(e){
 

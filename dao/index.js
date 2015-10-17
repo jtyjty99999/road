@@ -210,11 +210,11 @@ exports.addAreaCode = function (obj, callback) {
  */
 var FIND_ID_CODE_SQL = multiline(function (){/*
   select * from
-    monitor_place_code where type = ? and code = ?
+    monitor_place_code where type = ? and code = ? and parent_code = ?
 */});
-exports.findAreaCode = function (type,code, callback) {
+exports.findAreaCode = function (type,code,parent_code, callback) {
 
-  var values = [type,code];
+  var values = [type,code,parent_code];
   mysql.query(FIND_ID_CODE_SQL, values, function(err, result) {
 
     if (err) {
@@ -357,7 +357,7 @@ exports.insertDutyInfo = function (dutyInfo, callback) {
  */
 var SELECT_DEVICE_DUTY_SQL = multiline(function (){/*
   Select * from
-    monitor_duty_info where deviceid = ?
+    monitor_duty_info where deviceid = ? order by id desc
 */});
 exports.showDutyInfo = function (device_id, callback) {
 
@@ -410,7 +410,7 @@ exports.insertExchangeInfo = function (dutyInfo, callback) {
  */
 var SELECT_DEVICE_EXCHANGE_SQL = multiline(function (){/*
   Select * from
-    monitor_exchange_info where deviceid = ?
+    monitor_exchange_info where deviceid = ? order by id desc
 */});
 exports.showExchangeInfo = function (device_id, callback) {
 
@@ -459,7 +459,7 @@ exports.insertErrorInfo = function (dutyInfo, callback) {
  */
 var SELECT_DEVICE_ERROR_SQL = multiline(function (){/*
   Select * from
-    monitor_error_info where deviceid = ?
+    monitor_error_info where deviceid = ? order by id desc
 */});
 exports.showErrorInfo = function (device_id, callback) {
 
@@ -507,7 +507,7 @@ exports.insertSituationInfo = function (dutyInfo, callback) {
  */
 var SELECT_DEVICE_SITUATION_SQL = multiline(function (){/*
   Select * from
-    monitor_situation_info where deviceid = ?
+    monitor_situation_info where deviceid = ? order by id desc
 */});
 exports.showSituationInfo = function (device_id, callback) {
 
