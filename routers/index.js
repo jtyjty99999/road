@@ -15,6 +15,7 @@ var aa = controllers.aa;
 
 function routes(app) {
   app.get('/protocol', data.log);
+  app.get('/',page.index);
   app.get('/index',page.index);
   app.get('/login',page.login);
   app.get('/logout',page.logout);
