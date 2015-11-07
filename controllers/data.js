@@ -49,6 +49,40 @@ function gbkdecodeURIComponent(s){
 		return result 
 }
 
+var cache = {};
+
+function findFromCache(cac,record,deviceid,seq){
+
+
+	if(!cac.deviceid){
+
+		cac.deviceid = {};
+	}
+
+
+	if(!cac.deviceid.record){
+
+		cac.deviceid.record = {};
+	}
+
+	if(!cac.deviceid.record.seq){
+
+		cac.deviceid.record.seq =seq;
+	}
+
+
+	if(cac.deviceid.record.seq == seq){
+
+		return 0
+	}
+
+	cac.deviceid.record.seq = seq;
+
+	return 1
+}
+
+
+
 var log = function *(next){
 
 	var s;
@@ -74,43 +108,83 @@ var log = function *(next){
 
 		if(query.Record=='Operation'){
 
-			try{
-				yield dao.insertDutyInfo(query);
-				console.log('insert Duty Info from:'+query.Name)
-			}catch(e){
+			if(findFromCache(cache,'Operation',query.deviceid,query.Seq)){
 
-				console.log(e)
+				try{
+					yield dao.insertDutyInfo(query);
+					console.log('insert Duty Info from:'+query.Name)
+				}catch(e){
+
+					console.log(e)
+				}
+
+
+			}else{
+
+				console.log('dumplacated!');
 			}
+
+
 			
 		}else if(query.Record=='Shift'){
 
-			try{
-				yield dao.insertExchangeInfo(query);
-				console.log('insert Exchange Info from:'+query.Name)
-			}catch(e){
+			if(findFromCache(cache,'Shift',query.deviceid,query.Seq)){
 
-				console.log(e)
+				try{
+					yield dao.insertExchangeInfo(query);
+					console.log('insert Exchange Info from:'+query.Name)
+				}catch(e){
+
+					console.log(e)
+				}
+
+
+			}else{
+
+				console.log('dumplacated!');
 			}
+
+
+
+
 
 		}else if(query.Record=='Alarm'){
 
-			try{
-				yield dao.insertErrorInfo(query);
-				console.log('insert Error Info from:'+query.Name)
-			}catch(e){
+			if(findFromCache(cache,'Alarm',query.deviceid,query.Seq)){
 
-				console.log(e)
+				try{
+					yield dao.insertErrorInfo(query);
+					console.log('insert Error Info from:'+query.Name)
+				}catch(e){
+
+					console.log(e)
+				}
+
+			}else{
+
+				console.log('dumplacated!');
 			}
+
+
 
 		}else if(query.Record=='Repair'){
 
-			try{
-				yield dao.insertSituationInfo(query);
-				console.log('insert Situation Info from:'+query.Name)
-			}catch(e){
+			if(findFromCache(cache,'Repair',query.deviceid,query.Seq)){
 
-				console.log(e)
+				try{
+					yield dao.insertSituationInfo(query);
+					console.log('insert Situation Info from:'+query.Name)
+				}catch(e){
+
+					console.log(e)
+				}
+
+			}else{
+
+				console.log('dumplacated!');
 			}
+
+
 
 		}else if(query.Record=='Heart'){
 			//处理心跳请求
@@ -171,7 +245,7 @@ var log = function *(next){
 
 					try{
 
-						resultCache = yield dao.deleteTimeTable({
+						resultCache = yield dao.selectTimeTable({
 									deviceid:query.Name
 							});			
 
@@ -185,7 +259,7 @@ var log = function *(next){
 
 								i='0'+i;
 							}
-							finalString+=',Train'+i+'='+d.train_count+'-'+d.train_time;
+							finalString+=',T'+i+'='+d.train_count+'-'+d.train_time;
 						});
 
 						console.log('Name='+query.Name+',Record='+query.Record+',Para=05'+finalString+',Code='+id)

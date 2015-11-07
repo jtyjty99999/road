@@ -302,13 +302,13 @@ Use search to find needed section.
 																										<div class="col-sm-5">
 																											<div class="form-group no-margin-hr">
 																												<label class="control-label">车次</label>
-																												<input type="text" name="dutyUserName" id="dutyUserName" class="form-control">
+																												<input type="text" name="train_count" id="train_count" class="form-control">
 																											</div>
 																										</div><!-- col-sm-6 -->
 																										<div class="col-sm-5">
 																											<div class="form-group no-margin-hr">
 																												<label class="control-label">通过时刻</label>
-																												<input type="text" name="dutyUserNumber" id="dutyUserNumber" class="form-control">
+																												<input type="text" name="train_time" id="train_time" class="form-control">
 																											</div>
 																										</div><!-- col-sm-6 -->
 																										<div class="col-sm-2">
@@ -347,13 +347,13 @@ Use search to find needed section.
 																										<div class="col-sm-5">
 																											<div class="form-group no-margin-hr">
 																												<label class="control-label">车次</label>
-																												<input type="text" name="dutyUserName" id="dutyUserName" class="form-control">
+																												<input type="text" name="train_count" id="train_count" class="form-control">
 																											</div>
 																										</div><!-- col-sm-6 -->
 																										<div class="col-sm-5">
 																											<div class="form-group no-margin-hr">
 																												<label class="control-label">通过时刻</label>
-																												<input type="text" name="dutyUserNumber" id="dutyUserNumber" class="form-control">
+																												<input type="text" name="train_time" id="train_time" class="form-control">
 																											</div>
 																										</div><!-- col-sm-6 -->
 																										<div class="col-sm-2">
@@ -1937,12 +1937,12 @@ var situationListTable;
 
 					if(d.type=='up'){
 
-						uphtml += '<tr><td>'+d.number+'</td><td>'+d.name+'</td><td>'+'<button data-timeid='+d.id+' type = "button" class="btn btn-danger deleteTimeTabelButton">删除</button>'+'</td></tr>';
+						uphtml += '<tr><td>'+d.train_count+'</td><td>'+d.train_time+'</td><td>'+'<button data-timeid='+d.id+' type = "button" class="btn btn-danger deleteTimeTabelButton">删除</button>'+'</td></tr>';
 
 
 					}else{
 
-						downhtml += '<tr><td>'+d.number+'</td><td>'+d.name+'</td><td>'+'<button data-timeid='+d.id+' type = "button" class="btn btn-danger deleteTimeTabelButton">删除</button>'+'</td></tr>';
+						downhtml += '<tr><td>'+d.train_count+'</td><td>'+d.train_time+'</td><td>'+'<button data-timeid='+d.id+' type = "button" class="btn btn-danger deleteTimeTabelButton">删除</button>'+'</td></tr>';
 
 					}
 
@@ -1976,13 +1976,16 @@ var situationListTable;
 		var deviceid = $('#device-id-instance').val();
 		var type = $(this).attr('data-type');		
 
+		var ppp = $(this).parent().parent().parent();
+
+		console.log()
 		$.ajax({
 			url: "/ajax/addTimeSchedule",
 			data:{
 
 				deviceId:deviceid,
-				name:$('#dutyUserName').val(),
-				number:$('#dutyUserNumber').val(),
+				train_time:ppp.find('#train_time').val(),
+				train_count:ppp.find('#train_count').val(),
 				type:type
 			},
 			success: function(data) {
@@ -2008,7 +2011,7 @@ var situationListTable;
 			url: "/ajax/deleteTimeSchedule",
 			data:{
 				id:id,
-				deviceid:deviceid
+				deviceId:deviceid
 			},
 			success: function(data) {
 				alert(data.msg);

@@ -369,6 +369,13 @@ exports.modifyDutyUser = function *(next){
 
 		});
 
+		var random = parseInt(Math.random()*1000);
+		yield dao.addOperation({
+			id:random,
+			type:'03',
+			deviceid:query.deviceid
+		})
+
 		this.body = {
 				code:200,msg:"修改成功"
 		}
@@ -388,7 +395,7 @@ exports.deleteDutyUser = function *(next){
 	try{
 
 		yield dao.deleteDutyUser(query.id);
-		console.log(query)
+
 		var random = parseInt(Math.random()*1000);
 		yield dao.addOperation({
 			id:random,
@@ -442,9 +449,15 @@ exports.addTimeSchedule = function *(next){
 		yield dao.addTimeTable({
 			train_time:query.train_time,
 			train_count:query.train_count,
-			deviceid:query.deviceId
-
+			deviceid:query.deviceId,
+			type:query.type
 		});
+		var random = parseInt(Math.random()*1000);
+		yield dao.addOperation({
+			id:random,
+			type:'05',
+			deviceid:query.deviceId
+		})
 
 		this.body = {
 				code:200,msg:"添加成功"
@@ -467,7 +480,12 @@ exports.deleteTimeSchedule = function *(next){
 	try{
 
 		yield dao.deleteTimeTable(query.id);
-
+		var random = parseInt(Math.random()*1000);
+		yield dao.addOperation({
+			id:random,
+			type:'05',
+			deviceid:query.deviceId
+		})
 		this.body = {
 				code:200,msg:"删除成功"
 		}
@@ -489,10 +507,15 @@ exports.modifyTimeSchedule = function *(next){
 		yield dao.modifyTimeTable({
 			train_time:query.train_time,
 			train_count:query.train_count,
-			id:query.id
-
+			id:query.id,
+			type:query.type
 		});
-
+		var random = parseInt(Math.random()*1000);
+		yield dao.addOperation({
+			id:random,
+			type:'05',
+			deviceid:query.deviceId
+		})
 		this.body = {
 				code:200,msg:"修改成功"
 		}
