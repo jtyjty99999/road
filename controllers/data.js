@@ -55,7 +55,6 @@ function findFromCache(cac,record,deviceid,seq){
 
 
 	if(!cac.deviceid){
-
 		cac.deviceid = {};
 	}
 
@@ -65,19 +64,12 @@ function findFromCache(cac,record,deviceid,seq){
 		cac.deviceid.record = {};
 	}
 
-	if(!cac.deviceid.record.seq){
-
-		cac.deviceid.record.seq =seq;
-	}
-
-
-	if(cac.deviceid.record.seq == seq){
+	if(cac.deviceid.record.seq&&cac.deviceid.record.seq === seq){
 
 		return 0
 	}
-
-	cac.deviceid.record.seq = seq;
-
+	cac.deviceid.record.seq =seq;
+	
 	return 1
 }
 
@@ -187,12 +179,87 @@ var log = function *(next){
 
 
 		}else if(query.Record=='Heart'){
+
+			//多数量计数
+			var countsByCount = 10;
+
 			//处理心跳请求
 			var operation,finalString='',type,id,resultCache;
 
 			if(query.Code){ //判断成功后才删除此操作
 
-				yield dao.deleteOperation(query.Code);
+				console.log(query.Code,query.Count,query.Count&&query.Count!=='0');
+				if(query.Count&&query.Count!=='0'){
+
+
+					if(query.Para=='05'){
+
+						//去数据库搜出来数据发回去
+						resultCache = yield dao.findTimeTableByCount({
+							deviceid:query.Name,
+							s:(Number(query.Count)-1)*countsByCount,
+							e:Number(query.Count)*countsByCount,
+						});
+
+						//i要对应加上count*+i
+							resultCache.forEach(function(d,i){
+								i = countsByCount*(query.Count-1)+i;
+
+								if(i<10){
+
+									i='00'+i;
+
+								}else if(i<99){
+
+									i='0'+i;
+								}
+								finalString+=',T'+i+'='+d.train_count+'-'+d.train_time;
+							});
+						this.body =iconv.encode('Name='+query.Name+',Record='+query.Record+',Para=05,Code='+query.Code+',Count='+query.Count+finalString,'gbk');
+
+					}else if(query.Para=='01'){
+
+
+						//先搜哪一条
+
+						//再搜信息
+
+						//去数据库搜出来数据发回去
+						/*
+						resultCache = yield dao.findMsgByCount({
+							deviceid:query.Name,
+							s:(Number(query.Count)-1)*countsByCount,
+							e:Number(query.Count)*countsByCount,
+						});*/
+
+						//i要对应加上count*+i
+						/*
+							resultCache.forEach(function(d,i){
+								i = countsByCount*(query.Count-1)+i;
+
+								if(i<10){
+
+									i='00'+i;
+
+								}else if(i<99){
+
+									i='0'+i;
+								}
+								finalString+=',T'+i+'='+d.train_count+'-'+d.train_time;
+							});
+						this.body =iconv.encode('Name='+query.Name+',Record='+query.Record+',Para=05,Code='+query.Code+',Count='+query.Count+finalString,'gbk');
+*/
+
+					}
+
+					return;
+
+				}else{
+
+					yield dao.deleteOperation(query.Code,query.Name);
+				}
+
+
 			}
 
 			try{
@@ -227,9 +294,9 @@ var log = function *(next){
 							}
 							finalString+=',Num'+i+'='+d.number+'-'+d.name;
 						});
-
-						console.log(this.body = 'Name='+query.Name+',Record='+query.Record+',Para=03,code='+id+finalString)
-						this.body = 'Name='+query.Name+',Record='+query.Record+',Para=03,code='+id+finalString;
+						//console.log(this.body = 'Name='+query.Name+',Record='+query.Record+',Para=03,code='+id+finalString)
+						console.log(finalString);
+						this.body = iconv.encode('Name='+query.Name+',Record='+query.Record+',Para=03,Code='+id+finalString,'gbk');
 						return
 
 					}catch(e){
@@ -248,23 +315,69 @@ var log = function *(next){
 						resultCache = yield dao.selectTimeTable({
 									deviceid:query.Name
 							});			
-
+						/*
 						resultCache.forEach(function(d,i){
 
-							if(i<10){
 
-								i='00'+i;
-
-							}else if(i<99){
-
-								i='0'+i;
-							}
 							finalString+=',T'+i+'='+d.train_count+'-'+d.train_time;
-						});
+						});*/
+						var count = Math.ceil(resultCache.length/countsByCount);
 
-						console.log('Name='+query.Name+',Record='+query.Record+',Para=05'+finalString+',Code='+id)
-						this.body = 'Name='+query.Name+',Record='+query.Record+',Para=05'+finalString+',Code='+id
+						if(count<10){
 
+							count='0'+count;
+
+						}
+						console.log('Name='+query.Name+',Record='+query.Record+',Para=05,Count='+count+',Code='+id)
+						this.body = iconv.encode('Name='+query.Name+',Record='+query.Record+',Para=05,Count='+count+',Code='+id,'gbk');
+						return
+					}catch(e){
+
+						console.log(e)
+					}
+
+
+				}else if(type=='01'){
+					var res;
+					//安全上行
+
+					try{
+
+						res = yield dao.selectUserDeviceInfo(query.Name);
+						
+						if(res[0].securityDay){
+
+							//自动给安全运行天加上当前时间
+							//每次提交时可以更新当前时间
+							if(res[0].securityDaySecond){
+
+								res[0].securityDaySecond+= parseInt((+ new Date()-(+new Date(res[0].securityDay)))/1000/24/3600);
+
+							}else{
+
+								res[0].securityDaySecond = 0;
+							}
+							if(res.securityDayFirst){
+
+								res[0].securityDayFirst+= parseInt((+ new Date()-(+new Date(res[0].securityDay)))/1000/24/3600);
+
+							}else{
+
+								res[0].securityDayFirst = 0;
+							}
+							if(res.securityDayThird){
+
+								res[0].securityDayThird+= parseInt((+ new Date()-(+new Date(res[0].securityDay)))/1000/24/3600);
+
+							}else{
+
+								res[0].securityDayThird = 0;
+							}
+
+						}
+						console.log('Name='+query.Name+',Record='+query.Record+',Para=01,Data0='+ res[0].securityDayFirst +',Data1='+res[0].securityDaySecond +',Data2='+res[0].securityDayThird +',Code='+id);
+						this.body = iconv.encode('Name='+query.Name+',Record='+query.Record+',Para=01,Data0='+ res[0].securityDayFirst +',Data1='+res[0].securityDaySecond +',Data2='+res[0].securityDayThird +',Code='+id,'gbk');
+						return
 					}catch(e){
 
 						console.log(e)

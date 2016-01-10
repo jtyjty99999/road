@@ -69,6 +69,9 @@ app.get('/ajax/showExchangeInfo',device.showExchangeInfo);//交接班信息
 app.get('/ajax/showSituationInfo',device.showSituationInfo);//设备状况
 app.get('/ajax/showErrorInfo',device.showErrorInfo);//设备违规信息
 
+app.get('/ajax/down',device.downByUser);//信息下发
+app.get('/ajax/downMsg',device.downMsg);//信息下发
+
 }
 
 module.exports = routes;

@@ -13,6 +13,7 @@
  */
 var querystring = require('querystring');
 var dao = require('../dao/index');
+var moment = require('moment');
 
 
 
@@ -126,6 +127,50 @@ exports.addAreaCode = function *(next){
 }
 
 
+exports.showDeviceInfo = function *(next){
+
+	var request = this.request,query = this.request.query,qs  =this.request.querystring;
+
+
+	var deviceId = this.query.deviceid;
+
+	var res;
+
+	try{
+
+		res = yield dao.selectUserDeviceInfo(deviceId);
+		if(res[0].securityDay){
+
+			//自动给安全运行天加上当前时间
+			//每次提交时可以更新当前时间
+			if(res[0].securityDaySecond){
+
+				res[0].securityDaySecond+= parseInt((+ new Date()-(+new Date(res[0].securityDay)))/1000/24/3600);
+
+			}
+			if(res.securityDayFirst){
+
+				res[0].securityDayFirst+= parseInt((+ new Date()-(+new Date(res[0].securityDay)))/1000/24/3600);
+
+			}
+			if(res.securityDayThird){
+
+				res[0].securityDayThird+= parseInt((+ new Date()-(+new Date(res[0].securityDay)))/1000/24/3600);
+
+			}
+
+		}
+
+		this.body = {code:200,data:res}
+	}
+
+	catch(e){
+		console.log(e);
+		this.body ={code:500,msg:"获取信息失败"};
+
+	}	
+
+}
 
 exports.addDevice = function *(next){
 
@@ -136,6 +181,9 @@ exports.addDevice = function *(next){
 
 	var res1;
 
+	query.securityDaySecond = parseInt(query.securityDaySecond);
+	query.securityDayFirst = parseInt(query.securityDayFirst);
+	query.securityDayThird = parseInt(query.securityDayThird);
 
 	try{
 
@@ -153,7 +201,6 @@ exports.addDevice = function *(next){
 	if(res1.length==0){
 
 		try{
-
 			yield dao.addDevice(query);
 
 /*admin自动关联*/
@@ -180,12 +227,22 @@ exports.addDevice = function *(next){
 		try{
 
 			yield dao.modifyDevice(query);
+
+			var random = parseInt(Math.random()*1000);
+			
+			yield dao.addOperation({
+				id:pad(random,4),
+				type:'01',
+				deviceid:query.deviceid
+			})
+
 			this.body = {
 				code:200,msg:"修改成功"
 			}
-		}
 
-		catch(e){
+
+
+		}catch(e){
 			console.log(e);
 			this.body ={code:500,msg:"添加失败"};
 
@@ -194,6 +251,37 @@ exports.addDevice = function *(next){
 	}
 
 
+
+}
+
+exports.downMsg = function *(next){
+
+	var request = this.request,query = this.request.query,qs  =this.request.querystring;
+
+	var ids = query.ids;
+
+		try{
+			console.log(ids);
+
+			//yield dao.insertMsgInfo(query);
+
+			//var random = parseInt(Math.random()*1000);
+			/*
+			yield dao.addOperation({
+				id:pad(random,4),
+				type:'02',
+				deviceid:query.deviceid
+			})*/
+
+			this.body = {
+				code:200,msg:"上报成功"
+			}
+
+		}catch(e){
+			console.log(e);
+			this.body ={code:500,msg:"上报失败"};
+
+		}
 
 }
 
@@ -321,7 +409,37 @@ exports.addUser = function *(next){
 
 
 }
+function pad(num, n) { 
+	return (Array(n).join(0) + num).slice(-n); 
+} 
 
+exports.downByUser = function*(next){
+
+		var request = this.request,query = this.request.query,qs  =this.request.querystring;
+
+		var random = parseInt(Math.random()*1000);
+		try{
+
+			yield dao.addOperation({
+				id:pad(random,4),
+				type:query.type,
+				deviceid:query.deviceId
+			})
+			this.body = {
+				code:200,msg:"下发成功"
+			}
+		}catch(e){
+
+			this.body = {
+				code:500,msg:"下发失败"
+			}
+
+		}
+
+
+
+
+}
 exports.addDutyUser = function *(next){
 
 	var request = this.request,query = this.request.query,qs  =this.request.querystring;
@@ -334,14 +452,14 @@ exports.addDutyUser = function *(next){
 			deviceid:query.deviceId
 
 		});
-
+		/*
 		var random = parseInt(Math.random()*1000);
 		yield dao.addOperation({
-			id:random,
+			id:pad(random,4),
 			type:'03',
 			deviceid:query.deviceId
 		})
-
+*/
 		this.body = {
 				code:200,msg:"添加成功"
 		}
@@ -368,14 +486,14 @@ exports.modifyDutyUser = function *(next){
 			id:query.id
 
 		});
-
+/*
 		var random = parseInt(Math.random()*1000);
 		yield dao.addOperation({
-			id:random,
+			id:pad(random,4),
 			type:'03',
 			deviceid:query.deviceid
 		})
-
+*/
 		this.body = {
 				code:200,msg:"修改成功"
 		}
@@ -395,14 +513,14 @@ exports.deleteDutyUser = function *(next){
 	try{
 
 		yield dao.deleteDutyUser(query.id);
-
+/*
 		var random = parseInt(Math.random()*1000);
 		yield dao.addOperation({
-			id:random,
+			id:pad(random,4),
 			type:'03',
 			deviceid:query.deviceid
 		})
-
+*/
 		this.body = {
 				code:200,msg:"删除成功"
 		}
@@ -452,12 +570,13 @@ exports.addTimeSchedule = function *(next){
 			deviceid:query.deviceId,
 			type:query.type
 		});
+		/*
 		var random = parseInt(Math.random()*1000);
 		yield dao.addOperation({
-			id:random,
+			id:pad(random,4),
 			type:'05',
 			deviceid:query.deviceId
-		})
+		})*/
 
 		this.body = {
 				code:200,msg:"添加成功"
@@ -480,12 +599,13 @@ exports.deleteTimeSchedule = function *(next){
 	try{
 
 		yield dao.deleteTimeTable(query.id);
+		/*
 		var random = parseInt(Math.random()*1000);
 		yield dao.addOperation({
-			id:random,
+			id:pad(random,4),
 			type:'05',
 			deviceid:query.deviceId
-		})
+		})*/
 		this.body = {
 				code:200,msg:"删除成功"
 		}
@@ -510,12 +630,13 @@ exports.modifyTimeSchedule = function *(next){
 			id:query.id,
 			type:query.type
 		});
+		/*
 		var random = parseInt(Math.random()*1000);
 		yield dao.addOperation({
-			id:random,
+			id:pad(random,4),
 			type:'05',
 			deviceid:query.deviceId
-		})
+		})*/
 		this.body = {
 				code:200,msg:"修改成功"
 		}
@@ -599,26 +720,3 @@ exports.showErrorInfo = function *(next){
 	this.body =res;
 }
 
-exports.showDeviceInfo = function *(next){
-
-	var request = this.request,query = this.request.query,qs  =this.request.querystring;
-
-
-	var deviceId = this.query.deviceid;
-
-	var res;
-
-	try{
-
-		res = yield dao.selectUserDeviceInfo(deviceId);
-
-		this.body = {code:200,data:res}
-	}
-
-	catch(e){
-		console.log(e);
-		this.body ={code:500,msg:"获取信息失败"};
-
-	}	
-
-}

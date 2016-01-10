@@ -22,16 +22,15 @@ var DEVICE_ADD_SQL = multiline(function (){/*
     monitor_device(id, create_time, update_time, user_id, deviceid,
       roadTopManager, roadTopManagerCode, roadname, roadbelongCode, roadmiles, roadfromto,roadcount,roadupsituation,
       roaddownsituation,roadleftsituationup,roadleftsituationdown,roadowncarCode,roadownareaCode,
-      roadwidth,roadlineleft,roadlineright,roadcity,roadcountry,roadtraffic,roadtype,roadbelong,roadowncar,roadownarea)
-  VALUES(NULL, now(), now(), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?,?)
+      roadwidth,roadlineleft,roadlineright,roadcity,roadcountry,roadtraffic,roadtype,roadbelong,roadowncar,roadownarea,securityDayFirst,securityDaySecond,securityDayThird,securityDay)
+  VALUES(NULL, now(), now(), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?,?,?,?,?,?)
 */});
 exports.addDevice = function (device, callback) {
   assert(typeof device === 'object');
-
   var values = [device.user_id, device.deviceid,
       device.roadTopManager, device.roadTopManagerCode, device.roadname, device.roadbelongCode, device.roadmiles, device.roadfromto,device.roadcount,device.roadupsituation,
       device.roaddownsituation,device.roadleftsituationup,device.roadleftsituationdown,device.roadowncarCode,device.roadownareaCode,device.roadwidth,device.roadlineleft,
-      device.roadlineright,device.roadcity,device.roadcountry,device.roadtraffic,device.roadtype,device.roadbelong,device.roadowncar,device.roadownarea];
+      device.roadlineright,device.roadcity,device.roadcountry,device.roadtraffic,device.roadtype,device.roadbelong,device.roadowncar,device.roadownarea,device.securityDayFirst,device.securityDaySecond,device.securityDayThird,device.securityDay];
   mysql.query(DEVICE_ADD_SQL, values, function(err, result) {
     if (err) {
       callback(err);
@@ -51,15 +50,14 @@ var DEVICE_MODIFY_SQL = multiline(function (){/*
   UPDATE
     monitor_device set update_time = now(), roadTopManager = ?, roadTopManagerCode=?, roadname=?, roadbelongCode=?, roadmiles=?, roadfromto=?,
     roadcount=?,roadupsituation=?,roaddownsituation=?,roadleftsituationup=?,roadleftsituationdown=?,roadowncarCode=?,roadownareaCode=?,
-      roadwidth=?,roadlineleft=?,roadlineright=?,roadcity=?,roadcountry=?,roadtraffic=?,roadtype=?,roadbelong=?,roadowncar=?,roadownarea=? where deviceid = ?
+      roadwidth=?,roadlineleft=?,roadlineright=?,roadcity=?,roadcountry=?,roadtraffic=?,roadtype=?,roadbelong=?,roadowncar=?,roadownarea=?,securityDayFirst=?,securityDaySecond=?,securityDayThird=?,securityDay=? where deviceid = ?
 */});
 exports.modifyDevice = function (device, callback) {
   assert(typeof device === 'object');
-
   var values = [
       device.roadTopManager, device.roadTopManagerCode, device.roadname, device.roadbelongCode, device.roadmiles, device.roadfromto,device.roadcount,device.roadupsituation,
       device.roaddownsituation,device.roadleftsituationup,device.roadleftsituationdown,device.roadowncarCode,device.roadownareaCode,device.roadwidth,device.roadlineleft,
-      device.roadlineright,device.roadcity,device.roadcountry,device.roadtraffic,device.roadtype,device.roadbelong,device.roadowncar,device.roadownarea,device.deviceid];
+      device.roadlineright,device.roadcity,device.roadcountry,device.roadtraffic,device.roadtype,device.roadbelong,device.roadowncar,device.roadownarea,device.securityDayFirst,device.securityDaySecond,device.securityDayThird,device.securityDay,device.deviceid];
 
   mysql.query(DEVICE_MODIFY_SQL, values, function(err, result) {
     if (err) {
@@ -601,6 +599,34 @@ exports.selectTimeTable = function (timetable, callback) {
 
 
 /**
+ * 按数量查找列车时刻
+ *
+ * @param {String} deviceid
+ * @return {Number} id
+ */
+var TIMETABLE_COUNT_SELETE_SQL = multiline(function (){/*
+  SELECT * from
+    monitor_line_timetable where deviceid= ? limit ?,?
+*/});
+exports.findTimeTableByCount = function (timetable, callback) {
+  assert(typeof timetable === 'object');
+
+  var values = [timetable.deviceid,timetable.s,timetable.e];
+  mysql.query(TIMETABLE_COUNT_SELETE_SQL, values, function(err, result) {
+    if (err) {
+      callback(err);
+    } else {
+      console.log(TIMETABLE_COUNT_SELETE_SQL);
+      console.log(result);
+      console.log(values);
+      callback(null, result);
+    }
+  });
+};
+
+
+
+/**
  * 删除一个时刻
  *
  * @param {Object} id
@@ -734,11 +760,11 @@ exports.deleteDutyUser = function (id, callback) {
  */
 var DELETE_OPERATION_SQL = multiline(function (){/*
   delete from
-    monitor_operation where id = ?
+    monitor_operation where id = ? and deviceid=?
 */});
-exports.deleteOperation = function (id, callback) {
+exports.deleteOperation = function (id,name, callback) {
 
-  var values = [id];
+  var values = [id,name];
 
   mysql.query(DELETE_OPERATION_SQL, values, function(err, result) {
     if (err) {
@@ -760,9 +786,9 @@ exports.deleteOperation = function (id, callback) {
  */
 var OPERATION_ADD_SQL = multiline(function (){/*
   INSERT INTO
-    monitor_operation(id, create_time, update_time, deviceid,
+    monitor_operation(id2,id, create_time, update_time, deviceid,
       type)
-  VALUES(?, now(), now(), ?, ?)
+  VALUES(null,?, now(), now(), ?, ?)
 */});
 exports.addOperation= function (operation, callback) {
   assert(typeof operation === 'object');

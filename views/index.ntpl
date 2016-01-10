@@ -265,6 +265,7 @@ Use search to find needed section.
 				<div class="panel">
 					<div class="panel-heading">
 						<span class="panel-title">设备列表</span>
+						<button class="btn btn-primary" type="button" data-target="#down-msg-modal" data-toggle="modal">下发消息</button>
 					</div>
 					<div class="panel-body">
 
@@ -292,6 +293,7 @@ Use search to find needed section.
 																	<div class="modal-header">
 																		<button type="button" class="close" data-dismiss="modal">×</button>
 																		<h4 class="modal-title">列车时刻设置</h4>
+																			<button type="button" class="btn btn-primary" id="downTime">下发到设备</button>
 																	</div>
 																	<div class="modal-body">
 																		<table class="table table-bordered">
@@ -397,6 +399,7 @@ Use search to find needed section.
 																	<div class="modal-header">
 																		<button type="button" class="close" data-dismiss="modal">×</button>
 																		<h4 class="modal-title">人员管理</h4>
+																		<button type="button" class="btn btn-primary" id="downPeople">下发到设备</button>
 																		<form action="" class="panel form-horizontal">
 																			<div class="panel-body">
 																				<div class="row">
@@ -721,6 +724,31 @@ Use search to find needed section.
 														</div>
 													</div><!-- col-sm-6 -->
 												</div><!-- row -->	
+												<div class="row">
+													<div class="col-sm-12">
+														安全天
+													</div>
+												</div>
+												<div class="row">
+													<div class="col-sm-3">
+														<div class="form-group no-margin-hr">
+															<label class="control-label">路局</label>
+															<input readonly type="text" name="securityDayFirst" class="form-control">
+														</div>
+													</div><!-- col-sm-6 -->
+													<div class="col-sm-3">
+														<div class="form-group no-margin-hr">
+															<label class="control-label">本段</label>
+															<input readonly type="text" name="securityDaySecond" class="form-control">
+														</div>
+													</div><!-- col-sm-6 -->
+													<div class="col-sm-3">
+														<div class="form-group no-margin-hr">
+															<label class="control-label">道口</label>
+															<input readonly type="text" name="securityDayThird" class="form-control">
+														</div>
+													</div><!-- col-sm-6 -->
+												</div><!-- row -->	
 											</div>
 											<div class="panel-footer text-right">
 												<button class="btn btn-primary" type="button">确定</button>
@@ -968,6 +996,32 @@ Use search to find needed section.
 												</div>
 											</div><!-- col-sm-6 -->
 										</div><!-- row -->	
+										<div class="row">
+											<div class="col-sm-12">
+												安全天
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-sm-3">
+												<div class="form-group no-margin-hr">
+													<label class="control-label">路局</label>
+													<input type="text" name="securityDayFirst" class="form-control">
+												</div>
+											</div><!-- col-sm-6 -->
+											<div class="col-sm-3">
+												<div class="form-group no-margin-hr">
+													<label class="control-label">本段</label>
+													<input type="text" name="securityDaySecond" class="form-control">
+												</div>
+											</div><!-- col-sm-6 -->
+											<div class="col-sm-3">
+												<div class="form-group no-margin-hr">
+													<label class="control-label">道口</label>
+													<input type="text" name="securityDayThird" class="form-control">
+												</div>
+											</div><!-- col-sm-6 -->
+											<input type="hidden" name="securityDay" id="securityDay" class="form-control">
+										</div><!-- row -->	
 									</div>
 									<div class="panel-footer text-right">
 										<button class="btn btn-primary" type="button" id="addDeviceButton">确定</button>
@@ -1074,6 +1128,57 @@ Use search to find needed section.
 
 				To enable blurred background effect just add class .modal-blur to the .modal
 -->
+
+				<!-- Template -->
+				<div id="down-msg-modal" class="modal fade modal-blur" tabindex="-1" role="dialog" style="display: none;">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal">×</button>
+								<h4 class="modal-title">下发消息</h4>
+							</div>
+							<div class="modal-body">
+
+								<form action="" class="panel form-horizontal" id="msgForm">
+									<div class="panel-body">
+										<div class="row form-group">
+											<label class="col-sm-4 control-label">设备:</label>
+										    <div class="col-sm-8">
+
+
+
+								  {% for item in deviceListInfo %}
+
+											<div class="checkbox">
+												  <label>
+												    <input type="checkbox" value="{{item[0].deviceid}}" name="deviceMsgList">
+												   		{{item[0].roadname}}
+												  </label>
+											</div>					  
+
+									{% endfor %}
+										    </div>
+										</div>
+										<div class="row form-group">
+											<label class="col-sm-4 control-label">消息:</label>
+											<div class="col-sm-8">
+												<textarea class="form-control" rows="10" id="msgDown" name="msgDown"></textarea>
+												<span class="help-block">最多允许800个字，还剩 <span id="wordleft">800</span> 个</span>
+											</div>
+										</div>
+									</div>
+									<div class="panel-footer text-right">
+										<button class="btn btn-primary" type="button" id="downMsgButton">确定</button>
+										<button class="btn btn-primary" type="button" data-dismiss="modal">取消</button>
+									</div>
+								</form>
+							</div>
+						</div> <!-- / .modal-content -->
+					</div> <!-- / .modal-dialog -->
+				</div> <!-- / .modal -->
+				<!-- / Template -->
+	
+
 				<!-- Template -->
 				<div id="add-user-modal" class="modal fade modal-blur" tabindex="-1" role="dialog" style="display: none;">
 					<div class="modal-dialog">
@@ -1432,6 +1537,9 @@ $(function(){
 
 						$(d).val(data[inputName])
 
+					}else{
+
+						$(d).val('');
 					}
 
 				})
@@ -1476,6 +1584,9 @@ $(function(){
 
 						$(d).val(data[inputName])
 
+					}else{
+
+						$(d).val('')
 					}
 
 				})
@@ -1499,9 +1610,28 @@ $(function(){
 		})
 
 	})
+
+	Date.prototype.Format = function (fmt) { //author: meizz
+	    var o = {
+	        "M+": this.getMonth() + 1, //月份
+	        "d+": this.getDate(), //日
+	        "h+": this.getHours(), //小时
+	        "m+": this.getMinutes(), //分
+	        "s+": this.getSeconds(), //秒
+	        "q+": Math.floor((this.getMonth() + 3) / 3), //季度
+	        "S": this.getMilliseconds() //毫秒
+	    };
+	    if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+	    for (var k in o)
+	    if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+	    return fmt;
+	}
+
 //新增设备
 
 	$document.delegate('#addDeviceButton','click',function(){
+
+		$('#securityDay').val(new Date().Format("yyyy-MM-dd"));
 
 		$('#deviceid').prop('disabled',false);
 		$.ajax({
@@ -1847,10 +1977,56 @@ var situationListTable;
 	//展示值班人员
 	$document.delegate('#showDutyPeopleButton','click',function(){
 
-		showPeople()
+		showPeople();
+		$('#device-people-modal .modal-title').text($('body').attr('data-roadname'));
 
 	})	
 
+	$('#msgDown').on('keyup',function(){
+
+		$('#wordleft').text(800-$('#msgDown').val().length);
+
+	})	
+
+	$document.delegate('#downMsgButton','click',function(){
+		var ids = '';
+
+		if($('#msgDown').val().length>800){
+
+			alert('消息超字数，请修改');
+
+		}else{
+
+			$('input[name=deviceMsgList]').each(function(i,d){
+
+				if($(d).prop('checked')==true){
+
+					ids+=$(d).val()+',';
+				}
+			})
+			console.log(ids);
+			$.ajax({
+				url: "/ajax/downMsg",
+				data:{
+
+					ids:ids,
+				},
+				success: function(data) {
+					alert(data.msg);
+				},
+				error:function(){
+
+					alert('获取失败');
+				}
+			});
+
+
+		}
+
+		
+		//$('#device-people-modal .modal-title').text($('body').attr('data-roadname'));
+
+	})	
 
 
 
@@ -1911,59 +2087,65 @@ var situationListTable;
 
 	})		
 
+	function showTimeSchedule(){
 
+			var deviceid = $('#device-id-instance').val();
+
+
+			$.ajax({
+				url: "/ajax/selectTimeSchedule",
+				data:{
+
+					deviceId:deviceid,
+				},
+				success: function(data) {
+
+					var uphtml = '',downhtml='';
+
+
+					var res = data.data;
+
+					res.forEach(function(d,i){
+
+						if(d.type=='up'){
+
+							uphtml += '<tr><td>'+d.train_count+'</td><td>'+d.train_time+'</td><td>'+'<button data-timeid='+d.id+' type = "button" class="btn btn-danger deleteTimeTabelButton">删除</button>'+'</td></tr>';
+
+
+						}else{
+
+							downhtml += '<tr><td>'+d.train_count+'</td><td>'+d.train_time+'</td><td>'+'<button data-timeid='+d.id+' type = "button" class="btn btn-danger deleteTimeTabelButton">删除</button>'+'</td></tr>';
+
+						}
+
+
+					})
+
+
+					$('#timeScheduleUpList').html(uphtml);
+					$('#timeScheduleDownList').html(downhtml);
+								},
+				error:function(){
+
+					alert('获取失败')
+				}
+			});
+
+	}
 
 
 	//展示列车时刻
 	$document.delegate('#showTimeScheduleButton','click',function(){
 
-		var deviceid = $('#device-id-instance').val();
 
+		$('#line-schedule-modal .modal-title').text($('body').attr('data-roadname'));
 
-		$.ajax({
-			url: "/ajax/selectTimeSchedule",
-			data:{
-
-				deviceId:deviceid,
-			},
-			success: function(data) {
-
-				var uphtml = '',downhtml='';
-
-
-				var res = data.data;
-
-				res.forEach(function(d,i){
-
-					if(d.type=='up'){
-
-						uphtml += '<tr><td>'+d.train_count+'</td><td>'+d.train_time+'</td><td>'+'<button data-timeid='+d.id+' type = "button" class="btn btn-danger deleteTimeTabelButton">删除</button>'+'</td></tr>';
-
-
-					}else{
-
-						downhtml += '<tr><td>'+d.train_count+'</td><td>'+d.train_time+'</td><td>'+'<button data-timeid='+d.id+' type = "button" class="btn btn-danger deleteTimeTabelButton">删除</button>'+'</td></tr>';
-
-					}
-
-
-				})
-
-
-				$('#timeScheduleUpList').html(uphtml);
-				$('#timeScheduleDownList').html(downhtml);
+			showTimeSchedule();
 /*
 				$('#dutyList_table').dataTable();
 				$('#dutyList_table_wrapper .table-caption').text('');
 				$('#dutyList_table_wrapper .dataTables_filter input').attr('placeholder', 'Search...');
 */
-
-			},
-			error:function(){
-
-				alert('获取失败')
-			}
-		});
 
 	})	
 
@@ -1990,7 +2172,7 @@ var situationListTable;
 			},
 			success: function(data) {
 				alert(data.msg);
-
+				showTimeSchedule();
 				//showPeople();
 			},
 			error:function(){
@@ -2015,7 +2197,7 @@ var situationListTable;
 			},
 			success: function(data) {
 				alert(data.msg);
-
+				showTimeSchedule();
 				//showPeople();
 			},
 			error:function(){
@@ -2026,8 +2208,49 @@ var situationListTable;
 
 	})		
 
+	//下发人员信息
+	$document.delegate('#downPeople','click',function(){
+		var deviceid = $('#device-id-instance').val();
+		var type = '03';
+		$.ajax({
+			url: "/ajax/down",
+			data:{
+				type:type,
+				deviceId:deviceid
+			},
+			success: function(data) {
+				alert(data.msg);
+				//showPeople();
+			},
+			error:function(){
 
+				alert('下发失败')
+			}
+		});
 
+	})	
+
+	//下发时刻表信息
+	$document.delegate('#downTime','click',function(){
+		var deviceid = $('#device-id-instance').val();
+		var type = '05';
+		$.ajax({
+			url: "/ajax/down",
+			data:{
+				type:type,
+				deviceId:deviceid
+			},
+			success: function(data) {
+				alert(data.msg);
+				//showPeople();
+			},
+			error:function(){
+
+				alert('下发失败')
+			}
+		});
+
+	})	
 
 })
 
