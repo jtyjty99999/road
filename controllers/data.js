@@ -95,7 +95,6 @@ var log = function *(next){
 
 	if(query.Flag=='End'){
 
-
 		query.deviceid = query.Name;
 
 		if(query.Record=='Operation'){
@@ -217,23 +216,24 @@ var log = function *(next){
 							});
 						this.body =iconv.encode('Name='+query.Name+',Record='+query.Record+',Para=05,Code='+query.Code+',Count='+query.Count+finalString,'gbk');
 
-					}else if(query.Para=='01'){
+					}else if(query.Para=='02'){
 
 
 						//先搜哪一条
+						
+						var msg_id = yield dao.findMessageByCode({
 
-						//再搜信息
+							code:query.Code
+						})
 
-						//去数据库搜出来数据发回去
-						/*
-						resultCache = yield dao.findMsgByCount({
-							deviceid:query.Name,
+						resultCache = yield dao.findMessageByCount({
+							msg_id:msg_id[0]['msg_id'],
 							s:(Number(query.Count)-1)*countsByCount,
-							e:Number(query.Count)*countsByCount,
-						});*/
+							e:(Number(query.Count))*countsByCount,
+						});
 
 						//i要对应加上count*+i
-						/*
+						
 							resultCache.forEach(function(d,i){
 								i = countsByCount*(query.Count-1)+i;
 
@@ -245,10 +245,11 @@ var log = function *(next){
 
 									i='0'+i;
 								}
-								finalString+=',T'+i+'='+d.train_count+'-'+d.train_time;
+								finalString+=',M'+i+'='+d.text;
 							});
-						this.body =iconv.encode('Name='+query.Name+',Record='+query.Record+',Para=05,Code='+query.Code+',Count='+query.Count+finalString,'gbk');
-*/
+						this.set('Content-Type', 'text/html; charset=gbk');
+						this.body =iconv.encode('Name='+query.Name+',Record='+query.Record+',Para=02,Code='+query.Code+',Count='+query.Count+finalString,'gbk');
+
 
 					}
 
@@ -270,7 +271,6 @@ var log = function *(next){
 
 				console.log(e)
 			}
-
 			if(operation.length!==0){
 
 				console.log('detected unsync operation;')
@@ -344,12 +344,11 @@ var log = function *(next){
 					try{
 
 						res = yield dao.selectUserDeviceInfo(query.Name);
-						
 						if(res[0].securityDay){
 
 							//自动给安全运行天加上当前时间
 							//每次提交时可以更新当前时间
-							if(res[0].securityDaySecond){
+							if(res[0].securityDaySecond!==''&&res[0].securityDaySecond!==null&&res[0].securityDaySecond!==undefined){
 
 								res[0].securityDaySecond+= parseInt((+ new Date()-(+new Date(res[0].securityDay)))/1000/24/3600);
 
@@ -357,7 +356,7 @@ var log = function *(next){
 
 								res[0].securityDaySecond = 0;
 							}
-							if(res.securityDayFirst){
+							if(res[0].securityDayFirst!==''&&res[0].securityDayFirst!==null&&res[0].securityDayFirst!==undefined){
 
 								res[0].securityDayFirst+= parseInt((+ new Date()-(+new Date(res[0].securityDay)))/1000/24/3600);
 
@@ -365,7 +364,7 @@ var log = function *(next){
 
 								res[0].securityDayFirst = 0;
 							}
-							if(res.securityDayThird){
+							if(res[0].securityDayThird!==''&&res[0].securityDayThird!==null&&res[0].securityDayThird!==undefined){
 
 								res[0].securityDayThird+= parseInt((+ new Date()-(+new Date(res[0].securityDay)))/1000/24/3600);
 
@@ -375,8 +374,9 @@ var log = function *(next){
 							}
 
 						}
-						console.log('Name='+query.Name+',Record='+query.Record+',Para=01,Data0='+ res[0].securityDayFirst +',Data1='+res[0].securityDaySecond +',Data2='+res[0].securityDayThird +',Code='+id);
-						this.body = iconv.encode('Name='+query.Name+',Record='+query.Record+',Para=01,Data0='+ res[0].securityDayFirst +',Data1='+res[0].securityDaySecond +',Data2='+res[0].securityDayThird +',Code='+id,'gbk');
+						console.log('Name='+query.Name+',Record='+query.Record+',Code='+id+',Para=01,Data0='+ res[0].securityDayFirst +',Data1='+res[0].securityDaySecond +',Data2='+res[0].securityDayThird);
+						this.set('Content-Type', 'text/html; charset=gbk');
+						this.body = iconv.encode('Name='+query.Name+',Record='+query.Record+',Para=01'+',Code='+id+',Data0='+ res[0].securityDayFirst +',Data1='+res[0].securityDaySecond +',Data2='+res[0].securityDayThird+',X='+res[0].roadbelong+',Y='+getLineName(res[0].deviceid) ,'gbk');
 						return
 					}catch(e){
 
@@ -389,10 +389,59 @@ var log = function *(next){
 
 			}else{
 
+				//获取安全天
+				if(query.Para==='01'){
+
+							try{
+
+							res = yield dao.selectUserDeviceInfo(query.Name);
+							if(res[0].securityDay){
+
+								//自动给安全运行天加上当前时间
+								//每次提交时可以更新当前时间
+								if(res[0].securityDaySecond!==''&&res[0].securityDaySecond!==null&&res[0].securityDaySecond!==undefined){
+
+									res[0].securityDaySecond+= parseInt((+ new Date()-(+new Date(res[0].securityDay)))/1000/24/3600);
+
+								}else{
+
+									res[0].securityDaySecond = 0;
+								}
+								if(res[0].securityDayFirst!==''&&res[0].securityDayFirst!==null&&res[0].securityDayFirst!==undefined){
+
+									res[0].securityDayFirst+= parseInt((+ new Date()-(+new Date(res[0].securityDay)))/1000/24/3600);
+
+								}else{
+
+									res[0].securityDayFirst = 0;
+								}
+								if(res[0].securityDayThird!==''&&res[0].securityDayThird!==null&&res[0].securityDayThird!==undefined){
+
+									res[0].securityDayThird+= parseInt((+ new Date()-(+new Date(res[0].securityDay)))/1000/24/3600);
+
+								}else{
+
+									res[0].securityDayThird = 0;
+								}
+
+							}
+							console.log('Name='+query.Name+',Record='+query.Record+',Code='+id+',Para=01,Data0='+ res[0].securityDayFirst +',Data1='+res[0].securityDaySecond +',Data2='+res[0].securityDayThird);
+							this.set('Content-Type', 'text/html; charset=gbk');
+							this.body = iconv.encode('Name='+query.Name+',Record='+query.Record+',Para=01'+',Code='+id+',Data0='+ res[0].securityDayFirst +',Data1='+res[0].securityDaySecond +',Data2='+res[0].securityDayThird+',X='+res[0].roadbelong+',Y='+getLineName(res[0].deviceid) ,'gbk');
+							return
+						}catch(e){
+
+							console.log(e)
+						}
+
+				}
+				
+
 				console.log('no unsync operation;');
 				this.body = 'Name='+query.Name+',Record='+query.Record+',Para=00';
 				return
 			}
+
 
 
 		}
@@ -400,10 +449,31 @@ var log = function *(next){
 
 	}
 
+
+
+
 	this.body = 'Name='+query.Name+',Record='+query.Record+',Seq='+query.Seq;
 
 }
 //parseInt(Math.random()*1000)  每次工号和列车时刻设置记录一个操作码，每次心跳过来取属于当前设备的一条，code发回去
+
+function getLineName(deviceid){
+
+
+	var c = deviceid.substring(deviceid.length-6);
+
+	var n = c.substring(3,6);
+
+	var m = c.substring(0,3);
+
+	if(m.length==1){
+		m = '00'+m;
+	}else if(m.length==2){
+
+		m = '0'+m;
+	}
+	return 'k'+m+'+'+n
+}
 
 module.exports = {
 

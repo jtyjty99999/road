@@ -143,17 +143,17 @@ exports.showDeviceInfo = function *(next){
 
 			//自动给安全运行天加上当前时间
 			//每次提交时可以更新当前时间
-			if(res[0].securityDaySecond){
+			if(res[0].securityDaySecond!==''&&res[0].securityDaySecond!==null&&res[0].securityDaySecond!==undefined){
 
 				res[0].securityDaySecond+= parseInt((+ new Date()-(+new Date(res[0].securityDay)))/1000/24/3600);
 
 			}
-			if(res.securityDayFirst){
+			if(res[0].securityDayFirst!==''&&res[0].securityDayFirst!==null&&res[0].securityDayFirst!==undefined){
 
 				res[0].securityDayFirst+= parseInt((+ new Date()-(+new Date(res[0].securityDay)))/1000/24/3600);
 
 			}
-			if(res.securityDayThird){
+			if(res[0].securityDayThird!==''&&res[0].securityDayThird!==null&&res[0].securityDayThird!==undefined){
 
 				res[0].securityDayThird+= parseInt((+ new Date()-(+new Date(res[0].securityDay)))/1000/24/3600);
 
@@ -259,20 +259,54 @@ exports.downMsg = function *(next){
 	var request = this.request,query = this.request.query,qs  =this.request.querystring;
 
 	var ids = query.ids;
+	ids = ids.split(',');
+	ids = ids.filter(function(d){
+
+		return d!=='';
+	})
+	var whole = query.text;
+	var random = parseInt(Math.random()*100000);
+	var msg_id = pad(random,6);
+
+	var message = [];
+
+	var n = 10;
+
+	for (var i = 0, l = whole.length; i < l/n; i++) {
+
+		message.push(whole.slice(n*i, n*(i+1)));
+
+	}
 
 		try{
 			console.log(ids);
+			
+			yield ids.map(function(d){
+				var code = pad(random,4);
+				dao.addOperation({
+					id:code,
+					type:'02',
+					deviceid:d
+				})
 
-			//yield dao.insertMsgInfo(query);
+				return dao.addMsgDevice({
+					msg_id:msg_id,
+					code:code
+				});
 
-			//var random = parseInt(Math.random()*1000);
-			/*
-			yield dao.addOperation({
-				id:pad(random,4),
-				type:'02',
-				deviceid:query.deviceid
-			})*/
+			})
 
+			yield message.map(function(d,index){
+
+				return dao.addMessage({
+							text:d,
+							index:index,
+							msg_id:msg_id
+				});
+			})
+
+			var random = parseInt(Math.random()*1000);
+		
 			this.body = {
 				code:200,msg:"上报成功"
 			}

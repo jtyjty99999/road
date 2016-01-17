@@ -829,6 +829,107 @@ exports.selectOperation = function (id, callback) {
 
 
 
+/**
+ * 新增一条信息与设备关联
+ *
+ * @param {Object} 操作对象
+ * @return {Number} id
+ */
+var MSG_DEVICE_ADD_SQL = multiline(function (){/*
+  INSERT INTO
+    monitor_msg_device(id,code, msg_id)
+  VALUES(null,?,?)
+*/});
+exports.addMsgDevice= function (o, callback) {
+  assert(typeof o === 'object');
+  var values = [o.code,o.msg_id];
+  mysql.query(MSG_DEVICE_ADD_SQL, values, function(err, result) {
+    if (err) {
+      callback(err);
+    } else {
+      callback(null, result.insertId);
+    }
+  });
+};
+
+/**
+ * 新增一条信息
+ *
+ * @param {Object} 操作对象
+ * @return {Number} id
+ */
+var MSG_ADD_SQL = multiline(function (){/*
+  INSERT INTO
+    monitor_message(id,index2,text,msg_id)
+  VALUES(null,?,?,?)
+*/});
+exports.addMessage= function (msg, callback) {
+  assert(typeof msg === 'object');
+
+  var values = [msg.index,
+    msg.text,msg.msg_id];
+  mysql.query(MSG_ADD_SQL, values, function(err, result) {
+    if (err) {
+      callback(err);
+    } else {
+      callback(null, result.insertId);
+    }
+  });
+};
+
+/**
+ * 按数量查找消息
+ *
+ * @param {String} deviceid
+ * @return {Number} id
+ */
+var MSG_COUNT_SELETE_SQL = multiline(function (){/*
+  SELECT * from
+    monitor_message where msg_id= ? and index2 between ? and ?
+*/});
+exports.findMessageByCount = function (msg, callback) {
+  assert(typeof msg === 'object');
+
+  var values = [msg.msg_id,msg.s,msg.e];
+  mysql.query(MSG_COUNT_SELETE_SQL, values, function(err, result) {
+    if (err) {
+      callback(err);
+    } else {
+      console.log(msg.s,msg.e,MSG_COUNT_SELETE_SQL)
+      console.log(result);
+      console.log(values);
+      callback(null, result);
+    }
+  });
+};
+
+
+/**
+ * 按code查找消息
+ *
+ * @param {String} deviceid
+ * @return {Number} id
+ */
+var MSG_CODE_SELETE_SQL = multiline(function (){/*
+  SELECT * from
+    monitor_msg_device where code= ?
+*/});
+exports.findMessageByCode = function (msg, callback) {
+  assert(typeof msg === 'object');
+
+  var values = [msg.code];
+  mysql.query(MSG_CODE_SELETE_SQL, values, function(err, result) {
+    if (err) {
+      callback(err);
+    } else {
+
+      callback(null, result);
+    }
+  });
+};
+
+
+
 
 thunkify(exports);
 

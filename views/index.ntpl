@@ -2008,7 +2008,7 @@ var situationListTable;
 			$.ajax({
 				url: "/ajax/downMsg",
 				data:{
-
+					text:$('#msgDown').val(),
 					ids:ids,
 				},
 				success: function(data) {
