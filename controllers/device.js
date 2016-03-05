@@ -279,14 +279,22 @@ exports.downMsg = function *(next){
 	}
 
 		try{
-			console.log(ids);
-			
+
+
 			yield ids.map(function(d){
 				var code = pad(random,4);
 				dao.addOperation({
 					id:code,
 					type:'02',
 					deviceid:d
+				})
+
+				dao.addMsgHistory({
+
+					msg_id:msg_id,
+					text:whole,
+					deviceid:d
+					
 				})
 
 				return dao.addMsgDevice({
@@ -750,6 +758,18 @@ exports.showErrorInfo = function *(next){
 	var deviceId = this.query.deviceId;
 
 	var res = yield  dao.showErrorInfo(deviceId);
+
+	this.body =res;
+}
+
+exports.showMsgHistoryInfo = function *(next){
+
+	var request = this.request,query = this.request.query,qs  =this.request.querystring;
+
+
+	var deviceId = this.query.deviceId;
+
+	var res = yield dao.showMsgHistoryInfo(deviceId);
 
 	this.body =res;
 }

@@ -878,6 +878,33 @@ exports.addMessage= function (msg, callback) {
 };
 
 /**
+ * 查找消息数量
+ *
+ * @param {String} deviceid
+ * @return {Number} id
+ */
+var MSG_COUNTS_SELETE_SQL = multiline(function (){/*
+  SELECT * from
+    monitor_message where msg_id= ?
+*/});
+exports.findMessage = function (msg, callback) {
+  assert(typeof msg === 'object');
+
+  var values = [msg.msg_id];
+  mysql.query(MSG_COUNTS_SELETE_SQL, values, function(err, result) {
+    if (err) {
+      callback(err);
+    } else {
+      console.log(msg.s,msg.e,MSG_COUNTS_SELETE_SQL)
+      console.log(result);
+      console.log(values);
+      callback(null, result);
+    }
+  });
+};
+
+
+/**
  * 按数量查找消息
  *
  * @param {String} deviceid
@@ -928,8 +955,54 @@ exports.findMessageByCode = function (msg, callback) {
   });
 };
 
+/**
+ * 查找消息记录
+ *
+ * @param {String} deviceid
+ * @return {Number} id
+ */
+var MSG_HISTORY_SELETE_SQL = multiline(function (){/*
+  SELECT * from
+    monitor_msg_history where device_id= ?
+*/});
+exports.showMsgHistoryInfo = function (deviceid, callback) {
 
+  var values = [deviceid];
+  mysql.query(MSG_HISTORY_SELETE_SQL, values, function(err, result) {
+    if (err) {
+      callback(err);
+    } else {
 
+      callback(null, result);
+    }
+  });
+};
+
+/**
+ * 新增信息记录
+ *
+ * @param {Object} 操作对象
+ * @return {Number} id
+ */
+var MSG_HISTORY_ADD_SQL = multiline(function (){/*
+  INSERT INTO
+    monitor_msg_history(id,device_id,msg_id,text,create_time)
+  VALUES(null,?,?,?,now())
+*/});
+exports.addMsgHistory= function (msg, callback) {
+  assert(typeof msg === 'object');
+
+  var values = [msg.deviceid,
+    msg.msg_id,msg.text];
+  mysql.query(MSG_HISTORY_ADD_SQL, values, function(err, result) {
+    if (err) {
+      console.log(err)
+      callback(err);
+    } else {
+      callback(null, result.insertId);
+    }
+  });
+};
 
 thunkify(exports);
 

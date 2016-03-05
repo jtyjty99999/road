@@ -588,6 +588,36 @@ Use search to find needed section.
 
 
 														<button type = "button" class="btn btn-success" data-toggle="modal" data-target="#device-error-modal" id="showErrorButton">违规信息记录</button>
+														<!-- 违规信息 -->
+
+														<div id="device-msg-modal" class="modal fade modal-blur" tabindex="-1" role="dialog" style="display: none;">
+															<div class="modal-dialog">
+																<div class="modal-content">
+																	<div class="modal-header">
+																		<button type="button" class="close" data-dismiss="modal">×</button>
+																		<h4 class="modal-title">违规信息记录</h4>
+																	</div>
+																	<div class="modal-body table-info">
+																		<table class="table table-bordered" id="msgHistoryList_table">
+																			<thead>
+																				<tr>
+																					<th>序号</th>
+																					<th>时间</th>
+																					<th>信息</th>
+																				</tr>
+																			</thead>
+																			<tbody id="msgHistoryList"> 
+																			</tbody>
+																		</table>
+
+																	</div>
+																</div> <!-- / .modal-content -->
+															</div> <!-- / .modal-dialog -->
+														</div> <!-- / .modal -->
+														<!-- / Template -->	
+
+														<button type = "button" class="btn btn-success" data-toggle="modal" data-target="#device-msg-modal" id="showMsgHistoryButton">消息记录</button>
+
 														<a target="_black" type = "button" class="btn btn-success" href="http://www.baidu.com/">视频记录</a>
 													</div>
 												</div>
@@ -1852,7 +1882,7 @@ var errorListTable;
 
 				var html = '';
 
-				
+				var length = res.length;
 				res.forEach(function(d,i){
 
 				html += '<tr><td>'+(length-i)+'</td><td>'+d.time+'</td><td>'+d.con+'</td></tr>';
@@ -1882,6 +1912,60 @@ var errorListTable;
 		});
 
 	})	
+
+
+
+var msgHistoryListTable;
+	//展示报警信息
+	$document.delegate('#showMsgHistoryButton','click',function(){
+
+		var deviceid = $('#device-id-instance').val();
+
+
+		$.ajax({
+			url: "/ajax/showMsgHistoryInfo",
+			data:{
+
+				deviceId:deviceid,
+			},
+			success: function(res) {
+				//console.log(res)
+
+
+				var html = '';
+
+				var length = res.length;
+				res.forEach(function(d,i){
+
+				html += '<tr><td>'+(i+1)+'</td><td>'+d.create_time+'</td><td>'+d.text+'</td></tr>';
+
+				})
+
+
+				if(msgHistoryListTable){
+					msgHistoryListTable.destroy();
+					$('#msgHistoryList_table').parent().parent().empty().append('<table class="table table-bordered" id="msgHistoryList_table"><thead><tr><th>序号</th><th>时间</th><th>信息</th></tr></thead><tbody id="msgHistoryList"></tbody></table>');
+				}
+
+				$('#msgHistoryList').html(html)
+
+				msgHistoryListTable = $('#msgHistoryList_table').dataTable({
+					  "ordering": false,
+					  language:language
+					});
+				$('#msgHistoryList_table_wrapper .table-caption').text('');
+				$('#msgHistoryList_table_wrapper .dataTables_filter input').attr('placeholder', '请输入任意关键字');	
+				$('#device-msg-modal .modal-title').text($('body').attr('data-roadname'));
+			},
+			error:function(){
+
+				alert('查看失败')
+			}
+		});
+
+	})	
+
+
 
 var situationListTable;
 	//展示设备状况信息

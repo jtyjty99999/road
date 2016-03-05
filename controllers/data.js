@@ -305,6 +305,43 @@ var log = function *(next){
 					}
 
 
+				}else if(type=='02'){
+
+
+					//时刻上行
+
+					try{
+
+						var msg_id = yield dao.findMessageByCode({
+
+							code:operation[0]['id']
+						})
+						resultCache = yield dao.findMessage({
+							msg_id:msg_id[0]['msg_id']
+						});	
+						/*
+						resultCache.forEach(function(d,i){
+
+
+							finalString+=',T'+i+'='+d.train_count+'-'+d.train_time;
+						});*/
+						var count = Math.ceil(resultCache.length/countsByCount);
+
+						if(count<10){
+
+							count='0'+count;
+
+						}
+						console.log('Name='+query.Name+',Record='+query.Record+',Para=05,Count='+count+',Code='+id)
+						this.set('Content-Type', 'text/html; charset=gbk');
+						this.body = iconv.encode('Name='+query.Name+',Record='+query.Record+',Para=02,Count='+count+',Code='+id,'gbk');
+						return
+					}catch(e){
+
+						console.log(e)
+					}
+
+
 				}else if(type=='05'){
 
 
@@ -435,7 +472,7 @@ var log = function *(next){
 						}
 
 				}
-				
+
 
 				console.log('no unsync operation;');
 				this.body = 'Name='+query.Name+',Record='+query.Record+',Para=00';
