@@ -181,9 +181,9 @@ exports.addDevice = function *(next){
 
 	var res1;
 
-	query.securityDaySecond = parseInt(query.securityDaySecond);
-	query.securityDayFirst = parseInt(query.securityDayFirst);
-	query.securityDayThird = parseInt(query.securityDayThird);
+	query.securityDaySecond = parseInt(query.securityDaySecond)||0;
+	query.securityDayFirst = parseInt(query.securityDayFirst)||0;
+	query.securityDayThird = parseInt(query.securityDayThird)||0;
 
 	try{
 
@@ -227,12 +227,19 @@ exports.addDevice = function *(next){
 		try{
 
 			yield dao.modifyDevice(query);
-
 			var random = parseInt(Math.random()*1000);
 			
+			//修改安全天上报
 			yield dao.addOperation({
 				id:pad(random,4),
 				type:'01',
+				deviceid:query.deviceid
+			})
+			var random = parseInt(Math.random()*1000);
+			//修改电话号码上报
+			yield dao.addOperation({
+				id:pad(random,4),
+				type:'08',
 				deviceid:query.deviceid
 			})
 
@@ -762,6 +769,19 @@ exports.showErrorInfo = function *(next){
 	this.body =res;
 }
 
+exports.showInformationInfo = function *(next){
+
+	var request = this.request,query = this.request.query,qs  =this.request.querystring;
+
+
+	var deviceId = this.query.deviceId;
+
+	var res = yield  dao.showInformationInfo(deviceId);
+
+	this.body =res;
+}
+
+
 exports.showMsgHistoryInfo = function *(next){
 
 	var request = this.request,query = this.request.query,qs  =this.request.querystring;
@@ -770,6 +790,10 @@ exports.showMsgHistoryInfo = function *(next){
 	var deviceId = this.query.deviceId;
 
 	var res = yield dao.showMsgHistoryInfo(deviceId);
+	res = res.map(function(d){
+		d.create_time = moment(d.create_time).format('YYYY-MM-DD HH:mm:ss');
+		return d
+	})
 
 	this.body =res;
 }

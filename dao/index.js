@@ -22,15 +22,15 @@ var DEVICE_ADD_SQL = multiline(function (){/*
     monitor_device(id, create_time, update_time, user_id, deviceid,
       roadTopManager, roadTopManagerCode, roadname, roadbelongCode, roadmiles, roadfromto,roadcount,roadupsituation,
       roaddownsituation,roadleftsituationup,roadleftsituationdown,roadowncarCode,roadownareaCode,
-      roadwidth,roadlineleft,roadlineright,roadcity,roadcountry,roadtraffic,roadtype,roadbelong,roadowncar,roadownarea,securityDayFirst,securityDaySecond,securityDayThird,securityDay)
-  VALUES(NULL, now(), now(), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?,?,?,?,?,?)
+      roadwidth,roadlineleft,roadlineright,roadcity,roadcountry,roadtraffic,roadtype,roadbelong,roadowncar,roadownarea,securityDayFirst,securityDaySecond,securityDayThird,securityDay,telephone1,telephone2,telephone3,telephone4,telephone5)
+  VALUES(NULL, now(), now(), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?,?,?,?,?,?,?,?,?,?,?)
 */});
 exports.addDevice = function (device, callback) {
   assert(typeof device === 'object');
   var values = [device.user_id, device.deviceid,
       device.roadTopManager, device.roadTopManagerCode, device.roadname, device.roadbelongCode, device.roadmiles, device.roadfromto,device.roadcount,device.roadupsituation,
       device.roaddownsituation,device.roadleftsituationup,device.roadleftsituationdown,device.roadowncarCode,device.roadownareaCode,device.roadwidth,device.roadlineleft,
-      device.roadlineright,device.roadcity,device.roadcountry,device.roadtraffic,device.roadtype,device.roadbelong,device.roadowncar,device.roadownarea,device.securityDayFirst,device.securityDaySecond,device.securityDayThird,device.securityDay];
+      device.roadlineright,device.roadcity,device.roadcountry,device.roadtraffic,device.roadtype,device.roadbelong,device.roadowncar,device.roadownarea,device.securityDayFirst,device.securityDaySecond,device.securityDayThird,device.securityDay,device.telephone1,device.telephone2,device.telephone3,device.telephone4,device.telephone5];
   mysql.query(DEVICE_ADD_SQL, values, function(err, result) {
     if (err) {
       callback(err);
@@ -50,14 +50,14 @@ var DEVICE_MODIFY_SQL = multiline(function (){/*
   UPDATE
     monitor_device set update_time = now(), roadTopManager = ?, roadTopManagerCode=?, roadname=?, roadbelongCode=?, roadmiles=?, roadfromto=?,
     roadcount=?,roadupsituation=?,roaddownsituation=?,roadleftsituationup=?,roadleftsituationdown=?,roadowncarCode=?,roadownareaCode=?,
-      roadwidth=?,roadlineleft=?,roadlineright=?,roadcity=?,roadcountry=?,roadtraffic=?,roadtype=?,roadbelong=?,roadowncar=?,roadownarea=?,securityDayFirst=?,securityDaySecond=?,securityDayThird=?,securityDay=? where deviceid = ?
+      roadwidth=?,roadlineleft=?,roadlineright=?,roadcity=?,roadcountry=?,roadtraffic=?,roadtype=?,roadbelong=?,roadowncar=?,roadownarea=?,securityDayFirst=?,securityDaySecond=?,securityDayThird=?,securityDay=?,telephone1=?,telephone2=?,telephone3=?,telephone4=?,telephone5=? where deviceid = ?
 */});
 exports.modifyDevice = function (device, callback) {
   assert(typeof device === 'object');
   var values = [
       device.roadTopManager, device.roadTopManagerCode, device.roadname, device.roadbelongCode, device.roadmiles, device.roadfromto,device.roadcount,device.roadupsituation,
       device.roaddownsituation,device.roadleftsituationup,device.roadleftsituationdown,device.roadowncarCode,device.roadownareaCode,device.roadwidth,device.roadlineleft,
-      device.roadlineright,device.roadcity,device.roadcountry,device.roadtraffic,device.roadtype,device.roadbelong,device.roadowncar,device.roadownarea,device.securityDayFirst,device.securityDaySecond,device.securityDayThird,device.securityDay,device.deviceid];
+      device.roadlineright,device.roadcity,device.roadcountry,device.roadtraffic,device.roadtype,device.roadbelong,device.roadowncar,device.roadownarea,device.securityDayFirst,device.securityDaySecond,device.securityDayThird,device.securityDay,device.telephone1,device.telephone2,device.telephone3,device.telephone4,device.telephone5,device.deviceid];
 
   mysql.query(DEVICE_MODIFY_SQL, values, function(err, result) {
     if (err) {
@@ -520,6 +520,54 @@ exports.showSituationInfo = function (device_id, callback) {
 };
 
 
+/**
+ * 插入某设备的信息码
+ *
+ * @param {Object} 设备id
+ * @return {array} 
+ */
+var INSERT_DEVICE_INFORMATION_SQL = multiline(function (){/*
+  INSERT INTO
+    monitor_Information_info(id, create_time, update_time, deviceid, time,con)
+  VALUES(NULL, now(), now(), ? , ?,?)
+*/});
+exports.insertInformationInfo = function (Info, callback) {
+ // console.log(dutyInfo)
+  assert(typeof Info === 'object');
+
+  var values = [Info.deviceid,Info.Time,Info.Con];
+  mysql.query(INSERT_DEVICE_INFORMATION_SQL, values, function(err, result) {
+    if (err) {
+      callback(err);
+    } else {
+      callback(null, result);
+    }
+  });
+};
+
+
+/**
+ * 查找某设备的信息码信息
+ *
+ * @param {Object} 设备id
+ * @return {array} 
+ */
+var SELECT_DEVICE_INFORMATION_SQL = multiline(function (){/*
+  Select * from
+    monitor_Information_info where deviceid = ? order by id desc
+*/});
+exports.showInformationInfo = function (device_id, callback) {
+
+  var values = [device_id];
+  mysql.query(SELECT_DEVICE_INFORMATION_SQL, values, function(err, result) {
+    if (err) {
+      callback(err);
+    } else {
+      callback(null, result);
+    }
+  });
+};
+
 
 /**
  * 修改列车时刻
@@ -877,6 +925,9 @@ exports.addMessage= function (msg, callback) {
   });
 };
 
+
+
+
 /**
  * 查找消息数量
  *
@@ -973,6 +1024,29 @@ exports.showMsgHistoryInfo = function (deviceid, callback) {
       callback(err);
     } else {
 
+      callback(null, result);
+    }
+  });
+};
+
+/**
+ * 更新消息状态
+ *
+ * @param {String} deviceid
+ * @return {Number} id
+ */
+var MSG_HISTORY_UPDATE_SQL = multiline(function (){/*
+  update
+    monitor_msg_history set status = 1 where device_id= ? and msg_id = ?
+*/});
+exports.updateMessageHistory = function (msg, callback) {
+  assert(typeof msg === 'object');
+
+  var values = [msg.device_id,msg.msg_id];
+  mysql.query(MSG_HISTORY_UPDATE_SQL, values, function(err, result) {
+    if (err) {
+      callback(err);
+    } else {
       callback(null, result);
     }
   });

@@ -14,6 +14,8 @@
 var iconv=require('iconv-lite');
 var querystring = require('querystring');
 var dao = require('../dao/index');
+var moment = require('moment');
+
 //HTTP://183.247.161.70:8080/protocol?Name=萧萧联络线K4+723&Record=Operation&Seq=0&Data=2015/1/1&Num=0003&Train=K8500&T0=21:14&M0=008&M1=568&M2=&T1=21:18&T2=21:43&Rem0=正  常&Dir=未知&Way=手动存储&Sou=手动时间&T3=00009S&T4=&Rem1=不正常
 
 var index = function *() {
@@ -96,7 +98,6 @@ var log = function *(next){
 	if(query.Flag=='End'){
 
 		query.deviceid = query.Name;
-
 		if(query.Record=='Operation'){
 
 			if(findFromCache(cache,'Operation',query.deviceid,query.Seq)){
@@ -146,6 +147,24 @@ var log = function *(next){
 				try{
 					yield dao.insertErrorInfo(query);
 					console.log('insert Error Info from:'+query.Name)
+				}catch(e){
+
+					console.log(e)
+				}
+
+			}else{
+
+				console.log('dumplacated!');
+			}
+
+
+
+		}else if(query.Record=='Inform'){
+
+			if(findFromCache(cache,'Inform',query.deviceid,query.Seq)){
+				try{
+					yield dao.insertInformationInfo(query);
+					console.log('insert Information Info from:'+query.Name)
 				}catch(e){
 
 					console.log(e)
@@ -231,7 +250,23 @@ var log = function *(next){
 							s:(Number(query.Count)-1)*countsByCount,
 							e:(Number(query.Count))*countsByCount,
 						});
+						
+						var wholeLength  = yield dao.findMessage({
+							msg_id:msg_id[0]['msg_id']
+						});	
 
+						wholeLength = wholeLength.length;
+						if(wholeLength< parseInt(query.Count)*countsByCount){
+
+							//update
+							console.log('消息全部发送完成');
+
+							yield dao.updateMessageHistory({
+
+								msg_id:msg_id[0]['msg_id'],
+								device_id:query.Name
+							});
+						}
 						//i要对应加上count*+i
 						
 							resultCache.forEach(function(d,i){
@@ -421,6 +456,23 @@ var log = function *(next){
 					}
 
 
+				}else if(type=='08'){
+					var res;
+					//电话上行
+
+					try{
+
+						res = yield dao.selectUserDeviceInfo(query.Name);
+						console.log('Name='+query.Name+',Record='+query.Record+',Para=08'+',Code='+id+',Phone1='+ res[0].telephone1 +',Phone2='+res[0].telephone2 +',Phone3='+res[0].telephone3+',Phone4='+res[0].telephone4+',Phone5='+res[0].telephone);
+						this.set('Content-Type', 'text/html; charset=gbk');
+						this.body = iconv.encode('Name='+query.Name+',Record='+query.Record+',Para=08'+',Code='+id+',P1='+ res[0].telephone1 +',P2='+res[0].telephone2 +',P3='+res[0].telephone3+',P4='+res[0].telephone4+',P5='+res[0].telephone5 ,'gbk');
+						return
+					}catch(e){
+
+						console.log(e)
+					}
+
+
 				}
 
 
@@ -474,8 +526,10 @@ var log = function *(next){
 				}
 
 
-				console.log('no unsync operation;');
-				this.body = 'Name='+query.Name+',Record='+query.Record+',Para=00';
+				console.log('no unsync operation;T='+moment().format('YYYY-MM-DD-hh-mm-ss'));
+
+				console.log('Name='+query.Name+',Record='+query.Record+',Para=00,T='+moment().format('YYYY-MM-DD-HH-mm-ss'));
+				this.body = 'Name='+query.Name+',Record='+query.Record+',Para=00,T='+moment().format('YYYY-MM-DD-HH-mm-ss');
 				return
 			}
 

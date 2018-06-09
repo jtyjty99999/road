@@ -123,7 +123,7 @@ Use search to find needed section.
 	* 'main-menu-fixed'    - Fixes the main menu
 	* 'main-menu-animated' - Animate main menu
 -->
-<body class="theme-default main-menu-animated" data-userid="{{user_id}}">
+<body class="theme-default main-menu-animated" data-userid="{{user_id}}" data-usertype="{{usertype}}">
 
 <script>var init = [];</script>
 
@@ -265,7 +265,7 @@ Use search to find needed section.
 				<div class="panel">
 					<div class="panel-heading">
 						<span class="panel-title">设备列表</span>
-						<button class="btn btn-primary" type="button" data-target="#down-msg-modal" data-toggle="modal">下发消息</button>
+						<button  {% if usertype==4 %}disabled{% endif %} class="btn btn-primary" type="button" data-target="#down-msg-modal" data-toggle="modal">下发消息</button>
 					</div>
 					<div class="panel-body">
 
@@ -293,7 +293,7 @@ Use search to find needed section.
 																	<div class="modal-header">
 																		<button type="button" class="close" data-dismiss="modal">×</button>
 																		<h4 class="modal-title">列车时刻设置</h4>
-																			<button type="button" class="btn btn-primary" id="downTime">下发到设备</button>
+																			<button type="button" {% if usertype==4 %}disabled{% endif %}	class="btn btn-primary" id="downTime">下发到设备</button>
 																	</div>
 																	<div class="modal-body">
 																		<table class="table table-bordered">
@@ -315,7 +315,7 @@ Use search to find needed section.
 																										</div><!-- col-sm-6 -->
 																										<div class="col-sm-2">
 																											<div class="form-group no-margin-hr">
-																												<button class="btn btn-primary addTimeTableButton" data-type="up" type="button">新增</button>
+																												<button  {% if usertype==4 %}disabled{% endif %}	class="btn btn-primary addTimeTableButton" data-type="up" type="button">新增</button>
 																											</div>
 
 																										</div>
@@ -360,7 +360,7 @@ Use search to find needed section.
 																										</div><!-- col-sm-6 -->
 																										<div class="col-sm-2">
 																											<div class="form-group no-margin-hr">
-																												<button class="btn btn-primary addTimeTableButton" data-type="down" type="button">新增</button>
+																												<button  {% if usertype==4 %}disabled{% endif %}	class="btn btn-primary addTimeTableButton" data-type="down" type="button">新增</button>
 																											</div>
 
 																										</div>
@@ -399,7 +399,7 @@ Use search to find needed section.
 																	<div class="modal-header">
 																		<button type="button" class="close" data-dismiss="modal">×</button>
 																		<h4 class="modal-title">人员管理</h4>
-																		<button type="button" class="btn btn-primary" id="downPeople">下发到设备</button>
+																		<button type="button" {% if usertype==4 %}disabled{% endif %} class="btn btn-primary" id="downPeople">下发到设备</button>
 																		<form action="" class="panel form-horizontal">
 																			<div class="panel-body">
 																				<div class="row">
@@ -417,7 +417,7 @@ Use search to find needed section.
 																					</div><!-- col-sm-6 -->
 																					<div class="col-sm-2">
 																						<div class="form-group no-margin-hr">
-																							<button class="btn btn-primary" type="button" id="addDutyUserButton">新增</button>
+																							<button {% if usertype==4 %}disabled{% endif %} class="btn btn-primary" type="button" id="addDutyUserButton">新增</button>
 																						</div>
 
 																					</div>
@@ -463,22 +463,7 @@ Use search to find needed section.
 																		<table class="table table-bordered" id="dutyList_table">
 																			<thead>
 																				<tr>
-																					<th>序号</th>
-																					<th>日期</th>
-																					<th>工号</th>
-																					<th>车次</th>
-																					<th>报开时间</th>
-																					<th>报开密码</th>
-																					<th>接收密码1</th>
-																					<th>接收密码2</th>
-																					<th>出务时间</th>
-																					<th>通过时间</th>
-																					<th>备注</th>
-																					<th>列车方向</th>
-																					<th>存储方式</th>
-																					<th>持续时间</th>
-																					<th>通过时间</th>
-																					<th>备注</th>
+<th>序号</th><th>日期</th><th>工号</th><th>车次</th><th>报开时间</th><th>出务时间</th><th>通过时间</th><th>运行时间</th><th>列车方向</th><th>上传方式</th><th>报开密码</th><th>接收密码1</th><th>接收密码2</th><th>运行正常</th><th>校验码</th>
 																				</tr>
 																			</thead>
 																			<tbody id="dutyList">
@@ -573,7 +558,7 @@ Use search to find needed section.
 																				<tr>
 																					<th>序号</th>
 																					<th>时间</th>
-																					<th>事项</th>
+																					<th>工号</th>
 																				</tr>
 																			</thead>
 																			<tbody id="errorList"> 
@@ -590,12 +575,44 @@ Use search to find needed section.
 														<button type = "button" class="btn btn-success" data-toggle="modal" data-target="#device-error-modal" id="showErrorButton">违规信息记录</button>
 														<!-- 违规信息 -->
 
+{% if usertype==1 %}
+														<!-- 信息码 -->
+														<div id="device-information-modal" class="modal fade modal-blur" tabindex="-1" role="dialog" style="display: none;">
+															<div class="modal-dialog">
+																<div class="modal-content">
+																	<div class="modal-header">
+																		<button type="button" class="close" data-dismiss="modal">×</button>
+																		<h4 class="modal-title">信息码记录</h4>
+																	</div>
+																	<div class="modal-body table-info">
+																		<table class="table table-bordered" id="informationList_table">
+																			<thead>
+																				<tr>
+																					<th>序号</th>
+																					<th>时间</th>
+																					<th>事项</th>
+																				</tr>
+																			</thead>
+																			<tbody id="informationList"> 
+																			</tbody>
+																		</table>
+
+																	</div>
+																</div> <!-- / .modal-content -->
+															</div> <!-- / .modal-dialog -->
+														</div> <!-- / .modal -->
+														<!-- / Template -->	
+
+
+														<button type = "button" class="btn btn-success" data-toggle="modal" data-target="#device-information-modal" id="showInformationButton">信息码记录</button>
+														<!-- 信息码 -->
+	{% endif %}	
 														<div id="device-msg-modal" class="modal fade modal-blur" tabindex="-1" role="dialog" style="display: none;">
 															<div class="modal-dialog">
 																<div class="modal-content">
 																	<div class="modal-header">
 																		<button type="button" class="close" data-dismiss="modal">×</button>
-																		<h4 class="modal-title">违规信息记录</h4>
+																		<h4 class="modal-title">消息记录</h4>
 																	</div>
 																	<div class="modal-body table-info">
 																		<table class="table table-bordered" id="msgHistoryList_table">
@@ -604,6 +621,7 @@ Use search to find needed section.
 																					<th>序号</th>
 																					<th>时间</th>
 																					<th>信息</th>
+																					<th>状态</th>
 																				</tr>
 																			</thead>
 																			<tbody id="msgHistoryList"> 
@@ -779,6 +797,43 @@ Use search to find needed section.
 														</div>
 													</div><!-- col-sm-6 -->
 												</div><!-- row -->	
+												<div class="row">
+													<div class="col-sm-12">
+														联系方式
+													</div>
+												</div>
+												<div class="row">
+													<div class="col-sm-2">
+														<div class="form-group no-margin-hr">
+															<label class="control-label">上行通知号码</label>
+															<input readonly type="text" name="telephone1" class="form-control">
+														</div>
+													</div><!-- col-sm-6 -->
+													<div class="col-sm-2">
+														<div class="form-group no-margin-hr">
+															<label class="control-label">下行通知号码</label>
+															<input readonly type="text" name="telephone2" class="form-control">
+														</div>
+													</div><!-- col-sm-6 -->
+													<div class="col-sm-2">
+														<div class="form-group no-margin-hr">
+															<label class="control-label">设备维修通知号码</label>
+															<input readonly type="text" name="telephone3" class="form-control">
+														</div>
+													</div><!-- col-sm-6 -->
+													<div class="col-sm-2">
+														<div class="form-group no-margin-hr">
+															<label class="control-label">设备维修通知号码</label>
+															<input readonly type="text" name="telephone4" class="form-control">
+														</div>
+													</div><!-- col-sm-6 -->
+													<div class="col-sm-2">
+														<div class="form-group no-margin-hr">
+															<label class="control-label">设备维修通知号码</label>
+															<input readonly type="text" name="telephone5" class="form-control">
+														</div>
+													</div><!-- col-sm-6 -->
+												</div><!-- row -->	
 											</div>
 											<div class="panel-footer text-right">
 												<button class="btn btn-primary" type="button">确定</button>
@@ -818,7 +873,7 @@ Use search to find needed section.
 												<td>正常</td>
 												<td>
 													<button class="btn btn-flat btn-labeled btn-primary showDevice" data-toggle="modal" data-target = "#show-device-modal" data-deviceid="{{item[0].deviceid}}"> <span class="btn-label icon fa fa-camera-retro" id="show-device-detail-button"></span>查看详情</button>
-													<button class="btn btn-flat btn-labeled btn-primary" data-toggle="modal" data-target = "#add-device-modal" id="modify-device-detail-button" data-deviceid="{{item[0].deviceid}}"><span class="btn-label icon fa fa-camera-retro"></span>修改资料</button>
+													<button {% if usertype==4 %}disabled{% endif %}	class="btn btn-flat btn-labeled btn-primary" data-toggle="modal" data-target = "#add-device-modal" id="modify-device-detail-button" data-deviceid="{{item[0].deviceid}}"><span class="btn-label icon fa fa-camera-retro"></span>修改资料</button>
 												</td>
 											</tr>
 
@@ -862,18 +917,7 @@ Use search to find needed section.
 
 			</div>
 		</div>
-{% if usertype==1 %}
 
-
-		<div class="row">
-			<div class="col-sm-12">
-
-<!-- 6. $MODALS_BLURRED_BACKGROUND =================================================================
-
-				Modal with blurred background
-
-				To enable blurred background effect just add class .modal-blur to the .modal
--->
 				<!-- Template -->
 				<div id="add-device-modal" class="modal fade modal-blur" tabindex="-1" role="dialog" style="display: none;">
 					<div class="modal-dialog" style="width:80%">
@@ -1052,6 +1096,45 @@ Use search to find needed section.
 											</div><!-- col-sm-6 -->
 											<input type="hidden" name="securityDay" id="securityDay" class="form-control">
 										</div><!-- row -->	
+
+										<div class="row">
+											<div class="col-sm-12">
+												联系方式
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-sm-2">
+												<div class="form-group no-margin-hr">
+													<label class="control-label">上行通知号码</label>
+													<input type="text" name="telephone1" class="form-control">
+												</div>
+											</div><!-- col-sm-6 -->
+											<div class="col-sm-2">
+												<div class="form-group no-margin-hr">
+													<label class="control-label">下行通知号码</label>
+													<input type="text" name="telephone2" class="form-control">
+												</div>
+											</div><!-- col-sm-6 -->
+											<div class="col-sm-2">
+												<div class="form-group no-margin-hr">
+													<label class="control-label">设备维修通知号码</label>
+													<input type="text" name="telephone3" class="form-control">
+												</div>
+											</div><!-- col-sm-6 -->
+											<div class="col-sm-2">
+												<div class="form-group no-margin-hr">
+													<label class="control-label">设备维修通知号码</label>
+													<input type="text" name="telephone4" class="form-control">
+												</div>
+											</div><!-- col-sm-6 -->
+											<div class="col-sm-2">
+												<div class="form-group no-margin-hr">
+													<label class="control-label">设备维修通知号码</label>
+													<input type="text" name="telephone5" class="form-control">
+												</div>
+											</div><!-- col-sm-6 -->
+										</div><!-- row -->	
+
 									</div>
 									<div class="panel-footer text-right">
 										<button class="btn btn-primary" type="button" id="addDeviceButton">确定</button>
@@ -1072,6 +1155,19 @@ Use search to find needed section.
 						</div> <!-- / .modal-content -->
 					</div> <!-- / .modal-dialog -->
 				</div> <!-- / .modal -->
+
+{% if usertype==1 %}
+
+
+		<div class="row">
+			<div class="col-sm-12">
+
+<!-- 6. $MODALS_BLURRED_BACKGROUND =================================================================
+
+				Modal with blurred background
+
+				To enable blurred background effect just add class .modal-blur to the .modal
+-->
 				<!-- / Template -->
 	
 <!-- /6. $MODALS_BLURRED_BACKGROUND -->
@@ -1160,52 +1256,7 @@ Use search to find needed section.
 -->
 
 				<!-- Template -->
-				<div id="down-msg-modal" class="modal fade modal-blur" tabindex="-1" role="dialog" style="display: none;">
-					<div class="modal-dialog">
-						<div class="modal-content">
-							<div class="modal-header">
-								<button type="button" class="close" data-dismiss="modal">×</button>
-								<h4 class="modal-title">下发消息</h4>
-							</div>
-							<div class="modal-body">
 
-								<form action="" class="panel form-horizontal" id="msgForm">
-									<div class="panel-body">
-										<div class="row form-group">
-											<label class="col-sm-4 control-label">设备:</label>
-										    <div class="col-sm-8">
-
-
-
-								  {% for item in deviceListInfo %}
-
-											<div class="checkbox">
-												  <label>
-												    <input type="checkbox" value="{{item[0].deviceid}}" name="deviceMsgList">
-												   		{{item[0].roadname}}
-												  </label>
-											</div>					  
-
-									{% endfor %}
-										    </div>
-										</div>
-										<div class="row form-group">
-											<label class="col-sm-4 control-label">消息:</label>
-											<div class="col-sm-8">
-												<textarea class="form-control" rows="10" id="msgDown" name="msgDown"></textarea>
-												<span class="help-block">最多允许800个字，还剩 <span id="wordleft">800</span> 个</span>
-											</div>
-										</div>
-									</div>
-									<div class="panel-footer text-right">
-										<button class="btn btn-primary" type="button" id="downMsgButton">确定</button>
-										<button class="btn btn-primary" type="button" data-dismiss="modal">取消</button>
-									</div>
-								</form>
-							</div>
-						</div> <!-- / .modal-content -->
-					</div> <!-- / .modal-dialog -->
-				</div> <!-- / .modal -->
 				<!-- / Template -->
 	
 
@@ -1243,6 +1294,7 @@ Use search to find needed section.
 											<label class="col-sm-4 control-label">权限:</label>
 											<div class="col-sm-8">
 												<select class="form-control form-group-margin" id="usertype">
+													<option value="4">浏览用户</option>
 													<option value="3">普通用户</option>
 													<option value="1">超级管理员</option>
 												</select>
@@ -1316,7 +1368,52 @@ Use search to find needed section.
 			</div>
 		</div>
 	{% endif %}	
+				<div id="down-msg-modal" class="modal fade modal-blur" tabindex="-1" role="dialog" style="display: none;">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal">×</button>
+								<h4 class="modal-title">下发消息</h4>
+							</div>
+							<div class="modal-body">
 
+								<form action="" class="panel form-horizontal" id="msgForm">
+									<div class="panel-body">
+										<div class="row form-group">
+											<label class="col-sm-4 control-label">设备:</label>
+										    <div class="col-sm-8">
+
+
+
+								  {% for item in deviceListInfo %}
+
+											<div class="checkbox">
+												  <label>
+												    <input type="checkbox" value="{{item[0].deviceid}}" name="deviceMsgList">
+												   		{{item[0].roadname}}
+												  </label>
+											</div>					  
+
+									{% endfor %}
+										    </div>
+										</div>
+										<div class="row form-group">
+											<label class="col-sm-4 control-label">消息:</label>
+											<div class="col-sm-8">
+												<textarea class="form-control" rows="10" id="msgDown" name="msgDown"></textarea>
+												<span class="help-block">最多允许800个字，还剩 <span id="wordleft">800</span> 个</span>
+											</div>
+										</div>
+									</div>
+									<div class="panel-footer text-right">
+										<button class="btn btn-primary" type="button" id="downMsgButton">确定</button>
+										<button class="btn btn-primary" type="button" data-dismiss="modal">取消</button>
+									</div>
+								</form>
+							</div>
+						</div> <!-- / .modal-content -->
+					</div> <!-- / .modal-dialog -->
+				</div> <!-- / .modal -->
 	</div> <!-- / #content-wrapper -->
 
 	<div id="container-wrapper">
@@ -1361,11 +1458,12 @@ Use search to find needed section.
 
 <!-- Get jQuery from Google CDN -->
 <!--[if !IE]> -->
-	<script type="text/javascript"> window.jQuery || document.write('<script src="javascripts/jquery.js">'+"<"+"/script>"); </script>
+	<script src="javascripts/jquery.min.js"></script>
 <!-- <![endif]-->
 <!--[if lte IE 9]>
-	<script type="text/javascript"> window.jQuery || document.write('<script src="http://ajax.useso.com/ajax/libs/jquery/1.8.3/jquery.min.js">'+"<"+"/script>"); </script>
+	<script src="javascripts/jquery.min.ie.js"></script>
 <![endif]-->
+
 
 <!-- z-tree's javascripts -->
 <script type="text/javascript" src="javascripts/jquery.ztree.core-3.5.js"></script>
@@ -1603,7 +1701,8 @@ $(function(){
 			},
 			success: function(res) {
 				
-				var data =res.data[0]
+				var data =res.data[0];
+				console.log(data);
 
 
 				$('#add-device-modal form').find('input').each(function(i,d){
@@ -1773,7 +1872,7 @@ var language= {
 				var length = res.length;
 				res.forEach(function(d,i){
 
-				html += '<tr><td>'+(length-i)+'</td><td>'+d.data+'</td><td>'+d.num+'</td><td>'+d.train+'</td><td>'+d.t0+'</td><td>'+d.m0+'</td><td>'+d.m1+'</td><td>'+d.m2+'</td><td>'+d.t1+'</td><td>'+d.t2+'</td><td>'+d.rem0+'</td><td>'+d.dir+'</td><td>'+d.way+'</td><td>'+d.t3+'</td><td>'+d.t4+'</td><td>'+d.rem1+'</td></tr>';
+				html += '<tr><td>'+(length-i)+'</td><td>'+d.data+'</td><td>'+d.num+'</td><td>'+d.train+'</td><td>'+d.t0+'</td><td>'+d.t1+'</td><td>'+d.t2+'</td><td>'+d.t3+'</td><td>'+d.dir+'</td><td>'+d.way+'</td><td>'+d.m0+'</td><td>'+d.m1+'</td><td>'+d.m2+'</td><td>'+d.rem0+'</td><td>'+d.rem1+'</td></tr>';
 
 				})
 
@@ -1783,7 +1882,7 @@ var language= {
 
 				if(dutyTable){
 					dutyTable.destroy();
-					$('#dutyList_table').parent().parent().empty().append('<table class="table table-bordered" id="dutyList_table"><thead><tr><th>序号</th><th>日期</th><th>工号</th><th>车次</th><th>报开时间</th><th>报开密码</th><th>接收密码1</th><th>接收密码2</th><th>出务时间</th><th>通过时间</th><th>备注</th><th>列车方向</th><th>存储方式</th><th>持续时间</th><th>通过时间</th><th>备注</th></tr></thead><tbody id="dutyList"></tbody></table>');
+					$('#dutyList_table').parent().parent().empty().append('<table class="table table-bordered" id="dutyList_table"><thead><th>序号</th><th>日期</th><th>工号</th><th>车次</th><th>报开时间</th><th>出务时间</th><th>通过时间</th><th>运行时间</th><th>列车方向</th><th>上传方式</th><th>报开密码</th><th>接收密码1</th><th>接收密码2</th><th>运行正常</th><th>校验码</th></tr></thead><tbody id="dutyList"></tbody></table>');
 
 
 				}
@@ -1914,6 +2013,58 @@ var errorListTable;
 	})	
 
 
+var informationListTable;
+	//展示报警信息
+	$document.delegate('#showInformationButton','click',function(){
+
+		var deviceid = $('#device-id-instance').val();
+
+
+		$.ajax({
+			url: "/ajax/showInformationInfo",
+			data:{
+
+				deviceId:deviceid,
+			},
+			success: function(res) {
+				//console.log(res)
+
+
+				var html = '';
+
+				var length = res.length;
+				res.forEach(function(d,i){
+
+				html += '<tr><td>'+(length-i)+'</td><td>'+d.time+'</td><td>'+d.con+'</td></tr>';
+
+				})
+
+
+				if(informationListTable){
+					informationListTable.destroy();
+					$('#informationList_table').parent().parent().empty().append('<table class="table table-bordered" id="informationList_table"><thead><tr><th>序号</th><th>时间</th><th>事项</th></tr></thead><tbody id="informationList"></tbody></table>');
+				}
+
+				$('#informationList').html(html)
+
+				informationListTable = $('#informationList_table').dataTable({
+					  "ordering": false,
+					  language:language
+					});
+				$('#informationList_table_wrapper .table-caption').text('');
+				$('#informationList_table_wrapper .dataTables_filter input').attr('placeholder', '请输入任意关键字');	
+				$('#device-information-modal .modal-title').text($('body').attr('data-roadname'));
+			},
+			error:function(){
+
+				alert('添加失败')
+			}
+		});
+
+	})	
+
+
+
 
 var msgHistoryListTable;
 	//展示报警信息
@@ -1935,16 +2086,18 @@ var msgHistoryListTable;
 				var html = '';
 
 				var length = res.length;
+				var status;
 				res.forEach(function(d,i){
 
-				html += '<tr><td>'+(i+1)+'</td><td>'+d.create_time+'</td><td>'+d.text+'</td></tr>';
+				status = d.status==0?'未接收':'接收完毕';
+				html += '<tr><td>'+(i+1)+'</td><td>'+d.create_time+'</td><td>'+d.text+'</td><td>'+status+'</td></tr>';
 
 				})
 
 
 				if(msgHistoryListTable){
 					msgHistoryListTable.destroy();
-					$('#msgHistoryList_table').parent().parent().empty().append('<table class="table table-bordered" id="msgHistoryList_table"><thead><tr><th>序号</th><th>时间</th><th>信息</th></tr></thead><tbody id="msgHistoryList"></tbody></table>');
+					$('#msgHistoryList_table').parent().parent().empty().append('<table class="table table-bordered" id="msgHistoryList_table"><thead><tr><th>序号</th><th>时间</th><th>信息</th><th>状态</th></tr></thead><tbody id="msgHistoryList"></tbody></table>');
 				}
 
 				$('#msgHistoryList').html(html)
@@ -2036,10 +2189,23 @@ var situationListTable;
 
 				var res = data.data;
 
-				res.forEach(function(d,i){
-					html += '<tr><td>'+'工号'+'</td><td>'+d.number+'</td><td>'+'姓名'+'</td><td>'+d.name+'</td><td>'+'<button data-peopleId='+d.id+' type = "button" class="btn btn-danger deleteDutyUserBtn">删除</button>'+'</td></tr>';
+				var userType = $('body').attr('data-usertype');
 
-				})
+				if(userType==4){
+					res.forEach(function(d,i){
+						html += '<tr><td>'+'工号'+'</td><td>'+d.number+'</td><td>'+'姓名'+'</td><td>'+d.name+'</td><td>'+'<button data-peopleId='+d.id+' type = "button" disabled class="btn btn-danger deleteDutyUserBtn">删除</button>'+'</td></tr>';
+
+					})
+
+				}else{
+					res.forEach(function(d,i){
+						html += '<tr><td>'+'工号'+'</td><td>'+d.number+'</td><td>'+'姓名'+'</td><td>'+d.name+'</td><td>'+'<button data-peopleId='+d.id+' type = "button" class="btn btn-danger deleteDutyUserBtn">删除</button>'+'</td></tr>';
+
+					})
+
+				}
+
+
 
 				$('#dutyPeopleList').html(html);
 /*
@@ -2189,21 +2355,46 @@ var situationListTable;
 
 					var res = data.data;
 
-					res.forEach(function(d,i){
+					var userType = $('body').attr('data-usertype');
 
-						if(d.type=='up'){
+					if(userType==4){
 
-							uphtml += '<tr><td>'+d.train_count+'</td><td>'+d.train_time+'</td><td>'+'<button data-timeid='+d.id+' type = "button" class="btn btn-danger deleteTimeTabelButton">删除</button>'+'</td></tr>';
+						res.forEach(function(d,i){
 
+							if(d.type=='up'){
 
-						}else{
-
-							downhtml += '<tr><td>'+d.train_count+'</td><td>'+d.train_time+'</td><td>'+'<button data-timeid='+d.id+' type = "button" class="btn btn-danger deleteTimeTabelButton">删除</button>'+'</td></tr>';
-
-						}
+								uphtml += '<tr><td>'+d.train_count+'</td><td>'+d.train_time+'</td><td>'+'<button data-timeid='+d.id+' type = "button" disabled class="btn btn-danger deleteTimeTabelButton">删除</button>'+'</td></tr>';
 
 
-					})
+							}else{
+
+								downhtml += '<tr><td>'+d.train_count+'</td><td>'+d.train_time+'</td><td>'+'<button data-timeid='+d.id+' type = "button" disabled class="btn btn-danger deleteTimeTabelButton">删除</button>'+'</td></tr>';
+
+							}
+
+
+						})
+
+					}else{
+
+						res.forEach(function(d,i){
+
+							if(d.type=='up'){
+
+								uphtml += '<tr><td>'+d.train_count+'</td><td>'+d.train_time+'</td><td>'+'<button data-timeid='+d.id+' type = "button" class="btn btn-danger deleteTimeTabelButton">删除</button>'+'</td></tr>';
+
+
+							}else{
+
+								downhtml += '<tr><td>'+d.train_count+'</td><td>'+d.train_time+'</td><td>'+'<button data-timeid='+d.id+' type = "button" class="btn btn-danger deleteTimeTabelButton">删除</button>'+'</td></tr>';
+
+							}
+
+
+						})
+					}
+
+
 
 
 					$('#timeScheduleUpList').html(uphtml);
