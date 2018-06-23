@@ -451,19 +451,19 @@ Use search to find needed section.
 														</div> <!-- / .modal -->
 														<!-- / Template -->		
 														<button type = "button" class="btn btn-success" data-toggle="modal" data-target="#device-people-modal" id="showDutyPeopleButton">人员管理</button>
-													<!-- 当班记录 -->
+													<!-- 作业记录 -->
 														<div id="device-duty-modal" class="modal fade modal-blur" tabindex="-1" role="dialog" style="display: none;">
 															<div class="modal-dialog">
 																<div class="modal-content">
 																	<div class="modal-header">
 																		<button type="button" class="close" data-dismiss="modal">×</button>
-																		<h4 class="modal-title">当班记录</h4>
+																		<h4 class="modal-title">作业记录</h4>
 																	</div>
 																	<div class="modal-body table-info">
 																		<table class="table table-bordered" id="dutyList_table">
 																			<thead>
 																				<tr>
-<th>序号</th><th>日期</th><th>工号</th><th>车次</th><th>报开时间</th><th>出务时间</th><th>通过时间</th><th>运行时间</th><th>列车方向</th><th>上传方式</th><th>报开密码</th><th>接收密码1</th><th>接收密码2</th><th>运行正常</th><th>校验码</th>
+<th>日期</th><th>工号</th><th>车次</th><th>预报</th><th>密码</th><th>确报</th><th>密码</th><th>出务</th><th>通过</th><th>备注</th><th>状态</th><th>列车方向</th><th>存储方式</th><th>时间来源</th><th>持续时间</th><th>通过时间</th><th>校验码</th>
 																				</tr>
 																			</thead>
 																			<tbody id="dutyList">
@@ -475,7 +475,7 @@ Use search to find needed section.
 															</div> <!-- / .modal-dialog -->
 														</div> <!-- / .modal -->
 														<!-- / Template -->		
-														<button type = "button" class="btn btn-success" data-toggle="modal" data-target="#device-duty-modal" id="showDutyButton">当班记录</button>
+														<button type = "button" class="btn btn-success" data-toggle="modal" data-target="#device-duty-modal" id="showDutyButton">作业记录</button>
 													<!-- 交接班记录 -->
 														<div id="device-exchange-modal" class="modal fade modal-blur" tabindex="-1" role="dialog" style="display: none;">
 															<div class="modal-dialog">
@@ -488,17 +488,13 @@ Use search to find needed section.
 																		<table class="table table-bordered" id="exchangeList_table">
 																			<thead>
 																				<tr>
-																					<th>序号</th>
-																					<th>交班时间</th>
-																					<th>交班工号</th>
-																					<th>接班工号</th>
-																					<th>天气</th>
-																					<th>交班安全</th>
-																					<th>交班备品</th>
-																					<th>交班设备</th>
-																					<th>接班安全</th>
-																					<th>接班备品</th>
-																					<th>接班设备</th>
+																					<th>时间</th>
+																					<th>交接确认</th>
+																					<th>安全情况</th>
+																					<th>备品状况</th>
+																					<th>设备状况</th>
+																					<th>汇报状况</th>
+																					<th colspan="3">间休</th>
 																				</tr>
 																			</thead>
 																			<tbody id="exchangeList">
@@ -525,13 +521,16 @@ Use search to find needed section.
 																		<table class="table table-bordered" id="situationList_table">
 																			<thead>
 																				<tr>
-																					<th>序号</th>
-																					<th>报修设备名称</th>
-																					<th>报修时间</th>
-																					<th>工号</th>
+																					<th>设备名称</th>
+																					<th>日期时间</th>
+																					<th>报修人</th>
 																					<th>受理人</th>
-																					<th>修复时间</th>
-																					<th>工号</th>
+																					<th>检修时间</th>
+																					<th>设备状况</th>
+																					<th>管理单位</th>
+																					<th>检修人</th>
+																					<th>结束时间</th>
+																					<th>签认</th>
 																				</tr>
 																			</thead>
 																			<tbody id="situationList">
@@ -544,19 +543,18 @@ Use search to find needed section.
 														</div> <!-- / .modal -->
 														<!-- / Template -->									
 														<button type = "button" class="btn btn-success" data-toggle="modal" data-target="#device-situation-modal" id="showSituationButton">设备状况记录</button>
-														<!-- 违规信息 -->
+														<!-- 离岗异常记录 -->
 														<div id="device-error-modal" class="modal fade modal-blur" tabindex="-1" role="dialog" style="display: none;">
 															<div class="modal-dialog">
 																<div class="modal-content">
 																	<div class="modal-header">
 																		<button type="button" class="close" data-dismiss="modal">×</button>
-																		<h4 class="modal-title">违规信息记录</h4>
+																		<h4 class="modal-title">离岗异常记录</h4>
 																	</div>
 																	<div class="modal-body table-info">
 																		<table class="table table-bordered" id="errorList_table">
 																			<thead>
 																				<tr>
-																					<th>序号</th>
 																					<th>时间</th>
 																					<th>工号</th>
 																				</tr>
@@ -572,25 +570,24 @@ Use search to find needed section.
 														<!-- / Template -->	
 
 
-														<button type = "button" class="btn btn-success" data-toggle="modal" data-target="#device-error-modal" id="showErrorButton">违规信息记录</button>
-														<!-- 违规信息 -->
+														<button type = "button" class="btn btn-success" data-toggle="modal" data-target="#device-error-modal" id="showErrorButton">离岗异常记录</button>
+														<!-- 离岗异常记录 -->
 
 {% if usertype==1 %}
-														<!-- 信息码 -->
+														<!-- 设备信息记录 -->
 														<div id="device-information-modal" class="modal fade modal-blur" tabindex="-1" role="dialog" style="display: none;">
 															<div class="modal-dialog">
 																<div class="modal-content">
 																	<div class="modal-header">
 																		<button type="button" class="close" data-dismiss="modal">×</button>
-																		<h4 class="modal-title">信息码记录</h4>
+																		<h4 class="modal-title">设备信息记录</h4>
 																	</div>
 																	<div class="modal-body table-info">
 																		<table class="table table-bordered" id="informationList_table">
 																			<thead>
 																				<tr>
-																					<th>序号</th>
 																					<th>时间</th>
-																					<th>事项</th>
+																					<th>内容</th>
 																				</tr>
 																			</thead>
 																			<tbody id="informationList"> 
@@ -604,8 +601,8 @@ Use search to find needed section.
 														<!-- / Template -->	
 
 
-														<button type = "button" class="btn btn-success" data-toggle="modal" data-target="#device-information-modal" id="showInformationButton">信息码记录</button>
-														<!-- 信息码 -->
+														<button type = "button" class="btn btn-success" data-toggle="modal" data-target="#device-information-modal" id="showInformationButton">设备信息记录</button>
+														<!-- 设备信息记录 -->
 	{% endif %}	
 														<div id="device-msg-modal" class="modal fade modal-blur" tabindex="-1" role="dialog" style="display: none;">
 															<div class="modal-dialog">
@@ -1854,7 +1851,7 @@ var language= {
 
 	var dutyTable;
 
-	//展示当班信息
+	//展示作业信息
 	$document.delegate('#showDutyButton','click',function(){
 
 		var deviceid = $('#device-id-instance').val();
@@ -1872,19 +1869,13 @@ var language= {
 				var length = res.length;
 				res.forEach(function(d,i){
 
-				html += '<tr><td>'+(length-i)+'</td><td>'+d.data+'</td><td>'+d.num+'</td><td>'+d.train+'</td><td>'+d.t0+'</td><td>'+d.t1+'</td><td>'+d.t2+'</td><td>'+d.t3+'</td><td>'+d.dir+'</td><td>'+d.way+'</td><td>'+d.m0+'</td><td>'+d.m1+'</td><td>'+d.m2+'</td><td>'+d.rem0+'</td><td>'+d.rem1+'</td></tr>';
+				html += '<tr><td>'+d.T00+'</td><td>'+d.T01+'</td><td>'+d.T02+'</td><td>'+d.T03+'</td><td>'+d.T04+'</td><td>'+d.T05+'</td><td>'+d.T06+'</td><td>'+d.T07+'</td><td>'+d.T08+'</td><td>'+d.T09+'</td><td>'+d.T10+'</td><td>'+d.T11+'</td><td>'+d.T12+'</td><td>'+d.T13+'</td><td>'+d.T14+'</td><td>'+d.T15+'</td><td>'+d.T16+'</td></tr>';
 
 				})
 
-/*
-
-*/
-
 				if(dutyTable){
 					dutyTable.destroy();
-					$('#dutyList_table').parent().parent().empty().append('<table class="table table-bordered" id="dutyList_table"><thead><th>序号</th><th>日期</th><th>工号</th><th>车次</th><th>报开时间</th><th>出务时间</th><th>通过时间</th><th>运行时间</th><th>列车方向</th><th>上传方式</th><th>报开密码</th><th>接收密码1</th><th>接收密码2</th><th>运行正常</th><th>校验码</th></tr></thead><tbody id="dutyList"></tbody></table>');
-
-
+					$('#dutyList_table').parent().parent().empty().append('<table class="table table-bordered" id="dutyList_table"><thead><tr><th>日期</th><th>工号</th><th>车次</th><th>预报</th><th>密码</th><th>确报</th><th>密码</th><th>出务</th><th>通过</th><th>备注</th><th>状态</th><th>列车方向</th><th>存储方式</th><th>时间来源</th><th>持续时间</th><th>通过时间</th><th>校验码</th></tr></thead><tbody id="dutyList"></tbody></table>');
 				}
 
 				$('#dutyList').html(html);				
@@ -1931,15 +1922,13 @@ var language= {
 				}
 				var length = res.length;
 				res.forEach(function(d,i){
-				html += '<tr><td>'+(length-i)+'</td><td>'+d.data+'</td><td>'+d.shift0+'</td><td>'+d.shift1+'</td><td>'+d.weather+'</td><td>'+d.safe0+'</td><td>'+d.safe1+'</td><td>'+d.safe2+'</td><td>'+d.safe3+'</td><td>'+d.safe4+'</td><td>'+d.safe5+'</td></tr>';
+				html += '<tr><td rowspan="2">'+d.T00+'</td><td>交班'+d.T01+'</td><td>'+d.T03+'</td><td>'+d.T05+'</td><td>'+d.T07+'</td><td>'+d.T09+'</td><td>'+d.T11+'</td><td>'+d.T13+'</td><td>'+d.T15+'</td></tr><tr><td>接班'+d.T02+'</td><td>'+d.T04+'</td><td>'+d.T06+'</td><td>'+d.T08+'</td><td>'+d.T10+'</td><td>'+d.T12+'</td><td>'+d.T14+'</td><td>'+d.T16+'</td></tr>';
 
 				})
 
 				if(exchangeTable){
 					exchangeTable.destroy();
-					$('#exchangeList_table').parent().parent().empty().append('<table class="table table-bordered" id="exchangeList_table"><thead><tr><th>序号</th><th>交班时间</th><th>交班工号</th><th>接班工号</th><th>天气</th><th>交班安全</th><th>交班备品</th><th>交班设备</th><th>接班安全</th><th>接班备品</th><th>接班设备</th></tr></thead><tbody id="exchangeList"></tbody></table>');
-
-
+					$('#exchangeList_table').parent().parent().empty().append('<table class="table table-bordered" id="exchangeList_table"><thead><tr><th>时间</th><th>交接确认</th><th>安全情况</th><th>备品状况</th><th>设备状况</th><th>汇报状况</th><th colspan="3">间休</th></tr></thead><tbody id="exchangeList"></tbody></table>');
 				}
 
 				$('#exchangeList').html(html);
@@ -1984,14 +1973,14 @@ var errorListTable;
 				var length = res.length;
 				res.forEach(function(d,i){
 
-				html += '<tr><td>'+(length-i)+'</td><td>'+d.time+'</td><td>'+d.con+'</td></tr>';
+				html += '<tr><td>'+d.T00+'</td><td>'+d.T01+'</td></tr>';
 
 				})
 
 
 				if(errorListTable){
 					errorListTable.destroy();
-					$('#errorList_table').parent().parent().empty().append('<table class="table table-bordered" id="errorList_table"><thead><tr><th>序号</th><th>时间</th><th>事项</th></tr></thead><tbody id="errorList"></tbody></table>');
+					$('#errorList_table').parent().parent().empty().append('<table class="table table-bordered" id="errorList_table"><thead><tr><th>时间</th><th>工号</th></tr></thead><tbody id="errorList"></tbody></table>');
 				}
 
 				$('#errorList').html(html)
@@ -2028,21 +2017,15 @@ var informationListTable;
 			},
 			success: function(res) {
 				//console.log(res)
-
-
 				var html = '';
-
 				var length = res.length;
 				res.forEach(function(d,i){
-
-				html += '<tr><td>'+(length-i)+'</td><td>'+d.time+'</td><td>'+d.con+'</td></tr>';
-
+					html += '<tr><td>'+d.T00+'</td><td>'+d.T01+'</td></tr>';
 				})
-
 
 				if(informationListTable){
 					informationListTable.destroy();
-					$('#informationList_table').parent().parent().empty().append('<table class="table table-bordered" id="informationList_table"><thead><tr><th>序号</th><th>时间</th><th>事项</th></tr></thead><tbody id="informationList"></tbody></table>');
+					$('#informationList_table').parent().parent().empty().append('<table class="table table-bordered" id="informationList_table"><thead><tr><th>时间</th><th>内容</th></tr></thead><tbody id="informationList"></tbody></table>');
 				}
 
 				$('#informationList').html(html)
@@ -2143,13 +2126,13 @@ var situationListTable;
 
 				res.forEach(function(d,i){
 
-				html += '<tr><td>'+(length-i)+'</td><td>'+d.equ+'</td><td>'+d.data0+'</td><td>'+d.num0+'</td><td>'+d.ele+'</td><td>'+d.data1+'</td><td>'+d.num1+'</td></tr>';
+				html += '<tr><td>'+d.T00+'</td><td>'+d.T01+'</td><td>'+d.T02+'</td><td>'+d.T03+'</td><td>'+d.T04+'</td><td>'+d.T05+'</td><td>'+d.T06+'</td><td>'+d.T07+'</td><td>'+d.T08+'</td><td>'+d.T09+'</td></tr>';
 
 				})
 
 				if(situationListTable){
 					situationListTable.destroy();
-					$('#situationList_table').parent().parent().empty().append('<table class="table table-bordered" id="situationList_table"><thead><tr><th>序号</th><th>报修设备名称</th><th>报修时间</th><th>工号</th><th>受理人</th><th>修复时间</th><th>工号</th></tr></thead><tbody id="situationList"></tbody></table>');
+					$('#situationList_table').parent().parent().empty().append('<table class="table table-bordered" id="situationList_table"><thead><tr><th>设备名称</th><th>日期时间</th><th>报修人</th><th>受理人</th><th>检修时间</th><th>设备状况</th><th>管理单位</th><th>检修人</th><th>结束时间</th><th>签认</th></tr></thead><tbody id="situationList"></tbody></table>');
 				}
 
 				$('#situationList').html(html)

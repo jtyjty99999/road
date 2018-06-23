@@ -55,23 +55,17 @@ var cache = {};
 
 function findFromCache(cac,record,deviceid,seq){
 
-
 	if(!cac.deviceid){
 		cac.deviceid = {};
 	}
-
-
 	if(!cac.deviceid.record){
-
 		cac.deviceid.record = {};
 	}
-
 	if(cac.deviceid.record.seq&&cac.deviceid.record.seq === seq){
-
-		return 0
+		return 1
 	}
 	cac.deviceid.record.seq =seq;
-	
+	cac.deviceid.record.timestamp =(+ new Date());
 	return 1
 }
 
@@ -81,86 +75,56 @@ var log = function *(next){
 
 	var s;
 	var request = this.request,query = this.request.query,qs  =this.request.querystring;
-
 	console.log('got!!!'+this.request.url)
-
 	query = querystring.parse(qs,null,null,{decodeURIComponent:function(s){return s}})
-	
-	for(var key in query){
 
+	for(var key in query){
 		s = query[key];
 
 		query[key] = gbkdecodeURIComponent(s);
 		console.log(key+':'+gbkdecodeURIComponent(s))
 	}
 
-
 	if(query.Flag=='End'){
-
 		query.deviceid = query.Name;
-		if(query.Record=='Operation'){
-
-			if(findFromCache(cache,'Operation',query.deviceid,query.Seq)){
+		//http://localhost/protocol?Name=010301005009035&Record=0&Seq=0000&T00=2015/1/1&T01=0003&T02=K8500&T03=21:14&T04=008&T05=568&T06=&T07=21:18&T08=21:43&T09=&T10=&T11=&T12=&T13=&T14=&T15=&T16=&Flag=End
+		if(query.Record=='Work'){
+			if(findFromCache(cache,'Work',query.deviceid,query.Seq)){
 
 				try{
+					console.log(query);
 					yield dao.insertDutyInfo(query);
 					console.log('insert Duty Info from:'+query.Name)
 				}catch(e){
-
 					console.log(e)
 				}
-
-
 			}else{
-
 				console.log('dumplacated!');
 			}
-
-
-			
 		}else if(query.Record=='Shift'){
 
 			if(findFromCache(cache,'Shift',query.deviceid,query.Seq)){
-
 				try{
 					yield dao.insertExchangeInfo(query);
 					console.log('insert Exchange Info from:'+query.Name)
 				}catch(e){
-
 					console.log(e)
 				}
-
-
 			}else{
-
 				console.log('dumplacated!');
 			}
-
-
-
-
-
 		}else if(query.Record=='Alarm'){
-
 			if(findFromCache(cache,'Alarm',query.deviceid,query.Seq)){
-
 				try{
 					yield dao.insertErrorInfo(query);
 					console.log('insert Error Info from:'+query.Name)
 				}catch(e){
-
 					console.log(e)
 				}
-
 			}else{
-
 				console.log('dumplacated!');
 			}
-
-
-
 		}else if(query.Record=='Inform'){
-
 			if(findFromCache(cache,'Inform',query.deviceid,query.Seq)){
 				try{
 					yield dao.insertInformationInfo(query);
@@ -169,18 +133,12 @@ var log = function *(next){
 
 					console.log(e)
 				}
-
 			}else{
-
 				console.log('dumplacated!');
 			}
-
-
-
 		}else if(query.Record=='Repair'){
 
 			if(findFromCache(cache,'Repair',query.deviceid,query.Seq)){
-
 				try{
 					yield dao.insertSituationInfo(query);
 					console.log('insert Situation Info from:'+query.Name)
@@ -188,47 +146,30 @@ var log = function *(next){
 
 					console.log(e)
 				}
-
 			}else{
-
 				console.log('dumplacated!');
 			}
-
-
-
 		}else if(query.Record=='Heart'){
-
 			//多数量计数
 			var countsByCount = 10;
-
 			//处理心跳请求
 			var operation,finalString='',type,id,resultCache;
-
 			if(query.Code){ //判断成功后才删除此操作
-
 				console.log(query.Code,query.Count,query.Count&&query.Count!=='0');
 				if(query.Count&&query.Count!=='0'){
-
-
 					if(query.Para=='05'){
-
 						//去数据库搜出来数据发回去
 						resultCache = yield dao.findTimeTableByCount({
 							deviceid:query.Name,
 							s:(Number(query.Count)-1)*countsByCount,
 							e:Number(query.Count)*countsByCount,
 						});
-
 						//i要对应加上count*+i
 							resultCache.forEach(function(d,i){
 								i = countsByCount*(query.Count-1)+i;
-
 								if(i<10){
-
 									i='00'+i;
-
 								}else if(i<99){
-
 									i='0'+i;
 								}
 								finalString+=',T'+i+'='+d.train_count+'-'+d.train_time;
@@ -236,74 +177,48 @@ var log = function *(next){
 						this.body =iconv.encode('Name='+query.Name+',Record='+query.Record+',Para=05,Code='+query.Code+',Count='+query.Count+finalString,'gbk');
 
 					}else if(query.Para=='02'){
-
-
 						//先搜哪一条
-						
 						var msg_id = yield dao.findMessageByCode({
-
 							code:query.Code
 						})
-
 						resultCache = yield dao.findMessageByCount({
 							msg_id:msg_id[0]['msg_id'],
 							s:(Number(query.Count)-1)*countsByCount,
 							e:(Number(query.Count))*countsByCount,
 						});
-						
 						var wholeLength  = yield dao.findMessage({
 							msg_id:msg_id[0]['msg_id']
 						});	
-
 						wholeLength = wholeLength.length;
 						if(wholeLength< parseInt(query.Count)*countsByCount){
-
 							//update
 							console.log('消息全部发送完成');
-
 							yield dao.updateMessageHistory({
-
 								msg_id:msg_id[0]['msg_id'],
 								device_id:query.Name
 							});
 						}
 						//i要对应加上count*+i
-						
 							resultCache.forEach(function(d,i){
 								i = countsByCount*(query.Count-1)+i;
-
 								if(i<10){
-
 									i='00'+i;
-
 								}else if(i<99){
-
 									i='0'+i;
 								}
 								finalString+=',M'+i+'='+d.text;
 							});
 						this.set('Content-Type', 'text/html; charset=gbk');
 						this.body =iconv.encode('Name='+query.Name+',Record='+query.Record+',Para=02,Code='+query.Code+',Count='+query.Count+finalString,'gbk');
-
-
 					}
-
 					return;
-
 				}else{
-
 					yield dao.deleteOperation(query.Code,query.Name);
 				}
-
-
 			}
-
 			try{
-
 				operation = yield dao.selectOperation(query.Name);
-
 			}catch(e){
-
 				console.log(e)
 			}
 			if(operation.length!==0){
@@ -313,17 +228,12 @@ var log = function *(next){
 				type = operation[0]['type'],id=operation[0]['id'];
 
 				if(type=='03'){
-
 					//工号上行		
-
 					try{
-
 						resultCache = yield dao.selectDutyPeople({
 									deviceid:query.Name
 							});			
-
 						resultCache.forEach(function(d,i){
-
 							if(i<10){
 								i='0'+i
 							}
@@ -333,22 +243,13 @@ var log = function *(next){
 						console.log(finalString);
 						this.body = iconv.encode('Name='+query.Name+',Record='+query.Record+',Para=03,Code='+id+finalString,'gbk');
 						return
-
 					}catch(e){
-
 						console.log(e)
 					}
-
-
 				}else if(type=='02'){
-
-
 					//时刻上行
-
 					try{
-
 						var msg_id = yield dao.findMessageByCode({
-
 							code:operation[0]['id']
 						})
 						resultCache = yield dao.findMessage({
@@ -356,34 +257,22 @@ var log = function *(next){
 						});	
 						/*
 						resultCache.forEach(function(d,i){
-
-
 							finalString+=',T'+i+'='+d.train_count+'-'+d.train_time;
 						});*/
 						var count = Math.ceil(resultCache.length/countsByCount);
-
 						if(count<10){
-
 							count='0'+count;
-
 						}
 						console.log('Name='+query.Name+',Record='+query.Record+',Para=05,Count='+count+',Code='+id)
 						this.set('Content-Type', 'text/html; charset=gbk');
 						this.body = iconv.encode('Name='+query.Name+',Record='+query.Record+',Para=02,Count='+count+',Code='+id,'gbk');
 						return
 					}catch(e){
-
 						console.log(e)
 					}
-
-
 				}else if(type=='05'){
-
-
 					//时刻上行
-
 					try{
-
 						resultCache = yield dao.selectTimeTable({
 									deviceid:query.Name
 							});			
@@ -394,27 +283,19 @@ var log = function *(next){
 							finalString+=',T'+i+'='+d.train_count+'-'+d.train_time;
 						});*/
 						var count = Math.ceil(resultCache.length/countsByCount);
-
 						if(count<10){
-
 							count='0'+count;
-
 						}
 						console.log('Name='+query.Name+',Record='+query.Record+',Para=05,Count='+count+',Code='+id)
 						this.body = iconv.encode('Name='+query.Name+',Record='+query.Record+',Para=05,Count='+count+',Code='+id,'gbk');
 						return
 					}catch(e){
-
 						console.log(e)
 					}
-
-
 				}else if(type=='01'){
 					var res;
 					//安全上行
-
 					try{
-
 						res = yield dao.selectUserDeviceInfo(query.Name);
 						if(res[0].securityDay){
 
@@ -539,9 +420,6 @@ var log = function *(next){
 
 
 	}
-
-
-
 
 	this.body = 'Name='+query.Name+',Record='+query.Record+',Seq='+query.Seq;
 

@@ -320,24 +320,24 @@ exports.deviceIsExist = function (deviceid, callback) {
 
 
 /**
- * 插入某设备的当班信息
+ * 插入某设备的作业记录
  *
  * @param {Object} 设备id
  * @return {array} 
  */
 var INSERT_DEVICE_DUTY_SQL = multiline(function (){/*
   INSERT INTO
-    monitor_duty_info(id, create_time, update_time, deviceid, data,num,train,t0,m0,m1,m2,t1,t2,rem0,dir,way,sou,t3,t4,rem1)
-  VALUES(NULL, now(), now(), ?, ?,?,?,?, ?, ?,?,?,?, ?, ?,?,?,?,?,?)
+    monitor_duty_info(id, create_time, update_time, deviceid, T00,T01,T02,T03,T04,T05,T06,T07,T08,T09,T10,T11,T12,T13,T14,T15,T16)
+  VALUES(NULL, now(), now(), ?, ?,?,?,?, ?, ?,?,?,?, ?, ?,?,?,?,?,?, ?)
 */});
 exports.insertDutyInfo = function (dutyInfo, callback) {
 
   assert(typeof dutyInfo === 'object');
 
-  var values = [dutyInfo.deviceid,dutyInfo.Data,
-  dutyInfo.Num,dutyInfo.Train,dutyInfo.T0,dutyInfo.M0,
-  dutyInfo.M1,dutyInfo.M2,dutyInfo.T1,dutyInfo.T2,dutyInfo.Rem0,
-  dutyInfo.Dir0,dutyInfo.Way,dutyInfo.Sou,dutyInfo.T3,dutyInfo.T4,dutyInfo.Rem1];
+  var values = [dutyInfo.deviceid,dutyInfo.T00,dutyInfo.T01,
+  dutyInfo.T02,dutyInfo.T03,dutyInfo.T04,dutyInfo.T05,
+  dutyInfo.T06,dutyInfo.T07,dutyInfo.T08,dutyInfo.T09,dutyInfo.T10,
+  dutyInfo.T11,dutyInfo.T12,dutyInfo.T13,dutyInfo.T14,dutyInfo.T15,dutyInfo.T16];
   mysql.query(INSERT_DEVICE_DUTY_SQL, values, function(err, result) {
     if (err) {
       callback(err);
@@ -380,16 +380,16 @@ exports.showDutyInfo = function (device_id, callback) {
  */
 var INSERT_DEVICE_EXCHANGE_SQL = multiline(function (){/*
   INSERT INTO
-    monitor_exchange_info(id, create_time, update_time, deviceid, data,shift0,shift1,weather,safe0,safe1,safe2,safe3,safe4,safe5)
-  VALUES(NULL, now(), now(), ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ?)
+    monitor_exchange_info(id, create_time, update_time, deviceid,T00, T01,T02,T03,T04,T05,T06,T07,T08,T09,T10,T11,T12,T13,T14,T15,T16)
+  VALUES(NULL, now(), now(), ? , ? , ? , ? , ? , ? , ? , ? , ? , ?,?,?,?,?,?,?,?,?)
 */});
 exports.insertExchangeInfo = function (dutyInfo, callback) {
  // console.log(dutyInfo)
   assert(typeof dutyInfo === 'object');
 
-  var values = [dutyInfo.deviceid,dutyInfo.Data,
-  dutyInfo.Shift0,dutyInfo.Shift1,dutyInfo.Weather,dutyInfo.Safe0,
-  dutyInfo.Safe1,dutyInfo.Safe2,dutyInfo.Safe3,dutyInfo.Safe4,dutyInfo.Safe5];
+  var values = [dutyInfo.deviceid,dutyInfo.T00,dutyInfo.T01,dutyInfo.T02,dutyInfo.T03,
+    dutyInfo.T04,dutyInfo.T05,dutyInfo.T06,dutyInfo.T07,dutyInfo.T08,dutyInfo.T09,
+    dutyInfo.T10,dutyInfo.T11,dutyInfo.T12,dutyInfo.T13,dutyInfo.T14,dutyInfo.T15,dutyInfo.T16];
   mysql.query(INSERT_DEVICE_EXCHANGE_SQL, values, function(err, result) {
     if (err) {
       callback(err);
@@ -431,14 +431,14 @@ exports.showExchangeInfo = function (device_id, callback) {
  */
 var INSERT_DEVICE_ERROR_SQL = multiline(function (){/*
   INSERT INTO
-    monitor_error_info(id, create_time, update_time, deviceid, time,con)
+    monitor_error_info(id, create_time, update_time, deviceid, T00,T01)
   VALUES(NULL, now(), now(), ? , ?,?)
 */});
 exports.insertErrorInfo = function (dutyInfo, callback) {
  // console.log(dutyInfo)
   assert(typeof dutyInfo === 'object');
 
-  var values = [dutyInfo.deviceid,dutyInfo.Time,dutyInfo.Con];
+  var values = [dutyInfo.deviceid,dutyInfo.T00,dutyInfo.T01];
   mysql.query(INSERT_DEVICE_ERROR_SQL, values, function(err, result) {
     if (err) {
       callback(err);
@@ -479,14 +479,14 @@ exports.showErrorInfo = function (device_id, callback) {
  */
 var INSERT_DEVICE_SITUATION_SQL = multiline(function (){/*
   INSERT INTO
-    monitor_situation_info(id, create_time, update_time,deviceid, equ, data0,num0,ele,data1,num1)
-  VALUES(NULL, now(), now(), ? , ?,?,?,?,?,?)
+    monitor_situation_info(id, create_time, update_time,deviceid, T00, T01,T02,T03,T04,T05,T06,T07,T08,T09)
+  VALUES(NULL, now(), now(), ? , ?,?,?,?,?,?,?,?,?,?)
 */});
 exports.insertSituationInfo = function (dutyInfo, callback) {
  // console.log(dutyInfo)
   assert(typeof dutyInfo === 'object');
 
-  var values = [dutyInfo.deviceid,dutyInfo.Equ,dutyInfo.Data0,dutyInfo.Num0,dutyInfo.Ele,dutyInfo.Data1,dutyInfo.Num1];
+  var values = [dutyInfo.deviceid,dutyInfo.T00,dutyInfo.T01,dutyInfo.T02,dutyInfo.T03,dutyInfo.T04,dutyInfo.T05,dutyInfo.T06,dutyInfo.T07,dutyInfo.T08,dutyInfo.T09];
   mysql.query(INSERT_DEVICE_SITUATION_SQL, values, function(err, result) {
     if (err) {
       callback(err);
@@ -521,21 +521,21 @@ exports.showSituationInfo = function (device_id, callback) {
 
 
 /**
- * 插入某设备的信息码
+ * 插入某设备的设备信息记录
  *
  * @param {Object} 设备id
  * @return {array} 
  */
 var INSERT_DEVICE_INFORMATION_SQL = multiline(function (){/*
   INSERT INTO
-    monitor_Information_info(id, create_time, update_time, deviceid, time,con)
+    monitor_Information_info(id, create_time, update_time, deviceid, T00,T01)
   VALUES(NULL, now(), now(), ? , ?,?)
 */});
 exports.insertInformationInfo = function (Info, callback) {
  // console.log(dutyInfo)
   assert(typeof Info === 'object');
 
-  var values = [Info.deviceid,Info.Time,Info.Con];
+  var values = [Info.deviceid,Info.T00,Info.T01];
   mysql.query(INSERT_DEVICE_INFORMATION_SQL, values, function(err, result) {
     if (err) {
       callback(err);
