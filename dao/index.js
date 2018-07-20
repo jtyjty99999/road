@@ -22,15 +22,24 @@ var DEVICE_ADD_SQL = multiline(function (){/*
     monitor_device(id, create_time, update_time, user_id, deviceid,
       roadTopManager, roadTopManagerCode, roadname, roadbelongCode, roadmiles, roadfromto,roadcount,roadupsituation,
       roaddownsituation,roadleftsituationup,roadleftsituationdown,roadowncarCode,roadownareaCode,
-      roadwidth,roadlineleft,roadlineright,roadcity,roadcountry,roadtraffic,roadtype,roadbelong,roadowncar,roadownarea,securityDayFirst,securityDaySecond,securityDayThird,securityDay,telephone1,telephone2,telephone3,telephone4,telephone5)
-  VALUES(NULL, now(), now(), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?,?,?,?,?,?,?,?,?,?,?)
+      roadwidth,roadlineleft,roadlineright,roadcity,roadcountry,roadtraffic,roadtype,roadbelong,roadowncar,roadownarea,securityDayFirst,securityDaySecond,securityDayThird,securityDay,telephone1,
+      telephone2,telephone3,telephone4,telephone5,worktext1,worktext2,worktext3,worktext4,changetext1,changetext2,changetext3,changetext4,changetext5,changetext6,changetext7,changetext8,changetext9,relaxtime1,relaxtime2,
+      relaxtime3,relaxtime4,relaxtime5,relaxtime6,
+      workman1,workman2,workman3,workman4,elworkman1,elworkman2,elworkman3,elworkman4,elman1,elman2,elman3,elman4,tlman1,tlman2,tlman3,tlman4,houseman1,houseman2,houseman3,houseman4,companyman1,
+      companyman2,companyman3,companyman4)
+  VALUES(NULL, now(), now(), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
 */});
 exports.addDevice = function (device, callback) {
   assert(typeof device === 'object');
   var values = [device.user_id, device.deviceid,
       device.roadTopManager, device.roadTopManagerCode, device.roadname, device.roadbelongCode, device.roadmiles, device.roadfromto,device.roadcount,device.roadupsituation,
       device.roaddownsituation,device.roadleftsituationup,device.roadleftsituationdown,device.roadowncarCode,device.roadownareaCode,device.roadwidth,device.roadlineleft,
-      device.roadlineright,device.roadcity,device.roadcountry,device.roadtraffic,device.roadtype,device.roadbelong,device.roadowncar,device.roadownarea,device.securityDayFirst,device.securityDaySecond,device.securityDayThird,device.securityDay,device.telephone1,device.telephone2,device.telephone3,device.telephone4,device.telephone5];
+      device.roadlineright,device.roadcity,device.roadcountry,device.roadtraffic,device.roadtype,device.roadbelong,device.roadowncar,device.roadownarea,device.securityDayFirst,
+      device.securityDaySecond,device.securityDayThird,device.securityDay,device.telephone1,device.telephone2,device.telephone3,device.telephone4,device.telephone5,
+      device.worktext1,device.worktext2,device.worktext3,device.worktext4,device.changetext1,device.changetext2,device.changetext3,device.changetext4,
+      device.changetext5,device.changetext6,device.changetext7,device.changetext8,device.changetext9,device.relaxtime1,device.relaxtime2,device.relaxtime3,device.relaxtime4,device.relaxtime5,device.relaxtime6,device.workman1,device.workman2,device.workman3,device.workman4,
+      device.elworkman1,device.elworkman2,device.elworkman3,device.elworkman4,device.elman1,device.elman2,device.elman3,device.elman4,device.tlman1,
+      device.tlman2,device.tlman3,device.tlman4,device.houseman1,device.houseman2,device.houseman3,device.houseman4,device.companyman1,device.companyman2,device.companyman3,device.companyman4];
   mysql.query(DEVICE_ADD_SQL, values, function(err, result) {
     if (err) {
       callback(err);
@@ -50,16 +59,24 @@ var DEVICE_MODIFY_SQL = multiline(function (){/*
   UPDATE
     monitor_device set update_time = now(), roadTopManager = ?, roadTopManagerCode=?, roadname=?, roadbelongCode=?, roadmiles=?, roadfromto=?,
     roadcount=?,roadupsituation=?,roaddownsituation=?,roadleftsituationup=?,roadleftsituationdown=?,roadowncarCode=?,roadownareaCode=?,
-      roadwidth=?,roadlineleft=?,roadlineright=?,roadcity=?,roadcountry=?,roadtraffic=?,roadtype=?,roadbelong=?,roadowncar=?,roadownarea=?,securityDayFirst=?,securityDaySecond=?,securityDayThird=?,securityDay=?,telephone1=?,telephone2=?,telephone3=?,telephone4=?,telephone5=? where deviceid = ?
+      roadwidth=?,roadlineleft=?,roadlineright=?,roadcity=?,roadcountry=?,roadtraffic=?,roadtype=?,roadbelong=?,roadowncar=?,roadownarea=?,
+      securityDayFirst=?,securityDaySecond=?,securityDayThird=?,securityDay=?,telephone1=?,telephone2=?,telephone3=?,telephone4=?,telephone5=?,worktext1=?,worktext2=?,worktext3=?,worktext4=?,changetext1=?,changetext2=?,changetext3=?,changetext4=?,changetext5=?,changetext6=?,changetext7=?,changetext8=?,changetext9=?,relaxtime1=?,relaxtime2=?,relaxtime3=?,relaxtime4=?,relaxtime5=?,relaxtime6=?,
+      workman1=?,workman2=?,workman3=?,workman4=?,elworkman1=?,elworkman2=?,elworkman3=?,elworkman4=?,elman1=?,elman2=?,elman3=?,elman4=?,tlman1=?,tlman2=?,tlman3=?,tlman4=?,houseman1=?,houseman2=?,houseman3=?,houseman4=?,companyman1=?,
+      companyman2=?,companyman3=?,companyman4=? where deviceid = ?
 */});
 exports.modifyDevice = function (device, callback) {
   assert(typeof device === 'object');
   var values = [
       device.roadTopManager, device.roadTopManagerCode, device.roadname, device.roadbelongCode, device.roadmiles, device.roadfromto,device.roadcount,device.roadupsituation,
       device.roaddownsituation,device.roadleftsituationup,device.roadleftsituationdown,device.roadowncarCode,device.roadownareaCode,device.roadwidth,device.roadlineleft,
-      device.roadlineright,device.roadcity,device.roadcountry,device.roadtraffic,device.roadtype,device.roadbelong,device.roadowncar,device.roadownarea,device.securityDayFirst,device.securityDaySecond,device.securityDayThird,device.securityDay,device.telephone1,device.telephone2,device.telephone3,device.telephone4,device.telephone5,device.deviceid];
+      device.roadlineright,device.roadcity,device.roadcountry,device.roadtraffic,device.roadtype,device.roadbelong,device.roadowncar,device.roadownarea,device.securityDayFirst,device.securityDaySecond,device.securityDayThird,device.securityDay,device.telephone1,device.telephone2,device.telephone3,device.telephone4,device.telephone5,
+      device.worktext1,device.worktext2,device.worktext3,device.worktext4,device.changetext1,device.changetext2,device.changetext3,device.changetext4,
+      device.changetext5,device.changetext6,device.changetext7,device.changetext8,device.changetext9,device.relaxtime1,device.relaxtime2,device.relaxtime3,device.relaxtime4,device.relaxtime5,device.relaxtime6,device.workman1,device.workman2,device.workman3,device.workman4,
+      device.elworkman1,device.elworkman2,device.elworkman3,device.elworkman4,device.elman1,device.elman2,device.elman3,device.elman4,device.tlman1,
+      device.tlman2,device.tlman3,device.tlman4,device.houseman1,device.houseman2,device.houseman3,device.houseman4,device.companyman1,device.companyman2,device.companyman3,device.companyman4,device.deviceid];
 
   mysql.query(DEVICE_MODIFY_SQL, values, function(err, result) {
+    console.log(device.deviceid, err, result, 999999)
     if (err) {
       callback(err);
     } else {
@@ -875,6 +892,29 @@ exports.selectOperation = function (id, callback) {
 };
 
 
+/**
+ * 查找操作
+ *
+ * @param {String} code
+ * @return {Number} id
+ */
+var OPERATION_SELETE_SQL_CODE = multiline(function (){/*
+  SELECT * from
+    monitor_operation where id= ? limit 1
+*/});
+exports.selectOperationByCode = function (code, callback) {
+
+  var values = [code];
+  mysql.query(OPERATION_SELETE_SQL_CODE, values, function(err, result) {
+    if (err) {
+      callback(err);
+    } else {
+      callback(null, result);
+    }
+  });
+};
+
+
 
 
 /**
@@ -885,12 +925,12 @@ exports.selectOperation = function (id, callback) {
  */
 var MSG_DEVICE_ADD_SQL = multiline(function (){/*
   INSERT INTO
-    monitor_msg_device(id,code, msg_id)
-  VALUES(null,?,?)
+    monitor_msg_device(id,code, msg_id,user,dept,demand)
+  VALUES(null,?,?,?,?,?)
 */});
 exports.addMsgDevice= function (o, callback) {
   assert(typeof o === 'object');
-  var values = [o.code,o.msg_id];
+  var values = [o.code,o.msg_id,o.user,o.dept,o.demand];
   mysql.query(MSG_DEVICE_ADD_SQL, values, function(err, result) {
     if (err) {
       callback(err);
@@ -908,14 +948,14 @@ exports.addMsgDevice= function (o, callback) {
  */
 var MSG_ADD_SQL = multiline(function (){/*
   INSERT INTO
-    monitor_message(id,index2,text,msg_id)
-  VALUES(null,?,?,?)
+    monitor_message(id,index2,text,msg_id,user,dept,demand)
+  VALUES(null,?,?,?,?,?,?)
 */});
 exports.addMessage= function (msg, callback) {
   assert(typeof msg === 'object');
 
   var values = [msg.index,
-    msg.text,msg.msg_id];
+    msg.text,msg.msg_id,msg.user,msg.dept,msg.demand];
   mysql.query(MSG_ADD_SQL, values, function(err, result) {
     if (err) {
       callback(err);
@@ -1037,12 +1077,15 @@ exports.showMsgHistoryInfo = function (deviceid, callback) {
  */
 var MSG_HISTORY_UPDATE_SQL = multiline(function (){/*
   update
-    monitor_msg_history set status = 1 where device_id= ? and msg_id = ?
+    monitor_msg_history set status = ?,comment = ? where device_id= ? and msg_id = ?
 */});
 exports.updateMessageHistory = function (msg, callback) {
   assert(typeof msg === 'object');
-
-  var values = [msg.device_id,msg.msg_id];
+  console.log(msg.device_id,msg.msg_id,msg.status);
+  if(!msg.status){
+    msg.status = 1
+  }
+  var values = [msg.status,msg.comment,msg.device_id,msg.msg_id];
   mysql.query(MSG_HISTORY_UPDATE_SQL, values, function(err, result) {
     if (err) {
       callback(err);
@@ -1060,20 +1103,244 @@ exports.updateMessageHistory = function (msg, callback) {
  */
 var MSG_HISTORY_ADD_SQL = multiline(function (){/*
   INSERT INTO
-    monitor_msg_history(id,device_id,msg_id,text,create_time)
-  VALUES(null,?,?,?,now())
+    monitor_msg_history(id,device_id,msg_id,text,create_time,user,dept,demand)
+  VALUES(null,?,?,?,now(),?,?)
 */});
 exports.addMsgHistory= function (msg, callback) {
   assert(typeof msg === 'object');
 
   var values = [msg.deviceid,
-    msg.msg_id,msg.text];
+    msg.msg_id,msg.text,msg.user,msg.dept,msg.demand];
   mysql.query(MSG_HISTORY_ADD_SQL, values, function(err, result) {
     if (err) {
       console.log(err)
       callback(err);
     } else {
       callback(null, result.insertId);
+    }
+  });
+};
+
+
+
+/**
+ * 新增一条检查信息与设备关联
+ *
+ * @param {Object} 操作对象
+ * @return {Number} id
+ */
+var CHECK_DEVICE_ADD_SQL = multiline(function (){/*
+  INSERT INTO
+    monitor_check_device(id,code, msg_id,user,job)
+  VALUES(null,?,?,?,?)
+*/});
+exports.addCheckDevice= function (o, callback) {
+  assert(typeof o === 'object');
+  var values = [o.code,o.msg_id,o.user,o.job];
+  mysql.query(CHECK_DEVICE_ADD_SQL, values, function(err, result) {
+    if (err) {
+      callback(err);
+    } else {
+      callback(null, result.insertId);
+    }
+  });
+};
+
+/**
+ * 新增一条检查信息
+ *
+ * @param {Object} 操作对象
+ * @return {Number} id
+ */
+var CHECK_ADD_SQL = multiline(function (){/*
+  INSERT INTO
+    monitor_check(id,index2,text,msg_id,user,job)
+  VALUES(null,?,?,?,?,?)
+*/});
+exports.addCheck= function (msg, callback) {
+  assert(typeof msg === 'object');
+
+  var values = [msg.index,
+    msg.text,msg.msg_id,msg.user,msg.job];
+  mysql.query(CHECK_ADD_SQL, values, function(err, result) {
+    if (err) {
+      callback(err);
+    } else {
+      callback(null, result.insertId);
+    }
+  });
+};
+
+/**
+ * 按code查找消息
+ *
+ * @param {String} deviceid
+ * @return {Number} id
+ */
+var CHECK_CODE_SELETE_SQL = multiline(function (){/*
+  SELECT * from
+    monitor_check_device where code= ?
+*/});
+exports.findCheckByCode = function (msg, callback) {
+  assert(typeof msg === 'object');
+
+  var values = [msg.code];
+  mysql.query(CHECK_CODE_SELETE_SQL, values, function(err, result) {
+    if (err) {
+      callback(err);
+    } else {
+
+      callback(null, result);
+    }
+  });
+};
+
+/**
+ * 查找消息记录
+ *
+ * @param {String} deviceid
+ * @return {Number} id
+ */
+var CHECK_HISTORY_SELETE_SQL = multiline(function (){/*
+  SELECT * from
+    monitor_check_history where device_id= ?
+*/});
+exports.showCheckHistoryInfo = function (deviceid, callback) {
+
+  var values = [deviceid];
+  mysql.query(CHECK_HISTORY_SELETE_SQL, values, function(err, result) {
+    if (err) {
+      callback(err);
+    } else {
+
+      callback(null, result);
+    }
+  });
+};
+
+/**
+ * 查找check
+ *
+ * @param {String} deviceid
+ * @return {Number} id
+ */
+var CHECK_HISTORY_SELETE_SQL = multiline(function (){/*
+  select * from
+    monitor_check_history where device_id= ? and msg_id = ?
+*/});
+exports.selectCheckHistory = function (msg, callback) {
+  assert(typeof msg === 'object');
+  if(!msg.status){
+    msg.status = 1
+  }
+  var values = [msg.device_id,msg.msg_id];
+  mysql.query(CHECK_HISTORY_SELETE_SQL, values, function(err, result) {
+    if (err) {
+      callback(err);
+    } else {
+      callback(null, result);
+    }
+  });
+};
+
+
+/**
+ * 查找消息
+ *
+ * @param {String} deviceid
+ * @return {Number} id
+ */
+var MSG_HISTORY_SELETE_SQL = multiline(function (){/*
+  select * from
+    monitor_msg_history where device_id= ? and msg_id = ?
+*/});
+exports.selectMessageHistory = function (msg, callback) {
+  assert(typeof msg === 'object');
+  if(!msg.status){
+    msg.status = 1
+  }
+  var values = [msg.device_id,msg.msg_id];
+  mysql.query(MSG_HISTORY_SELETE_SQL, values, function(err, result) {
+    if (err) {
+      callback(err);
+    } else {
+      callback(null, result);
+    }
+  });
+};
+
+/**
+ * 更新消息状态
+ *
+ * @param {String} deviceid
+ * @return {Number} id
+ */
+var CHECK_HISTORY_UPDATE_SQL = multiline(function (){/*
+  update
+    monitor_check_history set status = ?,comment=? where device_id= ? and msg_id = ?
+*/});
+exports.updateCheckHistory = function (msg, callback) {
+  assert(typeof msg === 'object');
+  if(!msg.status){
+    msg.status = 1
+  }
+  var values = [msg.status,msg.comment,msg.device_id,msg.msg_id];
+  mysql.query(CHECK_HISTORY_UPDATE_SQL, values, function(err, result) {
+    if (err) {
+      callback(err);
+    } else {
+      callback(null, result);
+    }
+  });
+};
+/**
+ * 新增信息记录
+ *
+ * @param {Object} 操作对象
+ * @return {Number} id
+ */
+var CHECK_HISTORY_ADD_SQL = multiline(function (){/*
+  INSERT INTO
+    monitor_check_history(id,device_id,msg_id,text,create_time,user,job)
+  VALUES(null,?,?,?,now(),?,?)
+*/});
+exports.addCheckHistory= function (msg, callback) {
+  assert(typeof msg === 'object');
+
+  var values = [msg.deviceid,
+    msg.msg_id,msg.text,msg.user,msg.job];
+  mysql.query(CHECK_HISTORY_ADD_SQL, values, function(err, result) {
+    if (err) {
+      console.log(err)
+      callback(err);
+    } else {
+      callback(null, result.insertId);
+    }
+  });
+};
+
+
+
+/**
+ * 查找消息数量
+ *
+ * @param {String} deviceid
+ * @return {Number} id
+ */
+var CHECK_COUNTS_SELETE_SQL = multiline(function (){/*
+  SELECT * from
+    monitor_check where msg_id= ?
+*/});
+exports.findCheck = function (msg, callback) {
+  assert(typeof msg === 'object');
+
+  var values = [msg.msg_id];
+  mysql.query(CHECK_COUNTS_SELETE_SQL, values, function(err, result) {
+    if (err) {
+      callback(err);
+    } else {
+      console.log(msg.s,msg.e,CHECK_COUNTS_SELETE_SQL)
+      callback(null, result);
     }
   });
 };

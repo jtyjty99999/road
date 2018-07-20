@@ -197,7 +197,6 @@ exports.addDevice = function *(next){
 		this.body ={code:500,msg:"添加失败"};
 
 	}
-
 	if(res1.length==0){
 
 		try{
@@ -222,8 +221,6 @@ exports.addDevice = function *(next){
 		}		
 
 	}else{
-
-
 		try{
 
 			yield dao.modifyDevice(query);
@@ -270,20 +267,26 @@ exports.downMsg = function *(next){
 	ids = ids.filter(function(d){
 
 		return d!=='';
-	})
+	});
+	var user = query.user;
+	var dept = query.dept;
+	var demand = query.demand;
 	var whole = query.text;
 	var random = parseInt(Math.random()*100000);
 	var msg_id = pad(random,6);
 
 	var message = [];
 
+	/*字符分割逻辑，留着备用
 	var n = 10;
 
 	for (var i = 0, l = whole.length; i < l/n; i++) {
 
 		message.push(whole.slice(n*i, n*(i+1)));
 
-	}
+	}*/
+
+	message.push(whole);
 
 		try{
 
@@ -300,13 +303,18 @@ exports.downMsg = function *(next){
 
 					msg_id:msg_id,
 					text:whole,
-					deviceid:d
-					
+					deviceid:d,
+					user,
+					dept,
+					demand	
 				})
 
 				return dao.addMsgDevice({
 					msg_id:msg_id,
-					code:code
+					code:code,
+					user,
+					dept,
+					demand
 				});
 
 			})
@@ -316,7 +324,10 @@ exports.downMsg = function *(next){
 				return dao.addMessage({
 							text:d,
 							index:index,
-							msg_id:msg_id
+							msg_id:msg_id,
+							user,
+							dept,
+							demand
 				});
 			})
 
@@ -330,6 +341,70 @@ exports.downMsg = function *(next){
 			console.log(e);
 			this.body ={code:500,msg:"上报失败"};
 
+		}
+
+}
+
+
+
+exports.downCheck = function *(next){
+
+	var request = this.request,query = this.request.query,qs  =this.request.querystring;
+
+	var user = query.user;
+	var job = query.job;
+	var whole = query.text;
+	var random = parseInt(Math.random()*100000);
+	var msg_id = pad(random,6);
+	var deviceid = query.deviceid;
+	var message = [];
+
+	/*字符分割逻辑，留着备用
+	var n = 10;
+
+	for (var i = 0, l = whole.length; i < l/n; i++) {
+
+		message.push(whole.slice(n*i, n*(i+1)));
+
+	}*/
+	message.push(whole);
+		try{
+				var code = pad(random,4);
+				dao.addOperation({
+					id:code,
+					type:'09',
+					deviceid:deviceid
+				})
+				dao.addCheckHistory({
+
+					msg_id:msg_id,
+					text:whole,
+					deviceid:deviceid,
+					user,
+					job	
+				})
+				dao.addCheckDevice({
+					msg_id:msg_id,
+					code:code,
+					user,
+					job
+				});
+			yield message.map(function(d,index){
+				return dao.addCheck({
+							text:d,
+							index:index,
+							msg_id:msg_id,
+							user,
+							job
+				});
+			})
+			var random = parseInt(Math.random()*1000);
+			this.body = {
+				code:200,msg:"上报检查成功"
+			}
+		}catch(e){
+			console.log(e);
+			this.body ={code:500,msg:"上报失败"};
 		}
 
 }

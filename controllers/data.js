@@ -38,6 +38,27 @@ var index = function *() {
 	this.body = query.Name+';Record='+query.Record+';Seq=0'
 }; 
 
+function gblen(s) {    
+    var len = 0;    
+    for (var i=0; i<s.length; i++) {    
+        if (s.charCodeAt(i)>127 || s.charCodeAt(i)==94) {    
+             len += 2;    
+         } else {    
+             len ++;    
+         }    
+     }    
+    return len;    
+} 
+
+function pad(s){
+	return s;
+	var length = gblen(s);
+	var max = 10;
+	var l = max-length + 1;
+	var padS = 'x'
+	return s + new Array(l).join(padS)
+}
+
 function gbkdecodeURIComponent(s){
 	var buff,result;
 		s = s.replace(/%([a-zA-Z0-9]{2})/g,function(_,code){
@@ -153,9 +174,87 @@ var log = function *(next){
 			//多数量计数
 			var countsByCount = 10;
 			//处理心跳请求
-			var operation,finalString='',type,id,resultCache;
+			var operation,finalString='',type,time,id,resultCache;
+			//http://183.247.161.70:8001/protocol?Name=020201004004783&Record=Heart&Seq=0000&P=10&Msg=21512&Text=检查检查&Flag=End
+			if(query.Msg){
+				if(query.P==='10'){
+					if(query.Add==='1'){
+						var msg = yield dao.selectMessageHistory({
+							msg_id:query.Msg,
+							device_id:query.Name,
+						})
+						yield dao.updateMessageHistory({
+							msg_id:query.Msg,
+							device_id:query.Name,
+							status:2,
+							comment:msg[0].comment + query.Text
+						});
+					}else{
+						yield dao.updateMessageHistory({
+							msg_id:query.Msg,
+							device_id:query.Name,
+							status:2,
+							comment:query.Text
+						});
+					}
+				}
+				if(query.P==='11'){
+					if(query.Add==='1'){
+						var msg = yield dao.selectCheckHistory({
+							msg_id:query.Msg,
+							device_id:query.Name,
+						})
+						yield dao.updateCheckHistory({
+							msg_id:query.Msg,
+							device_id:query.Name,
+							status:2,
+							comment:msg[0].comment + query.Text
+						});
+					}else{
+						yield dao.updateCheckHistory({
+							msg_id:query.Msg,
+							device_id:query.Name,
+							status:2,
+							comment:query.Text
+						});
+					}
+				}
+			}
 			if(query.Code){ //判断成功后才删除此操作
 				console.log(query.Code,query.Count,query.Count&&query.Count!=='0');
+				var o  = yield dao.selectOperationByCode(query.Code);
+				yield dao.deleteOperation(query.Code,query.Name);
+				if(o.length!==0){
+					if(o[0].type=='02'){
+							///protocol?Name=020201004004783&Record=Heart&Seq=0000&Code=0989&Flag=End
+						var msg_id = yield dao.findMessageByCode({
+							code:query.Code
+						})
+						//已读
+						yield dao.updateMessageHistory({
+							msg_id:msg_id[0]['msg_id'],
+							device_id:query.Name
+						});
+						this.set('Content-Type', 'text/html; charset=gbk');
+						this.body =iconv.encode('Name='+query.Name+',Record='+query.Record+',P=10,Msg='+msg_id[0]['msg_id']+',Flag=End','gbk');
+						return
+					}
+					if(o[0].type=='09'){
+							///protocol?Name=020201004004783&Record=Heart&Seq=0000&Code=0989&Flag=End
+						var msg_id = yield dao.findCheckByCode({
+							code:query.Code
+						})
+						//已读
+						yield dao.updateCheckHistory({
+							msg_id:msg_id[0]['msg_id'],
+							device_id:query.Name
+						});
+						this.set('Content-Type', 'text/html; charset=gbk');
+						this.body =iconv.encode('Name='+query.Name+',Record='+query.Record+',P=11,Msg='+msg_id[0]['msg_id'] + ',Flag=End','gbk');
+						return
+					}
+				}
+				/*
 				if(query.Count&&query.Count!=='0'){
 					if(query.Para=='05'){
 						//去数据库搜出来数据发回去
@@ -214,7 +313,7 @@ var log = function *(next){
 					return;
 				}else{
 					yield dao.deleteOperation(query.Code,query.Name);
-				}
+				}*/
 			}
 			try{
 				operation = yield dao.selectOperation(query.Name);
@@ -225,29 +324,58 @@ var log = function *(next){
 
 				console.log('detected unsync operation;')
 				console.log(operation);
-				type = operation[0]['type'],id=operation[0]['id'];
-
+				type = operation[0]['type'],id=operation[0]['id'],time = operation[0]['create_time']
+				
 				if(type=='03'){
+					var s = ',T02=';
 					//工号上行		
 					try{
 						resultCache = yield dao.selectDutyPeople({
 									deviceid:query.Name
-							});			
+							});
 						resultCache.forEach(function(d,i){
-							if(i<10){
-								i='0'+i
+							if(i===0){
+								s+=pad(d.name);
+							}else{
+								s+='-'+pad(d.name);
 							}
-							finalString+=',Num'+i+'='+d.number+'-'+d.name;
 						});
+						this.set('Content-Type', 'text/html; charset=gbk');
 						//console.log(this.body = 'Name='+query.Name+',Record='+query.Record+',Para=03,code='+id+finalString)
-						console.log(finalString);
-						this.body = iconv.encode('Name='+query.Name+',Record='+query.Record+',Para=03,Code='+id+finalString,'gbk');
+						this.body = iconv.encode('Name='+query.Name+',Record='+query.Record+',P=01,Code='+id+s+',Flag=End','gbk');
+						return
+					}catch(e){
+						console.log(e)
+					}
+				}else if(type=='09'){
+					//检查上行
+					try{
+						var msg_id = yield dao.findCheckByCode({
+							code:operation[0]['id']
+						})
+						resultCache = yield dao.findCheck({
+							msg_id:msg_id[0]['msg_id']
+						});	
+						/*
+						resultCache.forEach(function(d,i){
+							finalString+=',T'+i+'='+d.train_count+'-'+d.train_time;
+						});*/
+						/*
+						var count = Math.ceil(resultCache.length/countsByCount);
+						if(count<10){
+							count='0'+count;
+						}*/
+						console.log('Name='+query.Name+',Record='+query.Record+',P=03,Count='+count+',Code='+id)
+						
+						this.set('Content-Type', 'text/html; charset=gbk');
+						//this.body = iconv.encode('Name='+query.Name+',Record='+query.Record+',P=03,Count='+count+',Code='+id+',Flag=End','gbk');
+						this.body = iconv.encode('Name='+query.Name+',Record='+query.Record+',P=03,T00='+moment(time).format('YYYY-MM-DD-hh-mm-ss')+',T01='+resultCache[0].user + ',T02=' +resultCache[0].job + ',T03=' +resultCache[0].text +',Code='+id+',Flag=End','gbk');
 						return
 					}catch(e){
 						console.log(e)
 					}
 				}else if(type=='02'){
-					//时刻上行
+					//通知上行
 					try{
 						var msg_id = yield dao.findMessageByCode({
 							code:operation[0]['id']
@@ -259,13 +387,16 @@ var log = function *(next){
 						resultCache.forEach(function(d,i){
 							finalString+=',T'+i+'='+d.train_count+'-'+d.train_time;
 						});*/
+						/*
 						var count = Math.ceil(resultCache.length/countsByCount);
 						if(count<10){
 							count='0'+count;
-						}
-						console.log('Name='+query.Name+',Record='+query.Record+',Para=05,Count='+count+',Code='+id)
+						}*/
+						console.log('Name='+query.Name+',Record='+query.Record+',P=02,Count='+count+',Code='+id)
+						
 						this.set('Content-Type', 'text/html; charset=gbk');
-						this.body = iconv.encode('Name='+query.Name+',Record='+query.Record+',Para=02,Count='+count+',Code='+id,'gbk');
+						//this.body = iconv.encode('Name='+query.Name+',Record='+query.Record+',P=02,Count='+count+',Code='+id+',Flag=End','gbk');
+						this.body = iconv.encode('Name='+query.Name+',Record='+query.Record+',P=02,T00='+moment(time).format('YYYY-MM-DD-hh-mm-ss')+',T01='+resultCache[0].dept + ',T02=' +resultCache[0].user + ',T03=' +resultCache[0].text+',T04=' +resultCache[0].demand +',Code='+id+',Flag=End','gbk');
 						return
 					}catch(e){
 						console.log(e)
@@ -286,15 +417,15 @@ var log = function *(next){
 						if(count<10){
 							count='0'+count;
 						}
-						console.log('Name='+query.Name+',Record='+query.Record+',Para=05,Count='+count+',Code='+id)
-						this.body = iconv.encode('Name='+query.Name+',Record='+query.Record+',Para=05,Count='+count+',Code='+id,'gbk');
+						console.log('Name='+query.Name+',Record='+query.Record+',P=05,Count='+count+',Code='+id)
+						this.body = iconv.encode('Name='+query.Name+',Record='+query.Record+',P=05,Count='+count+',Code='+id+',Flag=End','gbk');
 						return
 					}catch(e){
 						console.log(e)
 					}
 				}else if(type=='01'){
 					var res;
-					//安全上行
+					//安全和基础资料上行
 					try{
 						res = yield dao.selectUserDeviceInfo(query.Name);
 						if(res[0].securityDay){
@@ -327,12 +458,11 @@ var log = function *(next){
 							}
 
 						}
-						console.log('Name='+query.Name+',Record='+query.Record+',Code='+id+',Para=01,Data0='+ res[0].securityDayFirst +',Data1='+res[0].securityDaySecond +',Data2='+res[0].securityDayThird);
+						console.log('Name='+query.Name+',Record='+query.Record+',P=01'+',Code='+id+',T03='+ res[0].securityDayFirst +'-'+res[0].securityDaySecond +'-'+res[0].securityDayThird+',T00='+res[0].roadname+',T01='+getLineName(res[0].deviceid));
 						this.set('Content-Type', 'text/html; charset=gbk');
-						this.body = iconv.encode('Name='+query.Name+',Record='+query.Record+',Para=01'+',Code='+id+',Data0='+ res[0].securityDayFirst +',Data1='+res[0].securityDaySecond +',Data2='+res[0].securityDayThird+',X='+res[0].roadbelong+',Y='+getLineName(res[0].deviceid) ,'gbk');
+						this.body = iconv.encode('Name='+query.Name+',Record='+query.Record+',P=01'+',Code='+id+',T09='+pad(res[0].elworkman1) +'-'+pad(res[0].elworkman2) +'-'+pad(res[0].elworkman3) +'-'+pad(res[0].elworkman4) +',T10='+pad(res[0].elman1) +'-'+pad(res[0].elman2) +'-'+pad(res[0].elman3) +'-'+pad(res[0].elman4) +',T11='+pad(res[0].tlman1) +'-'+pad(res[0].tlman2) +'-'+pad(res[0].tlman3) +'-'+pad(res[0].tlman4) +',T12='+pad(res[0].houseman1) +'-'+pad(res[0].houseman2) +'-'+pad(res[0].houseman3) +'-'+pad(res[0].houseman4) +',T08='+pad(res[0].workman1) +'-'+pad(res[0].workman2) +'-'+pad(res[0].workman3) +'-'+pad(res[0].workman4) +',T13='+pad(res[0].companyman1) +'-'+pad(res[0].companyman2) +'-'+pad(res[0].companyman3) +'-'+pad(res[0].companyman4) +',T07='+res[0].relaxtime1 +'-'+res[0].relaxtime2 +'-'+res[0].relaxtime4+'-'+res[0].relaxtime5+'-'+res[0].relaxtime6+'-'+res[0].relaxtime3 +',T05='+res[0].changetext1 +'-'+res[0].changetext2 +'-'+res[0].changetext3 +'-'+res[0].changetext4+'-'+res[0].changetext5+'-'+res[0].changetext6+'-'+res[0].changetext7+'-'+res[0].changetext8+'-'+res[0].changetext9 +',T04='+res[0].worktext1 +'-'+res[0].worktext2 +'-'+res[0].worktext3 +'-'+res[0].worktext4 +',T03='+ res[0].securityDayFirst +'-'+res[0].securityDaySecond +'-'+res[0].securityDayThird+',T00='+res[0].roadname+',T01='+getLineName(res[0].deviceid)+',Flag=End' ,'gbk');
 						return
 					}catch(e){
-
 						console.log(e)
 					}
 
@@ -344,9 +474,9 @@ var log = function *(next){
 					try{
 
 						res = yield dao.selectUserDeviceInfo(query.Name);
-						console.log('Name='+query.Name+',Record='+query.Record+',Para=08'+',Code='+id+',Phone1='+ res[0].telephone1 +',Phone2='+res[0].telephone2 +',Phone3='+res[0].telephone3+',Phone4='+res[0].telephone4+',Phone5='+res[0].telephone);
+						console.log('Name='+query.Name+',Record='+query.Record+',P=01'+',Code='+id+',T06='+res[0].telephone3+'-'+res[0].telephone4+'-'+res[0].telephone5);
 						this.set('Content-Type', 'text/html; charset=gbk');
-						this.body = iconv.encode('Name='+query.Name+',Record='+query.Record+',Para=08'+',Code='+id+',P1='+ res[0].telephone1 +',P2='+res[0].telephone2 +',P3='+res[0].telephone3+',P4='+res[0].telephone4+',P5='+res[0].telephone5 ,'gbk');
+						this.body = iconv.encode('Name='+query.Name+',Record='+query.Record+',P=01'+',Code='+id+',T06='+res[0].telephone3+'-'+res[0].telephone4+'-'+res[0].telephone5+',Flag=End' ,'gbk');
 						return
 					}catch(e){
 
@@ -359,7 +489,7 @@ var log = function *(next){
 
 			}else{
 
-				//获取安全天
+				//获取安全天,新版本应该不用了
 				if(query.Para==='01'){
 
 							try{
@@ -395,9 +525,9 @@ var log = function *(next){
 								}
 
 							}
-							console.log('Name='+query.Name+',Record='+query.Record+',Code='+id+',Para=01,Data0='+ res[0].securityDayFirst +',Data1='+res[0].securityDaySecond +',Data2='+res[0].securityDayThird);
+							console.log('Name='+query.Name+',Record='+query.Record+',Code='+id+',P=01,Data0='+ res[0].securityDayFirst +',Data1='+res[0].securityDaySecond +',Data2='+res[0].securityDayThird);
 							this.set('Content-Type', 'text/html; charset=gbk');
-							this.body = iconv.encode('Name='+query.Name+',Record='+query.Record+',Para=01'+',Code='+id+',Data0='+ res[0].securityDayFirst +',Data1='+res[0].securityDaySecond +',Data2='+res[0].securityDayThird+',X='+res[0].roadbelong+',Y='+getLineName(res[0].deviceid) ,'gbk');
+							this.body = iconv.encode('Name='+query.Name+',Record='+query.Record+',P=01'+',Code='+id+',Data0='+ res[0].securityDayFirst +',Data1='+res[0].securityDaySecond +',Data2='+res[0].securityDayThird+',X='+res[0].roadbelong+',Y='+getLineName(res[0].deviceid)+',Flag=End' ,'gbk');
 							return
 						}catch(e){
 
@@ -409,8 +539,8 @@ var log = function *(next){
 
 				console.log('no unsync operation;T='+moment().format('YYYY-MM-DD-hh-mm-ss'));
 
-				console.log('Name='+query.Name+',Record='+query.Record+',Para=00,T='+moment().format('YYYY-MM-DD-HH-mm-ss'));
-				this.body = 'Name='+query.Name+',Record='+query.Record+',Para=00,T='+moment().format('YYYY-MM-DD-HH-mm-ss');
+				console.log('Name='+query.Name+',Record='+query.Record+',P=00,T='+moment().format('YYYY-MM-DD-HH-mm-ss'));
+				this.body = 'Name='+query.Name+',Record='+query.Record+',P=00,T='+moment().format('YYYY-MM-DD-HH-mm-ss')+',Flag=End';
 				return
 			}
 
@@ -421,7 +551,7 @@ var log = function *(next){
 
 	}
 
-	this.body = 'Name='+query.Name+',Record='+query.Record+',Seq='+query.Seq;
+	this.body = 'Name='+query.Name+',Record='+query.Record+',Seq='+query.Seq+',Flag=End';
 
 }
 //parseInt(Math.random()*1000)  每次工号和列车时刻设置记录一个操作码，每次心跳过来取属于当前设备的一条，code发回去

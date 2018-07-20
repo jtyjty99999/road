@@ -73,7 +73,7 @@ app.get('/ajax/showMsgHistoryInfo',device.showMsgHistoryInfo);//设备消息
 
 app.get('/ajax/down',device.downByUser);//信息下发
 app.get('/ajax/downMsg',device.downMsg);//信息下发
-
+app.get('/ajax/downCheck',device.downCheck);//信息下发
 }
 
 module.exports = routes;

@@ -265,7 +265,7 @@ Use search to find needed section.
 				<div class="panel">
 					<div class="panel-heading">
 						<span class="panel-title">设备列表</span>
-						<button  {% if usertype==4 %}disabled{% endif %} class="btn btn-primary" type="button" data-target="#down-msg-modal" data-toggle="modal">下发消息</button>
+						<button  {% if usertype==4 %}disabled{% endif %} class="btn btn-primary" type="button" data-target="#down-msg-modal" data-toggle="modal">下发通知通报</button>
 					</div>
 					<div class="panel-body">
 
@@ -634,6 +634,7 @@ Use search to find needed section.
 														<button type = "button" class="btn btn-success" data-toggle="modal" data-target="#device-msg-modal" id="showMsgHistoryButton">消息记录</button>
 
 														<a target="_black" type = "button" class="btn btn-success" href="http://www.baidu.com/">视频记录</a>
+														<button  class="btn btn-primary" type="button" data-target="#down-msg-modal2" data-toggle="modal">下发检查指导</button>
 													</div>
 												</div>
 												<div class="row">
@@ -802,18 +803,6 @@ Use search to find needed section.
 												<div class="row">
 													<div class="col-sm-2">
 														<div class="form-group no-margin-hr">
-															<label class="control-label">上行通知号码</label>
-															<input readonly type="text" name="telephone1" class="form-control">
-														</div>
-													</div><!-- col-sm-6 -->
-													<div class="col-sm-2">
-														<div class="form-group no-margin-hr">
-															<label class="control-label">下行通知号码</label>
-															<input readonly type="text" name="telephone2" class="form-control">
-														</div>
-													</div><!-- col-sm-6 -->
-													<div class="col-sm-2">
-														<div class="form-group no-margin-hr">
 															<label class="control-label">设备维修通知号码</label>
 															<input readonly type="text" name="telephone3" class="form-control">
 														</div>
@@ -831,6 +820,328 @@ Use search to find needed section.
 														</div>
 													</div><!-- col-sm-6 -->
 												</div><!-- row -->	
+												<div class="row">
+													<div class="col-sm-12">
+														作业设置短语
+													</div>
+												</div>
+												<div class="row">
+													<div class="col-sm-2">
+														<div class="form-group no-margin-hr">
+															<label class="control-label">短语1</label>
+															<input readonly type="text" name="worktext1" class="form-control">
+														</div>
+													</div><!-- col-sm-6 -->
+													<div class="col-sm-2">
+														<div class="form-group no-margin-hr">
+															<label class="control-label">短语2</label>
+															<input readonly type="text" name="worktext2" class="form-control">
+														</div>
+													</div><!-- col-sm-6 -->
+													<div class="col-sm-2">
+														<div class="form-group no-margin-hr">
+															<label class="control-label">短语3</label>
+															<input readonly type="text" name="worktext3" class="form-control">
+														</div>
+													</div><!-- col-sm-6 -->
+													<div class="col-sm-2">
+														<div class="form-group no-margin-hr">
+															<label class="control-label">短语4</label>
+															<input readonly type="text" name="worktext4" class="form-control">
+														</div>
+													</div><!-- col-sm-6 -->
+													
+												</div><!-- row -->	
+												<div class="row">
+													<div class="col-sm-12">
+														交接设置短语
+													</div>
+												</div>
+												<div class="row">
+													<div class="col-sm-2">
+														<div class="form-group no-margin-hr">
+															<label class="control-label">短语1</label>
+															<input readonly type="text" name="changetext1" class="form-control">
+														</div>
+													</div><!-- col-sm-6 -->
+													<div class="col-sm-2">
+														<div class="form-group no-margin-hr">
+															<label class="control-label">短语2</label>
+															<input readonly type="text" name="changetext2" class="form-control">
+														</div>
+													</div><!-- col-sm-6 -->
+													<div class="col-sm-2">
+														<div class="form-group no-margin-hr">
+															<label class="control-label">短语3</label>
+															<input readonly type="text" name="changetext3" class="form-control">
+														</div>
+													</div><!-- col-sm-6 -->
+													<div class="col-sm-2">
+														<div class="form-group no-margin-hr">
+															<label class="control-label">短语4</label>
+															<input readonly type="text" name="changetext4" class="form-control">
+														</div>
+													</div><!-- col-sm-6 -->
+													<div class="col-sm-2">
+														<div class="form-group no-margin-hr">
+															<label class="control-label">短语5</label>
+															<input readonly type="text" name="changetext5" class="form-control">
+														</div>
+													</div><!-- col-sm-6 -->
+													<div class="col-sm-2">
+														<div class="form-group no-margin-hr">
+															<label class="control-label">短语6</label>
+															<input readonly type="text" name="changetext6" class="form-control">
+														</div>
+													</div><!-- col-sm-6 -->
+													<div class="col-sm-2">
+														<div class="form-group no-margin-hr">
+															<label class="control-label">短语7</label>
+															<input readonly type="text" name="changetext7" class="form-control">
+														</div>
+													</div><!-- col-sm-6 -->
+													<div class="col-sm-2">
+														<div class="form-group no-margin-hr">
+															<label class="control-label">短语8</label>
+															<input readonly type="text" name="changetext8" class="form-control">
+														</div>
+													</div><!-- col-sm-6 -->
+													<div class="col-sm-2">
+														<div class="form-group no-margin-hr">
+															<label class="control-label">短语9</label>
+															<input readonly type="text" name="changetext9" class="form-control">
+														</div>
+													</div><!-- col-sm-6 -->
+												</div><!-- row -->	
+												<div class="row">
+													<div class="col-sm-12">
+														间休时间
+													</div>
+												</div>
+												<div class="row">
+													<div class="col-sm-2">
+														<div class="form-group no-margin-hr">
+															<label class="control-label">间休时间1开始</label>
+															<input readonly type="time" name="relaxtime1" class="form-control">
+														</div>
+													</div><!-- col-sm-6 -->
+													<div class="col-sm-2">
+														<div class="form-group no-margin-hr">
+															<label class="control-label">间休时间1结束</label>
+															<input readonly type="time" name="relaxtime2" class="form-control">
+														</div>
+													</div><!-- col-sm-6 -->
+													<div class="col-sm-2">
+														<div class="form-group no-margin-hr">
+															<label class="control-label">间休时间2开始</label>
+															<input readonly type="time" name="relaxtime3" class="form-control">
+														</div>
+													</div><!-- col-sm-6 -->
+													<div class="col-sm-2">
+															<div class="form-group no-margin-hr">
+																<label class="control-label">间休时间2结束</label>
+																<input readonly type="time" name="relaxtime4" class="form-control">
+															</div>
+														</div><!-- col-sm-6 -->
+														<div class="col-sm-2">
+															<div class="form-group no-margin-hr">
+																<label class="control-label">间休时间3开始</label>
+																<input readonly type="time" name="relaxtime5" class="form-control">
+															</div>
+														</div><!-- col-sm-6 -->
+														<div class="col-sm-2">
+															<div class="form-group no-margin-hr">
+																<label class="control-label">间休时间3结束</label>
+																<input readonly type="time" name="relaxtime6" class="form-control">
+															</div>
+														</div><!-- col-sm-6 -->
+												</div><!-- row -->
+												<div class="row">
+													<div class="col-sm-12">
+														工务检修人
+													</div>
+												</div>
+												<div class="row">
+													<div class="col-sm-2">
+														<div class="form-group no-margin-hr">
+															<label class="control-label">检修人1</label>
+															<input readonly type="text" name="workman1" class="form-control">
+														</div>
+													</div><!-- col-sm-6 -->
+													<div class="col-sm-2">
+														<div class="form-group no-margin-hr">
+															<label class="control-label">检修人2</label>
+															<input readonly type="text" name="workman2" class="form-control">
+														</div>
+													</div><!-- col-sm-6 -->
+													<div class="col-sm-2">
+														<div class="form-group no-margin-hr">
+															<label class="control-label">检修人3</label>
+															<input readonly type="text" name="workman3" class="form-control">
+														</div>
+													</div><!-- col-sm-6 -->
+													<div class="col-sm-2">
+														<div class="form-group no-margin-hr">
+															<label class="control-label">检修人4</label>
+															<input readonly type="text" name="workman4" class="form-control">
+														</div>
+													</div><!-- col-sm-6 -->
+												</div><!-- row -->
+												<div class="row">
+													<div class="col-sm-12">
+														电务检修人
+													</div>
+												</div>
+												<div class="row">
+													<div class="col-sm-2">
+														<div class="form-group no-margin-hr">
+															<label class="control-label">检修人1</label>
+															<input readonly type="text" name="elworkman1" class="form-control">
+														</div>
+													</div><!-- col-sm-6 -->
+													<div class="col-sm-2">
+														<div class="form-group no-margin-hr">
+															<label class="control-label">检修人2</label>
+															<input readonly type="text" name="elworkman2" class="form-control">
+														</div>
+													</div><!-- col-sm-6 -->
+													<div class="col-sm-2">
+														<div class="form-group no-margin-hr">
+															<label class="control-label">检修人3</label>
+															<input readonly type="text" name="elworkman3" class="form-control">
+														</div>
+													</div><!-- col-sm-6 -->
+													<div class="col-sm-2">
+														<div class="form-group no-margin-hr">
+															<label class="control-label">检修人4</label>
+															<input readonly type="text" name="elworkman4" class="form-control">
+														</div>
+													</div><!-- col-sm-6 -->
+												</div><!-- row -->
+												<div class="row">
+													<div class="col-sm-12">
+														供电检修人
+													</div>
+												</div>
+												<div class="row">
+													<div class="col-sm-2">
+														<div class="form-group no-margin-hr">
+															<label class="control-label">检修人1</label>
+															<input readonly type="text" name="elman1" class="form-control">
+														</div>
+													</div><!-- col-sm-6 -->
+													<div class="col-sm-2">
+														<div class="form-group no-margin-hr">
+															<label class="control-label">检修人2</label>
+															<input readonly type="text" name="elman2" class="form-control">
+														</div>
+													</div><!-- col-sm-6 -->
+													<div class="col-sm-2">
+														<div class="form-group no-margin-hr">
+															<label class="control-label">检修人3</label>
+															<input readonly type="text" name="elman3" class="form-control">
+														</div>
+													</div><!-- col-sm-6 -->
+													<div class="col-sm-2">
+														<div class="form-group no-margin-hr">
+															<label class="control-label">检修人4</label>
+															<input readonly type="text" name="elman4" class="form-control">
+														</div>
+													</div><!-- col-sm-6 -->
+												</div><!-- row -->
+												<div class="row">
+													<div class="col-sm-12">
+														通信检修人
+													</div>
+												</div>
+												<div class="row">
+													<div class="col-sm-2">
+														<div class="form-group no-margin-hr">
+															<label class="control-label">检修人1</label>
+															<input readonly type="text" name="tlman1" class="form-control">
+														</div>
+													</div><!-- col-sm-6 -->
+													<div class="col-sm-2">
+														<div class="form-group no-margin-hr">
+															<label class="control-label">检修人2</label>
+															<input readonly type="text" name="tlman2" class="form-control">
+														</div>
+													</div><!-- col-sm-6 -->
+													<div class="col-sm-2">
+														<div class="form-group no-margin-hr">
+															<label class="control-label">检修人3</label>
+															<input readonly type="text" name="tlman3" class="form-control">
+														</div>
+													</div><!-- col-sm-6 -->
+													<div class="col-sm-2">
+														<div class="form-group no-margin-hr">
+															<label class="control-label">检修人4</label>
+															<input readonly type="text" name="tlman4" class="form-control">
+														</div>
+													</div><!-- col-sm-6 -->
+												</div><!-- row -->
+												<div class="row">
+													<div class="col-sm-12">
+														房建检修人
+													</div>
+												</div>
+												<div class="row">
+													<div class="col-sm-2">
+														<div class="form-group no-margin-hr">
+															<label class="control-label">检修人1</label>
+															<input readonly type="text" name="houseman1" class="form-control">
+														</div>
+													</div><!-- col-sm-6 -->
+													<div class="col-sm-2">
+														<div class="form-group no-margin-hr">
+															<label class="control-label">检修人2</label>
+															<input readonly type="text" name="houseman2" class="form-control">
+														</div>
+													</div><!-- col-sm-6 -->
+													<div class="col-sm-2">
+														<div class="form-group no-margin-hr">
+															<label class="control-label">检修人3</label>
+															<input readonly type="text" name="houseman3" class="form-control">
+														</div>
+													</div><!-- col-sm-6 -->
+													<div class="col-sm-2">
+														<div class="form-group no-margin-hr">
+															<label class="control-label">检修人4</label>
+															<input readonly type="text" name="houseman4" class="form-control">
+														</div>
+													</div><!-- col-sm-6 -->
+												</div><!-- row -->
+												<div class="row">
+													<div class="col-sm-12">
+														厂家检修人
+													</div>
+												</div>
+												<div class="row">
+													<div class="col-sm-2">
+														<div class="form-group no-margin-hr">
+															<label class="control-label">检修人1</label>
+															<input readonly type="text" name="companyman1" class="form-control">
+														</div>
+													</div><!-- col-sm-6 -->
+													<div class="col-sm-2">
+														<div class="form-group no-margin-hr">
+															<label class="control-label">检修人2</label>
+															<input readonly type="text" name="companyman2" class="form-control">
+														</div>
+													</div><!-- col-sm-6 -->
+													<div class="col-sm-2">
+														<div class="form-group no-margin-hr">
+															<label class="control-label">检修人3</label>
+															<input readonly type="text" name="companyman3" class="form-control">
+														</div>
+													</div><!-- col-sm-6 -->
+													<div class="col-sm-2">
+														<div class="form-group no-margin-hr">
+															<label class="control-label">检修人4</label>
+															<input readonly type="text" name="companyman4" class="form-control">
+														</div>
+													</div><!-- col-sm-6 -->
+												</div><!-- row -->
 											</div>
 											<div class="panel-footer text-right">
 												<button class="btn btn-primary" type="button">确定</button>
@@ -1102,18 +1413,6 @@ Use search to find needed section.
 										<div class="row">
 											<div class="col-sm-2">
 												<div class="form-group no-margin-hr">
-													<label class="control-label">上行通知号码</label>
-													<input type="text" name="telephone1" class="form-control">
-												</div>
-											</div><!-- col-sm-6 -->
-											<div class="col-sm-2">
-												<div class="form-group no-margin-hr">
-													<label class="control-label">下行通知号码</label>
-													<input type="text" name="telephone2" class="form-control">
-												</div>
-											</div><!-- col-sm-6 -->
-											<div class="col-sm-2">
-												<div class="form-group no-margin-hr">
 													<label class="control-label">设备维修通知号码</label>
 													<input type="text" name="telephone3" class="form-control">
 												</div>
@@ -1131,7 +1430,327 @@ Use search to find needed section.
 												</div>
 											</div><!-- col-sm-6 -->
 										</div><!-- row -->	
-
+										<div class="row">
+											<div class="col-sm-12">
+												作业设置短语
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-sm-2">
+												<div class="form-group no-margin-hr">
+													<label class="control-label">短语1</label>
+													<input  type="text" name="worktext1" class="form-control">
+												</div>
+											</div><!-- col-sm-6 -->
+											<div class="col-sm-2">
+												<div class="form-group no-margin-hr">
+													<label class="control-label">短语2</label>
+													<input  type="text" name="worktext2" class="form-control">
+												</div>
+											</div><!-- col-sm-6 -->
+											<div class="col-sm-2">
+												<div class="form-group no-margin-hr">
+													<label class="control-label">短语3</label>
+													<input  type="text" name="worktext3" class="form-control">
+												</div>
+											</div><!-- col-sm-6 -->
+											<div class="col-sm-2">
+												<div class="form-group no-margin-hr">
+													<label class="control-label">短语4</label>
+													<input  type="text" name="worktext4" class="form-control">
+												</div>
+											</div><!-- col-sm-6 -->
+										</div><!-- row -->	
+										<div class="row">
+											<div class="col-sm-12">
+												交接设置短语
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-sm-2">
+												<div class="form-group no-margin-hr">
+													<label class="control-label">短语1</label>
+													<input  type="text" name="changetext1" class="form-control">
+												</div>
+											</div><!-- col-sm-6 -->
+											<div class="col-sm-2">
+												<div class="form-group no-margin-hr">
+													<label class="control-label">短语2</label>
+													<input  type="text" name="changetext2" class="form-control">
+												</div>
+											</div><!-- col-sm-6 -->
+											<div class="col-sm-2">
+												<div class="form-group no-margin-hr">
+													<label class="control-label">短语3</label>
+													<input  type="text" name="changetext3" class="form-control">
+												</div>
+											</div><!-- col-sm-6 -->
+											<div class="col-sm-2">
+												<div class="form-group no-margin-hr">
+													<label class="control-label">短语4</label>
+													<input  type="text" name="changetext4" class="form-control">
+												</div>
+											</div><!-- col-sm-6 -->
+											<div class="col-sm-2">
+												<div class="form-group no-margin-hr">
+													<label class="control-label">短语5</label>
+													<input  type="text" name="changetext5" class="form-control">
+												</div>
+											</div><!-- col-sm-6 -->
+											<div class="col-sm-2">
+												<div class="form-group no-margin-hr">
+													<label class="control-label">短语6</label>
+													<input  type="text" name="changetext6" class="form-control">
+												</div>
+											</div><!-- col-sm-6 -->
+											<div class="col-sm-2">
+												<div class="form-group no-margin-hr">
+													<label class="control-label">短语7</label>
+													<input  type="text" name="changetext7" class="form-control">
+												</div>
+											</div><!-- col-sm-6 -->
+											<div class="col-sm-2">
+												<div class="form-group no-margin-hr">
+													<label class="control-label">短语8</label>
+													<input  type="text" name="changetext8" class="form-control">
+												</div>
+											</div><!-- col-sm-6 -->
+											<div class="col-sm-2">
+												<div class="form-group no-margin-hr">
+													<label class="control-label">短语9</label>
+													<input  type="text" name="changetext9" class="form-control">
+												</div>
+											</div><!-- col-sm-6 -->
+										</div><!-- row -->	
+										<div class="row">
+											<div class="col-sm-12">
+												间休时间
+											</div>
+										</div>
+										<div class="row">
+												<div class="col-sm-2">
+														<div class="form-group no-margin-hr">
+															<label class="control-label">间休时间1开始</label>
+															<input type="time" name="relaxtime1" class="form-control">
+														</div>
+													</div><!-- col-sm-6 -->
+													<div class="col-sm-2">
+														<div class="form-group no-margin-hr">
+															<label class="control-label">间休时间1结束</label>
+															<input type="time" name="relaxtime2" class="form-control">
+														</div>
+													</div><!-- col-sm-6 -->
+													<div class="col-sm-2">
+														<div class="form-group no-margin-hr">
+															<label class="control-label">间休时间2开始</label>
+															<input type="time" name="relaxtime3" class="form-control">
+														</div>
+													</div><!-- col-sm-6 -->
+													<div class="col-sm-2">
+															<div class="form-group no-margin-hr">
+																<label class="control-label">间休时间2结束</label>
+																<input type="time" name="relaxtime4" class="form-control">
+															</div>
+														</div><!-- col-sm-6 -->
+														<div class="col-sm-2">
+															<div class="form-group no-margin-hr">
+																<label class="control-label">间休时间3开始</label>
+																<input type="time" name="relaxtime5" class="form-control">
+															</div>
+														</div><!-- col-sm-6 -->
+														<div class="col-sm-2">
+															<div class="form-group no-margin-hr">
+																<label class="control-label">间休时间3结束</label>
+																<input type="time" name="relaxtime6" class="form-control">
+															</div>
+														</div><!-- col-sm-6 -->
+										</div><!-- row -->
+										<div class="row">
+											<div class="col-sm-12">
+												工务检修人
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-sm-2">
+												<div class="form-group no-margin-hr">
+													<label class="control-label">检修人1</label>
+													<input  type="text" name="workman1" class="form-control">
+												</div>
+											</div><!-- col-sm-6 -->
+											<div class="col-sm-2">
+												<div class="form-group no-margin-hr">
+													<label class="control-label">检修人2</label>
+													<input  type="text" name="workman2" class="form-control">
+												</div>
+											</div><!-- col-sm-6 -->
+											<div class="col-sm-2">
+												<div class="form-group no-margin-hr">
+													<label class="control-label">检修人3</label>
+													<input  type="text" name="workman3" class="form-control">
+												</div>
+											</div><!-- col-sm-6 -->
+											<div class="col-sm-2">
+												<div class="form-group no-margin-hr">
+													<label class="control-label">检修人4</label>
+													<input  type="text" name="workman4" class="form-control">
+												</div>
+											</div><!-- col-sm-6 -->
+										</div><!-- row -->
+										<div class="row">
+											<div class="col-sm-12">
+												电务检修人
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-sm-2">
+												<div class="form-group no-margin-hr">
+													<label class="control-label">检修人1</label>
+													<input  type="text" name="elworkman1" class="form-control">
+												</div>
+											</div><!-- col-sm-6 -->
+											<div class="col-sm-2">
+												<div class="form-group no-margin-hr">
+													<label class="control-label">检修人2</label>
+													<input  type="text" name="elworkman2" class="form-control">
+												</div>
+											</div><!-- col-sm-6 -->
+											<div class="col-sm-2">
+												<div class="form-group no-margin-hr">
+													<label class="control-label">检修人3</label>
+													<input  type="text" name="elworkman3" class="form-control">
+												</div>
+											</div><!-- col-sm-6 -->
+											<div class="col-sm-2">
+												<div class="form-group no-margin-hr">
+													<label class="control-label">检修人4</label>
+													<input  type="text" name="elworkman4" class="form-control">
+												</div>
+											</div><!-- col-sm-6 -->
+										</div><!-- row -->
+										<div class="row">
+											<div class="col-sm-12">
+												供电检修人
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-sm-2">
+												<div class="form-group no-margin-hr">
+													<label class="control-label">检修人1</label>
+													<input  type="text" name="elman1" class="form-control">
+												</div>
+											</div><!-- col-sm-6 -->
+											<div class="col-sm-2">
+												<div class="form-group no-margin-hr">
+													<label class="control-label">检修人2</label>
+													<input  type="text" name="elman2" class="form-control">
+												</div>
+											</div><!-- col-sm-6 -->
+											<div class="col-sm-2">
+												<div class="form-group no-margin-hr">
+													<label class="control-label">检修人3</label>
+													<input  type="text" name="elman3" class="form-control">
+												</div>
+											</div><!-- col-sm-6 -->
+											<div class="col-sm-2">
+												<div class="form-group no-margin-hr">
+													<label class="control-label">检修人4</label>
+													<input  type="text" name="elman4" class="form-control">
+												</div>
+											</div><!-- col-sm-6 -->
+										</div><!-- row -->
+										<div class="row">
+											<div class="col-sm-12">
+												通信检修人
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-sm-2">
+												<div class="form-group no-margin-hr">
+													<label class="control-label">检修人1</label>
+													<input  type="text" name="tlman1" class="form-control">
+												</div>
+											</div><!-- col-sm-6 -->
+											<div class="col-sm-2">
+												<div class="form-group no-margin-hr">
+													<label class="control-label">检修人2</label>
+													<input  type="text" name="tlman2" class="form-control">
+												</div>
+											</div><!-- col-sm-6 -->
+											<div class="col-sm-2">
+												<div class="form-group no-margin-hr">
+													<label class="control-label">检修人3</label>
+													<input  type="text" name="tlman3" class="form-control">
+												</div>
+											</div><!-- col-sm-6 -->
+											<div class="col-sm-2">
+												<div class="form-group no-margin-hr">
+													<label class="control-label">检修人4</label>
+													<input  type="text" name="tlman4" class="form-control">
+												</div>
+											</div><!-- col-sm-6 -->
+										</div><!-- row -->
+										<div class="row">
+											<div class="col-sm-12">
+												房建检修人
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-sm-2">
+												<div class="form-group no-margin-hr">
+													<label class="control-label">检修人1</label>
+													<input  type="text" name="houseman1" class="form-control">
+												</div>
+											</div><!-- col-sm-6 -->
+											<div class="col-sm-2">
+												<div class="form-group no-margin-hr">
+													<label class="control-label">检修人2</label>
+													<input  type="text" name="houseman2" class="form-control">
+												</div>
+											</div><!-- col-sm-6 -->
+											<div class="col-sm-2">
+												<div class="form-group no-margin-hr">
+													<label class="control-label">检修人3</label>
+													<input  type="text" name="houseman3" class="form-control">
+												</div>
+											</div><!-- col-sm-6 -->
+											<div class="col-sm-2">
+												<div class="form-group no-margin-hr">
+													<label class="control-label">检修人4</label>
+													<input  type="text" name="houseman4" class="form-control">
+												</div>
+											</div><!-- col-sm-6 -->
+										</div><!-- row -->
+										<div class="row">
+											<div class="col-sm-12">
+												厂家检修人
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-sm-2">
+												<div class="form-group no-margin-hr">
+													<label class="control-label">检修人1</label>
+													<input  type="text" name="companyman1" class="form-control">
+												</div>
+											</div><!-- col-sm-6 -->
+											<div class="col-sm-2">
+												<div class="form-group no-margin-hr">
+													<label class="control-label">检修人2</label>
+													<input  type="text" name="companyman2" class="form-control">
+												</div>
+											</div><!-- col-sm-6 -->
+											<div class="col-sm-2">
+												<div class="form-group no-margin-hr">
+													<label class="control-label">检修人3</label>
+													<input  type="text" name="companyman3" class="form-control">
+												</div>
+											</div><!-- col-sm-6 -->
+											<div class="col-sm-2">
+												<div class="form-group no-margin-hr">
+													<label class="control-label">检修人4</label>
+													<input  type="text" name="companyman4" class="form-control">
+												</div>
+											</div><!-- col-sm-6 -->
+										</div><!-- row -->
 									</div>
 									<div class="panel-footer text-right">
 										<button class="btn btn-primary" type="button" id="addDeviceButton">确定</button>
@@ -1365,12 +1984,52 @@ Use search to find needed section.
 			</div>
 		</div>
 	{% endif %}	
+	<div id="down-msg-modal2" class="modal fade modal-blur" tabindex="-1" role="dialog" style="display: none;">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">×</button>
+					<h4 class="modal-title">下发检查指导</h4>
+				</div>
+				<div class="modal-body">
+
+					<form action="" class="panel form-horizontal" id="msgForm">
+						<div class="panel-body">
+							<div class="row form-group">
+								<label class="col-sm-4 control-label">检查人:</label>
+								<div class="col-sm-8">
+									<input type="text" name="" class="form-control" id="checkSender">
+								</div>
+							</div>
+							<div class="row form-group">
+								<label class="col-sm-4 control-label">职务或职称:</label>
+								<div class="col-sm-8">
+									<input type="text" name="" class="form-control" id="checkJob">
+								</div>
+							</div>
+							<div class="row form-group">
+								<label class="col-sm-4 control-label">通知内容:</label>
+								<div class="col-sm-8">
+									<textarea class="form-control" rows="10" id="checkDown" name="checkDown"></textarea>
+									<span class="help-block">最多允许160个字，还剩 <span id="wordleftCheck">180</span> 个</span>
+								</div>
+							</div>
+						</div>
+						<div class="panel-footer text-right">
+							<button class="btn btn-primary" type="button" id="downCheckButton">确定</button>
+							<button class="btn btn-primary" type="button" data-dismiss="modal">取消</button>
+						</div>
+					</form>
+				</div>
+			</div> <!-- / .modal-content -->
+		</div> <!-- / .modal-dialog -->
+	</div> <!-- / .modal -->
 				<div id="down-msg-modal" class="modal fade modal-blur" tabindex="-1" role="dialog" style="display: none;">
 					<div class="modal-dialog">
 						<div class="modal-content">
 							<div class="modal-header">
 								<button type="button" class="close" data-dismiss="modal">×</button>
-								<h4 class="modal-title">下发消息</h4>
+								<h4 class="modal-title">下发通知通报</h4>
 							</div>
 							<div class="modal-body">
 
@@ -1395,12 +2054,31 @@ Use search to find needed section.
 										    </div>
 										</div>
 										<div class="row form-group">
+											<label class="col-sm-4 control-label">发布部门:</label>
+											<div class="col-sm-8">
+												<input type="text" name="" class="form-control" id="msgDept">
+											</div>
+										</div>
+										<div class="row form-group">
+											<label class="col-sm-4 control-label">通知人:</label>
+											<div class="col-sm-8">
+												<input type="text" name="" class="form-control" id="msgSender">
+											</div>
+										</div>
+										<div class="row form-group">
 											<label class="col-sm-4 control-label">消息:</label>
 											<div class="col-sm-8">
 												<textarea class="form-control" rows="10" id="msgDown" name="msgDown"></textarea>
-												<span class="help-block">最多允许800个字，还剩 <span id="wordleft">800</span> 个</span>
+												<span class="help-block">最多允许160个字，还剩 <span id="wordleft">160</span> 个</span>
 											</div>
 										</div>
+										<div class="row form-group">
+												<label class="col-sm-4 control-label">有关要求:</label>
+												<div class="col-sm-8">
+													<textarea class="form-control" rows="10" id="msgDemand" name="msgDemand"></textarea>
+													<span class="help-block">最多允许160个字，还剩 <span id="msgDemandLeft">160</span> 个</span>
+												</div>
+											</div>
 									</div>
 									<div class="panel-footer text-right">
 										<button class="btn btn-primary" type="button" id="downMsgButton">确定</button>
@@ -2071,8 +2749,13 @@ var msgHistoryListTable;
 				var length = res.length;
 				var status;
 				res.forEach(function(d,i){
-
-				status = d.status==0?'未接收':'接收完毕';
+				if(d.status === 0){
+					status ='未接收'
+				}else if(d.status===1){
+					status = '接收完毕'
+				}else{
+					status = '已查看'
+				}
 				html += '<tr><td>'+(i+1)+'</td><td>'+d.create_time+'</td><td>'+d.text+'</td><td>'+status+'</td></tr>';
 
 				})
@@ -2217,14 +2900,51 @@ var situationListTable;
 
 	$('#msgDown').on('keyup',function(){
 
-		$('#wordleft').text(800-$('#msgDown').val().length);
+		$('#wordleft').text(160-$('#msgDown').val().length);
 
 	})	
+	$('#msgDemind').on('keyup',function(){
 
+	$('#msgDemandLeft').text(160-$('#msgDemind').val().length);
+
+	})	
+	$('#checkDown').on('keyup',function(){
+
+		$('#wordleftCheck').text(160-$('#checkDown').val().length);
+
+	})	
+	$document.delegate('#downCheckButton','click',function(){
+		var deviceid = $('#device-id-instance').val();
+		if($('#msgDown').val().length>160){
+			alert('消息超字数，请修改');
+		}else{
+			$.ajax({
+				url: "/ajax/downCheck",
+				data:{
+					text:$('#checkDown').val(),
+					user:$('#checkSender').val(),
+					job:$('#checkJob').val(),
+					deviceid
+				},
+				success: function(data) {
+					alert(data.msg);
+				},
+				error:function(){
+					alert('发送失败');
+				}
+			});
+
+
+		}
+
+		
+		//$('#device-people-modal .modal-title').text($('body').attr('data-roadname'));
+
+	})	
 	$document.delegate('#downMsgButton','click',function(){
 		var ids = '';
 
-		if($('#msgDown').val().length>800){
+		if($('#msgDown').val().length>160){
 
 			alert('消息超字数，请修改');
 
@@ -2243,6 +2963,9 @@ var situationListTable;
 				data:{
 					text:$('#msgDown').val(),
 					ids:ids,
+					user:$('#msgSender').val(),
+					dept:$('#msgDept').val(),
+					demand:$('#msgDemand').val()
 				},
 				success: function(data) {
 					alert(data.msg);
