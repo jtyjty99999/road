@@ -409,6 +409,85 @@ exports.downCheck = function *(next){
 
 }
 
+var crypto = require('crypto');
+function md5 (text) {
+  return crypto.createHash('md5').update(text).digest('hex');
+};
+
+exports.requestVerifyCode = function *(next){
+
+	var request = this.request,query = this.request.query,qs  =this.request.querystring;
+	var phone = query.phone;
+	var random = parseInt(Math.random()*100000);
+	var verify_code = parseInt(Math.random()*100000);
+	var deviceid = query.code;
+	var message = [];
+		try{
+				var code = pad(random,4);
+				//添加一个验证码协议
+
+				//如果原来有，删除掉原来的operation
+
+				var resultCache = yield dao.selectPhoneCodeByPhone({
+							deviceid,
+							phone:phone
+				});
+
+				if(resultCache.length!==0){
+					yield dao.deleteOperation(resultCache[0]['op_code'],deviceid);
+				}
+
+				dao.addOperation({
+					id:code,
+					type:'10',
+					deviceid:deviceid
+				})
+				// 生成一个验证码占位,通过md5进行判别更新
+				dao.addPhoneCode({
+					code:pad(verify_code,6),
+					deviceid:deviceid,
+					phone:phone,
+					update_time:+new Date(),
+					op_code:code,
+					md5:md5(deviceid+phone)
+				});
+			this.body = {
+				code:200,msg:"发送成功"
+			}
+		}catch(e){
+			console.log(e);
+			this.body ={code:500,msg:"发送失败"};
+		}
+}
+
+exports.loginByCode = function* () {
+	var obj = {
+		user_name: this.query.user_name,
+		user_password: this.query.user_password,
+		phone: this.query.phone,
+		vcode: this.query.vcode,
+		deviceid: this.query.code
+	}
+	// 一天时间过期，判断更新时间和code
+	var isValid = yield dao.judgeVerify(obj);
+	if (isValid.length === 0 || isValid[0].update_time > 0) {
+		this.session.wrongCode = true;
+		this.redirect('/loginMobile');
+	} else {
+		var res = yield dao.loginJudge(obj);
+		if (res && res.length !== 0) {
+			this.session.user = {};
+			this.session.user.user_id = res[0].user_id;
+			this.session.user.user_name = res[0].username;
+			this.session.user.usertype = res[0].type;
+			this.redirect('/check?code=' + this.query.code);
+		} else {
+			this.session.judged = true;
+			this.redirect('/loginMobile');
+		}
+	}
+}
+
 exports.addUserDeviceRelation = function *(next){
 
 
@@ -823,13 +902,9 @@ exports.showExchangeInfo = function *(next){
 exports.showSituationInfo = function *(next){
 
 	var request = this.request,query = this.request.query,qs  =this.request.querystring;
-
-
-
 	var deviceId = this.query.deviceId;
-
-	var res = yield  dao.showSituationInfo(deviceId);
-
+	var type = this.query.type;
+	var res = yield  dao.showSituationInfo(deviceId, type);
 	this.body =res;
 }
 exports.showErrorInfo = function *(next){
@@ -873,3 +948,20 @@ exports.showMsgHistoryInfo = function *(next){
 	this.body =res;
 }
 
+
+
+exports.showCheckHistoryInfo = function *(next){
+
+	var request = this.request,query = this.request.query,qs  =this.request.querystring;
+
+
+	var deviceId = this.query.deviceId;
+
+	var res = yield dao.showCheckHistoryInfo(deviceId);
+	res = res.map(function(d){
+		d.create_time = moment(d.create_time).format('YYYY-MM-DD HH:mm:ss');
+		return d
+	})
+
+	this.body =res;
+}

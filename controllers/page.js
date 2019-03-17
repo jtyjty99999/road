@@ -246,45 +246,56 @@ exports.login= function *() {
 
 
 }; 
+
+exports.loginMobile= function *() {
+
+
+	if(this.session.wrongCode){
+
+  		this.body = yield this.render('login2',{errorMsg:'验证码错误'});
+
+	}else if(this.session.judged){
+
+		this.body = yield this.render('login2',{errorMsg:'用户不存在或密码错误！'});
+
+  	} else{
+
+		this.body = yield this.render('login2',{errorMsg:''});
+
+	}
+
+
+}; 
+
 exports.logout = function *(){
 
 	this.session.user = null;
 	this.session.judged = false;
 	this.redirect('/login');
 }
+exports.check = function *(){
+	this.body = yield this.render('/check', {});
+}
 exports.checkLogin = function *(){
 
 	var url = this.query.redirect;
-
 	var obj = {
 		user_name:this.query.user_name,
 		user_password:this.query.user_password
 	}
-
 	var res = yield dao.loginJudge(obj);
-
 	if(res&&res.length!==0){
-
 		this.session.user = {};
 		this.session.user.user_id = res[0].user_id;
 		this.session.user.user_name = res[0].username;
 		this.session.user.usertype = res[0].type;
 		if(!url){
-
 			this.redirect('/index');
-
 		}else{
-
 			this.redirect(url);
 		}
-
-
 	}else{
 		this.session.judged = true;
 			this.redirect('/login');
-
 	}
-
-
-
 }

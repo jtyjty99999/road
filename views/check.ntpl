@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<!--[if IE 8]>         <html class="ie8"> <![endif]-->
+<!--[if IE 9]>         <html class="ie9 gt-ie8"> <![endif]-->
+<!--[if gt IE 9]><!--> <html class="gt-ie8 gt-ie9 not-ie"> <!--<![endif]-->
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<title>Sign In - PixelAdmin</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+
+
+	<!-- Pixel Admin's stylesheets -->
+	<link href="stylesheets/bootstrap.min.css" rel="stylesheet" type="text/css">
+	<link href="stylesheets/pixel-admin.min.css" rel="stylesheet" type="text/css">
+	<link href="stylesheets/pages.min.css" rel="stylesheet" type="text/css">
+	<link href="stylesheets/rtl.min.css" rel="stylesheet" type="text/css">
+	<link href="stylesheets/themes.min.css" rel="stylesheet" type="text/css">
+
+	<!--[if lt IE 9]>
+		<script src="assets/javascripts/ie.min.js"></script>
+	<![endif]-->
+
+
+<!-- $DEMO =========================================================================================
+
+	Remove this section on production
+-->
+	<style>
+		#signin-demo {
+			position: fixed;
+			right: 0;
+			bottom: 0;
+			z-index: 10000;
+			background: rgba(0,0,0,.6);
+			padding: 6px;
+			border-radius: 3px;
+		}
+		#signin-demo img { cursor: pointer; height: 40px; }
+		#signin-demo img:hover { opacity: .5; }
+		#signin-demo div {
+			color: #fff;
+			font-size: 10px;
+			font-weight: 600;
+			padding-bottom: 6px;
+		}
+		.page-signin .signin-text{
+			font-style: normal
+		}
+		body{
+
+			font-family:Microsoft YaHei;
+		}
+		.page-signin .signin-container{
+			width: 800px;
+			
+		}
+		#page-signin-bg{
+
+			background: url('images/1.jpg') no-repeat;
+			background-size: 100% 100%
+		}
+	</style>
+<!-- / $DEMO -->
+
+</head>
+
+
+<!-- 1. $BODY ======================================================================================
+	
+	Body
+
+	Classes:
+	* 'theme-{THEME NAME}'
+	* 'right-to-left'     - Sets text direction to right-to-left
+-->
+<body class="theme-default page-signin">
+
+	<!-- Page background -->
+	<div id="page-signin-bg">
+		<!-- Background overlay -->
+		<div class="overlay"></div>
+		<!-- Replace this with your bg image -->
+		<img src="assets/demo/signin-bg-1.jpg" alt="">
+	</div>
+	<!-- / Page background -->
+
+	<!-- Container -->
+	<div class="signin-container" style="width: 90%">
+
+		<!-- Left side -->
+		<div class="signin-info">
+			<a href="index.html" class="logo">
+				下发检查
+			</a> <!-- / .logo -->
+			<div class="slogan">
+			</div> <!-- / .slogan -->
+			<ul>
+				<li><i class="fa fa-sitemap signin-icon"></i> 2015.8.8</li>
+				<li><i class="fa fa-sitemap signin-icon"></i> 杭州</li>
+			</ul> <!-- / Info list -->
+		</div>
+		<!-- / Left side -->
+
+		<!-- Right side -->
+		<div class="signin-form">
+
+            <form action="" class="panel form-horizontal" id="msgForm">
+                <div class="panel-body">
+                    <div class="row form-group">
+                        <label class="col-sm-4 control-label">检查人:</label>
+                        <div class="col-sm-8">
+                            <input type="text" name="" class="form-control" id="checkSender">
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <label class="col-sm-4 control-label">职务或职称:</label>
+                        <div class="col-sm-8">
+                            <input type="text" name="" class="form-control" id="checkJob">
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <label class="col-sm-4 control-label">通知内容:</label>
+                        <div class="col-sm-8">
+                            <textarea class="form-control" rows="10" id="checkDown" name="checkDown"></textarea>
+                            <span class="help-block">最多允许400个字，还剩 <span id="wordleftCheck">400</span> 个</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer text-right">
+                    <button class="btn btn-primary" type="button" id="downCheckButton">确定</button>
+                    <button class="btn btn-primary" type="button" data-dismiss="modal">取消</button>
+                </div>
+            </form>
+		</div>
+		<!-- Right side -->
+	</div>
+	<!-- / Container -->
+
+
+<!-- Get jQuery from Google CDN -->
+<!--[if !IE]> -->
+	<script src="javascripts/jquery.min.js"></script>
+<!-- <![endif]-->
+<!--[if lte IE 9]>
+	<script src="javascripts/jquery.min.ie.js"></script>
+<![endif]-->
+
+
+<!-- Pixel Admin's javascripts -->
+<script src="javascripts/bootstrap.min.js"></script>
+<script src="javascripts/pixel-admin.min.js"></script>
+
+<script type="text/javascript">
+	var init = [];
+	// Resize BG
+	init.push(function () {
+		var $ph  = $('#page-signin-bg'),
+		    $img = $ph.find('> img');
+
+		$(window).on('resize', function () {
+			$img.attr('style', '');
+			if ($img.height() < $ph.height()) {
+				$img.css({
+					height: '100%',
+					width: 'auto'
+				});
+			}
+		});
+	});
+
+	// Show/Hide password reset form on click
+	init.push(function () {
+		$('#forgot-password-link').click(function () {
+			$('#password-reset-form').fadeIn(400);
+			return false;
+		});
+		$('#password-reset-form .close').click(function () {
+			$('#password-reset-form').fadeOut(400);
+			return false;
+		});
+	});
+/*
+	// Setup Sign In form validation
+	init.push(function () {
+		$("#signin-form_id").validate({ focusInvalid: true, errorPlacement: function () {} });
+		
+		// Validate username
+		$("#username_id").rules("add", {
+			required: true,
+			minlength: 3
+		});
+
+		// Validate password
+		$("#password_id").rules("add", {
+			required: true,
+			minlength: 6
+		});
+	});
+*/
+
+    window.PixelAdmin.start(init);
+    function parseQueryString(url){
+        var arr;
+        var res = {};
+        //#符号之后的值称为hash，都不会加到request请求中去
+        url = url.split('#')[0];
+        //获取queryString 第一个？号后面的全是查询字符串
+        arr = url.split('?');
+        arr.shift();
+        var queryStr = arr.join('?');
+        //查询字符串为空直接返回 避免出现这样的返回值{"":""}
+        if (queryStr.trim().length == 0){
+            return res;
+        }
+
+        //获取参数
+        arr = queryStr.split('&');
+        for (var i = 0; i <  arr.length; i++) {
+            var itemArr = arr[i].split('=');
+            //第一个=号之前的是name 后面的全是值
+            var name = itemArr.shift();
+            var value = itemArr.join('=');
+            res[name] = value;
+        }
+        return res;
+    }
+    var code = parseQueryString(location.href).code
+    $('#deviceid').val(code)
+
+    
+	$('#checkDown').on('keyup',function(){
+
+		$('#wordleftCheck').text(400-$('#checkDown').val().length);
+
+	})	
+	$(document).delegate('#downCheckButton','click',function(){
+		if($('#checkDown').val().length>400){
+			alert('消息超字数，请修改');
+		}else{
+			$.ajax({
+				url: "/ajax/downCheck",
+				data:{
+					text:$('#checkDown').val(),
+					user:$('#checkSender').val(),
+					job:$('#checkJob').val(),
+					deviceid:code
+				},
+				success: function(data) {
+					alert(data.msg);
+				},
+				error:function(){
+					alert('发送失败');
+				}
+			});
+		}
+		//$('#device-people-modal .modal-title').text($('body').attr('data-roadname'));
+	})	
+</script>
+
+</body>
+</html>

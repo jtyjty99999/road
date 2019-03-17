@@ -102,6 +102,10 @@ Use search to find needed section.
 	.addTimeTableButton{
 		margin-top: 24px
 	}
+	.change-situation{
+		margin-bottom: 20px;
+    margin-right: 10px;
+	}
 	</style>
 	<!--[if lt IE 9]>
 		<script src="javascripts/ie.min.js"></script>
@@ -279,178 +283,13 @@ Use search to find needed section.
 									</div>
 									<div class="modal-body">
 
-
-
 										<form action="" class="panel form-horizontal" id="device-detail-form">
 											<input type="hidden" name="deviceid" class="form-control" id="device-id-instance">
 											<div class="panel-body">
 												<div class="row">
 													<div class="col-sm-12">
-														<!-- 列车时刻设置 -->
-														<div id="line-schedule-modal" class="modal fade modal-blur" tabindex="-1" role="dialog" style="display: none;">
-															<div class="modal-dialog">
-																<div class="modal-content">
-																	<div class="modal-header">
-																		<button type="button" class="close" data-dismiss="modal">×</button>
-																		<h4 class="modal-title">列车时刻设置</h4>
-																			<button type="button" {% if usertype==4 %}disabled{% endif %}	class="btn btn-primary" id="downTime">下发到设备</button>
-																	</div>
-																	<div class="modal-body">
-																		<table class="table table-bordered">
-																				<thead>
-																					<tr>
-																						<th colspan="3">上行列车
-																							<div class="row">
-																										<div class="col-sm-5">
-																											<div class="form-group no-margin-hr">
-																												<label class="control-label">车次</label>
-																												<input type="text" name="train_count" id="train_count" class="form-control">
-																											</div>
-																										</div><!-- col-sm-6 -->
-																										<div class="col-sm-5">
-																											<div class="form-group no-margin-hr">
-																												<label class="control-label">通过时刻</label>
-																												<input type="text" name="train_time" id="train_time" class="form-control">
-																											</div>
-																										</div><!-- col-sm-6 -->
-																										<div class="col-sm-2">
-																											<div class="form-group no-margin-hr">
-																												<button  {% if usertype==4 %}disabled{% endif %}	class="btn btn-primary addTimeTableButton" data-type="up" type="button">新增</button>
-																											</div>
-
-																										</div>
-																									</div>
-																						</th>
-																					</tr>
-																					<tr>
-																						<th>车次</th>
-																						<th>通过时刻</th>
-																						<th>操作</th>
-																					</tr>
-																				</thead>
-																				<tbody id="timeScheduleUpList">
-																					<tr>
-																						<td>11111</td>
-																						<td>222222222222222</td>
-																						<td>
-																							<button type = "button" class="btn btn-info">修改</button>
-																							<button type = "button" class="btn btn-danger">删除</button>
-																						</td>
-																					</tr>
-																				</tbody>
-																			</table>
-
-																		<table class="table table-bordered">
-																				<thead>
-																					
-																					<tr>
-																						<th colspan="3">下行列车
-																							<div class="row">
-																										<div class="col-sm-5">
-																											<div class="form-group no-margin-hr">
-																												<label class="control-label">车次</label>
-																												<input type="text" name="train_count" id="train_count" class="form-control">
-																											</div>
-																										</div><!-- col-sm-6 -->
-																										<div class="col-sm-5">
-																											<div class="form-group no-margin-hr">
-																												<label class="control-label">通过时刻</label>
-																												<input type="text" name="train_time" id="train_time" class="form-control">
-																											</div>
-																										</div><!-- col-sm-6 -->
-																										<div class="col-sm-2">
-																											<div class="form-group no-margin-hr">
-																												<button  {% if usertype==4 %}disabled{% endif %}	class="btn btn-primary addTimeTableButton" data-type="down" type="button">新增</button>
-																											</div>
-
-																										</div>
-																									</div>
-																						</th>
-																					</tr>
-																					<tr>
-																						<th>车次</th>
-																						<th>通过时刻</th>
-																						<th>操作</th>
-																					</tr>
-																				</thead>
-																				<tbody id="timeScheduleDownList">
-																					<tr>
-																						<td>兰溪市</td>
-																						<td>兰溪</td>
-																						<td>
-																							<button type = "button" class="btn btn-danger">删除</button>
-																						</td>
-																					</tr>
-																				</tbody>
-																			</table>
-																	</div>
-																</div> <!-- / .modal-content -->
-															</div> <!-- / .modal-dialog -->
-														</div> <!-- / .modal -->
-														<!-- / Template -->		
-														<button type = "button" class="btn btn-success" data-toggle="modal" data-target="#line-schedule-modal" id="showTimeScheduleButton">列车时刻设置</button>
-														<!-- 人员管理 -->
 
 
-
-														<div id="device-people-modal" class="modal fade modal-blur" tabindex="-1" role="dialog" style="display: none;">
-															<div class="modal-dialog">
-																<div class="modal-content">
-																	<div class="modal-header">
-																		<button type="button" class="close" data-dismiss="modal">×</button>
-																		<h4 class="modal-title">人员管理</h4>
-																		<button type="button" {% if usertype==4 %}disabled{% endif %} class="btn btn-primary" id="downPeople">下发到设备</button>
-																		<form action="" class="panel form-horizontal">
-																			<div class="panel-body">
-																				<div class="row">
-																					<div class="col-sm-5">
-																						<div class="form-group no-margin-hr">
-																							<label class="control-label">姓名</label>
-																							<input type="text" name="dutyUserName" id="dutyUserName" class="form-control">
-																						</div>
-																					</div><!-- col-sm-6 -->
-																					<div class="col-sm-5">
-																						<div class="form-group no-margin-hr">
-																							<label class="control-label">工号</label>
-																							<input type="text" name="dutyUserNumber" id="dutyUserNumber" class="form-control">
-																						</div>
-																					</div><!-- col-sm-6 -->
-																					<div class="col-sm-2">
-																						<div class="form-group no-margin-hr">
-																							<button {% if usertype==4 %}disabled{% endif %} class="btn btn-primary" type="button" id="addDutyUserButton">新增</button>
-																						</div>
-
-																					</div>
-																				</div>
-																			</div>
-																			<div class="panel-footer text-right">
-																			</div>
-																		</form>
-																	</div>
-																	<div class="modal-body">
-																		<table class="table table-bordered">
-																				<thead>
-																					<tr>
-																						<th>修改日期
-																						</th>
-																						<th>20150101
-																						</th>
-																					</tr>
-																					<tr>
-																						<th>交接班时间1</th>
-																						<th>10:10:10</th>
-																					</tr>
-																				</thead>
-																				<tbody id="dutyPeopleList">
-																				</tbody>
-																			</table>
-
-																	</div>
-																</div> <!-- / .modal-content -->
-															</div> <!-- / .modal-dialog -->
-														</div> <!-- / .modal -->
-														<!-- / Template -->		
-														<button type = "button" class="btn btn-success" data-toggle="modal" data-target="#device-people-modal" id="showDutyPeopleButton">人员管理</button>
 													<!-- 作业记录 -->
 														<div id="device-duty-modal" class="modal fade modal-blur" tabindex="-1" role="dialog" style="display: none;">
 															<div class="modal-dialog">
@@ -508,16 +347,21 @@ Use search to find needed section.
 														</div> <!-- / .modal -->
 														<!-- / Template -->		
 														<button type = "button" class="btn btn-success" data-toggle="modal" data-target="#device-exchange-modal" id="showExchangeButton">交接班记录</button>
-														<!-- 设备状况 -->
+														<!-- 设备检修 -->
 														<div id="device-situation-modal" class="modal fade modal-blur" tabindex="-1" role="dialog" style="display: none;">
 															<div class="modal-dialog">
 																<div class="modal-content">
 																	<div class="modal-header">
 																		<button type="button" class="close" data-dismiss="modal">×</button>
-																		<h4 class="modal-title">设备状况</h4>
+																		<h4 class="modal-title" id="situation-title">工务设备检修</h4>
 																	</div>
 																	<div class="modal-body table-info">
-
+																		<button type = "button" class="btn btn-success change-situation" data-type="0">工务设备检修</button>
+																		<button type = "button" class="btn btn-success change-situation" data-type="1">电务设备检修</button>
+																		<button type = "button" class="btn btn-success change-situation" data-type="2">供电设备检修</button>
+																		<button type = "button" class="btn btn-success change-situation" data-type="3">通信设备检修</button>
+																		<button type = "button" class="btn btn-success change-situation" data-type="4">房建设备检修</button>
+																		<button type = "button" class="btn btn-success change-situation" data-type="5">厂家设备检修</button>
 																		<table class="table table-bordered" id="situationList_table">
 																			<thead>
 																				<tr>
@@ -542,74 +386,13 @@ Use search to find needed section.
 															</div> <!-- / .modal-dialog -->
 														</div> <!-- / .modal -->
 														<!-- / Template -->									
-														<button type = "button" class="btn btn-success" data-toggle="modal" data-target="#device-situation-modal" id="showSituationButton">设备状况记录</button>
-														<!-- 离岗异常记录 -->
-														<div id="device-error-modal" class="modal fade modal-blur" tabindex="-1" role="dialog" style="display: none;">
-															<div class="modal-dialog">
-																<div class="modal-content">
-																	<div class="modal-header">
-																		<button type="button" class="close" data-dismiss="modal">×</button>
-																		<h4 class="modal-title">离岗异常记录</h4>
-																	</div>
-																	<div class="modal-body table-info">
-																		<table class="table table-bordered" id="errorList_table">
-																			<thead>
-																				<tr>
-																					<th>时间</th>
-																					<th>工号</th>
-																				</tr>
-																			</thead>
-																			<tbody id="errorList"> 
-																			</tbody>
-																		</table>
-
-																	</div>
-																</div> <!-- / .modal-content -->
-															</div> <!-- / .modal-dialog -->
-														</div> <!-- / .modal -->
-														<!-- / Template -->	
-
-
-														<button type = "button" class="btn btn-success" data-toggle="modal" data-target="#device-error-modal" id="showErrorButton">离岗异常记录</button>
-														<!-- 离岗异常记录 -->
-
-{% if usertype==1 %}
-														<!-- 设备信息记录 -->
-														<div id="device-information-modal" class="modal fade modal-blur" tabindex="-1" role="dialog" style="display: none;">
-															<div class="modal-dialog">
-																<div class="modal-content">
-																	<div class="modal-header">
-																		<button type="button" class="close" data-dismiss="modal">×</button>
-																		<h4 class="modal-title">设备信息记录</h4>
-																	</div>
-																	<div class="modal-body table-info">
-																		<table class="table table-bordered" id="informationList_table">
-																			<thead>
-																				<tr>
-																					<th>时间</th>
-																					<th>内容</th>
-																				</tr>
-																			</thead>
-																			<tbody id="informationList"> 
-																			</tbody>
-																		</table>
-
-																	</div>
-																</div> <!-- / .modal-content -->
-															</div> <!-- / .modal-dialog -->
-														</div> <!-- / .modal -->
-														<!-- / Template -->	
-
-
-														<button type = "button" class="btn btn-success" data-toggle="modal" data-target="#device-information-modal" id="showInformationButton">设备信息记录</button>
-														<!-- 设备信息记录 -->
-	{% endif %}	
+														<button type = "button" class="btn btn-success" data-toggle="modal" data-target="#device-situation-modal" id="showSituationButton">设备检修记录</button>
 														<div id="device-msg-modal" class="modal fade modal-blur" tabindex="-1" role="dialog" style="display: none;">
 															<div class="modal-dialog">
 																<div class="modal-content">
 																	<div class="modal-header">
 																		<button type="button" class="close" data-dismiss="modal">×</button>
-																		<h4 class="modal-title">消息记录</h4>
+																		<h4 class="modal-title">通知通报记录</h4>
 																	</div>
 																	<div class="modal-body table-info">
 																		<table class="table table-bordered" id="msgHistoryList_table">
@@ -617,6 +400,8 @@ Use search to find needed section.
 																				<tr>
 																					<th>序号</th>
 																					<th>时间</th>
+																					<th>部门</th>
+																					<th>通知人</th>
 																					<th>信息</th>
 																					<th>状态</th>
 																				</tr>
@@ -630,11 +415,285 @@ Use search to find needed section.
 															</div> <!-- / .modal-dialog -->
 														</div> <!-- / .modal -->
 														<!-- / Template -->	
+														<button type = "button" class="btn btn-success" data-toggle="modal" data-target="#device-msg-modal" id="showMsgHistoryButton">通知通报记录</button>
 
-														<button type = "button" class="btn btn-success" data-toggle="modal" data-target="#device-msg-modal" id="showMsgHistoryButton">消息记录</button>
 
-														<a target="_black" type = "button" class="btn btn-success" href="http://www.baidu.com/">视频记录</a>
-														<button  class="btn btn-primary" type="button" data-target="#down-msg-modal2" data-toggle="modal">下发检查指导</button>
+														<div id="device-check-modal" class="modal fade modal-blur" tabindex="-1" role="dialog" style="display: none;">
+															<div class="modal-dialog">
+																<div class="modal-content">
+																	<div class="modal-header">
+																		<button type="button" class="close" data-dismiss="modal">×</button>
+																		<h4 class="modal-title">检查指导记录</h4>
+																	</div>
+																	<div class="modal-body table-info">
+																		<table class="table table-bordered" id="checkHistoryList_table">
+																			<thead>
+																				<tr>
+																					<th>序号</th>
+																					<th>时间</th>
+																					<th>检查人</th>
+																					<th>职务或职称</th>
+																					<th>通知内容</th><th>状态</th>
+																				</tr>
+																			</thead>
+																			<tbody id="checkHistoryList"> 
+																			</tbody>
+																		</table>
+
+																	</div>
+																</div> <!-- / .modal-content -->
+															</div> <!-- / .modal-dialog -->
+														</div> <!-- / .modal -->
+														<!-- / Template -->	
+														<button type = "button" class="btn btn-success" data-toggle="modal" data-target="#device-check-modal" id="showCheckHistoryButton">检查指导记录</button>
+										
+														
+
+
+														<div id="device-other-modal" class="modal fade modal-blur" tabindex="-1" role="dialog" style="display: none;">
+															<div class="modal-dialog">
+																<div class="modal-content">
+																	<div class="modal-header">
+																		<button type="button" class="close" data-dismiss="modal">×</button>
+																		<h4 class="modal-title">其他功能</h4>
+																	</div>
+																	<div class="modal-body table-info">
+
+																		
+																		<!-- 列车时刻设置 -->
+																		<div id="line-schedule-modal" class="modal fade modal-blur" tabindex="-1" role="dialog" style="display: none;">
+																				<div class="modal-dialog">
+																					<div class="modal-content">
+																						<div class="modal-header">
+																							<button type="button" class="close" data-dismiss="modal">×</button>
+																							<h4 class="modal-title">列车时刻设置</h4>
+																								<button type="button" {% if usertype==4 %}disabled{% endif %}	class="btn btn-primary" id="downTime">下发到设备</button>
+																						</div>
+																						<div class="modal-body">
+																							<table class="table table-bordered">
+																									<thead>
+																										<tr>
+																											<th colspan="3">上行列车
+																												<div class="row">
+																															<div class="col-sm-5">
+																																<div class="form-group no-margin-hr">
+																																	<label class="control-label">车次</label>
+																																	<input type="text" name="train_count" id="train_count" class="form-control">
+																																</div>
+																															</div><!-- col-sm-6 -->
+																															<div class="col-sm-5">
+																																<div class="form-group no-margin-hr">
+																																	<label class="control-label">通过时刻</label>
+																																	<input type="text" name="train_time" id="train_time" class="form-control">
+																																</div>
+																															</div><!-- col-sm-6 -->
+																															<div class="col-sm-2">
+																																<div class="form-group no-margin-hr">
+																																	<button  {% if usertype==4 %}disabled{% endif %}	class="btn btn-primary addTimeTableButton" data-type="up" type="button">新增</button>
+																																</div>
+					
+																															</div>
+																														</div>
+																											</th>
+																										</tr>
+																										<tr>
+																											<th>车次</th>
+																											<th>通过时刻</th>
+																											<th>操作</th>
+																										</tr>
+																									</thead>
+																									<tbody id="timeScheduleUpList">
+																										<tr>
+																											<td>11111</td>
+																											<td>222222222222222</td>
+																											<td>
+																												<button type = "button" class="btn btn-info">修改</button>
+																												<button type = "button" class="btn btn-danger">删除</button>
+																											</td>
+																										</tr>
+																									</tbody>
+																								</table>
+					
+																							<table class="table table-bordered">
+																									<thead>
+																										
+																										<tr>
+																											<th colspan="3">下行列车
+																												<div class="row">
+																															<div class="col-sm-5">
+																																<div class="form-group no-margin-hr">
+																																	<label class="control-label">车次</label>
+																																	<input type="text" name="train_count" id="train_count" class="form-control">
+																																</div>
+																															</div><!-- col-sm-6 -->
+																															<div class="col-sm-5">
+																																<div class="form-group no-margin-hr">
+																																	<label class="control-label">通过时刻</label>
+																																	<input type="text" name="train_time" id="train_time" class="form-control">
+																																</div>
+																															</div><!-- col-sm-6 -->
+																															<div class="col-sm-2">
+																																<div class="form-group no-margin-hr">
+																																	<button  {% if usertype==4 %}disabled{% endif %}	class="btn btn-primary addTimeTableButton" data-type="down" type="button">新增</button>
+																																</div>
+					
+																															</div>
+																														</div>
+																											</th>
+																										</tr>
+																										<tr>
+																											<th>车次</th>
+																											<th>通过时刻</th>
+																											<th>操作</th>
+																										</tr>
+																									</thead>
+																									<tbody id="timeScheduleDownList">
+																										<tr>
+																											<td>兰溪市</td>
+																											<td>兰溪</td>
+																											<td>
+																												<button type = "button" class="btn btn-danger">删除</button>
+																											</td>
+																										</tr>
+																									</tbody>
+																								</table>
+																						</div>
+																					</div> <!-- / .modal-content -->
+																				</div> <!-- / .modal-dialog -->
+																			</div> <!-- / .modal -->
+																			<!-- / Template -->		
+																			<button type = "button" class="btn btn-success" data-toggle="modal" data-target="#line-schedule-modal" id="showTimeScheduleButton">列车时刻设置</button>														
+																			<!-- 人员管理 -->
+																			<div id="device-people-modal" class="modal fade modal-blur" tabindex="-1" role="dialog" style="display: none;">
+																				<div class="modal-dialog">
+																					<div class="modal-content">
+																						<div class="modal-header">
+																							<button type="button" class="close" data-dismiss="modal">×</button>
+																							<h4 class="modal-title">人员管理</h4>
+																							<button type="button" {% if usertype==4 %}disabled{% endif %} class="btn btn-primary" id="downPeople">下发到设备</button>
+																							<form action="" class="panel form-horizontal">
+																								<div class="panel-body">
+																									<div class="row">
+																										<div class="col-sm-5">
+																											<div class="form-group no-margin-hr">
+																												<label class="control-label">姓名</label>
+																												<input type="text" name="dutyUserName" id="dutyUserName" class="form-control">
+																											</div>
+																										</div><!-- col-sm-6 -->
+																										<div class="col-sm-5">
+																											<div class="form-group no-margin-hr">
+																												<label class="control-label">工号</label>
+																												<input type="text" name="dutyUserNumber" id="dutyUserNumber" class="form-control">
+																											</div>
+																										</div><!-- col-sm-6 -->
+																										<div class="col-sm-2">
+																											<div class="form-group no-margin-hr">
+																												<button {% if usertype==4 %}disabled{% endif %} class="btn btn-primary" type="button" id="addDutyUserButton">新增</button>
+																											</div>
+					
+																										</div>
+																									</div>
+																								</div>
+																								<div class="panel-footer text-right">
+																								</div>
+																							</form>
+																						</div>
+																						<div class="modal-body">
+																							<table class="table table-bordered">
+																									<thead>
+																										<tr>
+																											<th>修改日期
+																											</th>
+																											<th>20150101
+																											</th>
+																										</tr>
+																										<tr>
+																											<th>交接班时间1</th>
+																											<th>10:10:10</th>
+																										</tr>
+																									</thead>
+																									<tbody id="dutyPeopleList">
+																									</tbody>
+																								</table>
+					
+																						</div>
+																					</div> <!-- / .modal-content -->
+																				</div> <!-- / .modal-dialog -->
+																			</div> <!-- / .modal -->
+																			<!-- / Template -->		
+																			<button type = "button" class="btn btn-success" data-toggle="modal" data-target="#device-people-modal" id="showDutyPeopleButton">人员管理</button>														
+																			<!-- 离岗异常记录 -->
+																			<div id="device-error-modal" class="modal fade modal-blur" tabindex="-1" role="dialog" style="display: none;">
+																				<div class="modal-dialog">
+																					<div class="modal-content">
+																						<div class="modal-header">
+																							<button type="button" class="close" data-dismiss="modal">×</button>
+																							<h4 class="modal-title">离岗异常记录</h4>
+																						</div>
+																						<div class="modal-body table-info">
+																							<table class="table table-bordered" id="errorList_table">
+																								<thead>
+																									<tr>
+																										<th>时间</th>
+																										<th>工号</th>
+																									</tr>
+																								</thead>
+																								<tbody id="errorList"> 
+																								</tbody>
+																							</table>
+					
+																						</div>
+																					</div> <!-- / .modal-content -->
+																				</div> <!-- / .modal-dialog -->
+																			</div> <!-- / .modal -->
+																			<!-- / Template -->	
+					
+					
+																			<button type = "button" class="btn btn-success" data-toggle="modal" data-target="#device-error-modal" id="showErrorButton">离岗异常记录</button>
+																			<!-- 离岗异常记录 -->
+					
+					{% if usertype==1 %}
+																			<!-- 设备信息记录 -->
+																			<div id="device-information-modal" class="modal fade modal-blur" tabindex="-1" role="dialog" style="display: none;">
+																				<div class="modal-dialog">
+																					<div class="modal-content">
+																						<div class="modal-header">
+																							<button type="button" class="close" data-dismiss="modal">×</button>
+																							<h4 class="modal-title">设备信息记录</h4>
+																						</div>
+																						<div class="modal-body table-info">
+																							<table class="table table-bordered" id="informationList_table">
+																								<thead>
+																									<tr>
+																										<th>时间</th>
+																										<th>内容</th>
+																									</tr>
+																								</thead>
+																								<tbody id="informationList"> 
+																								</tbody>
+																							</table>
+					
+																						</div>
+																					</div> <!-- / .modal-content -->
+																				</div> <!-- / .modal-dialog -->
+																			</div> <!-- / .modal -->
+																			<!-- / Template -->	
+					
+					
+																			<button type = "button" class="btn btn-success" data-toggle="modal" data-target="#device-information-modal" id="showInformationButton">设备信息记录</button>
+																			<!-- 设备信息记录 -->
+						{% endif %}	
+																			<a target="_black" type = "button" class="btn btn-success" href="http://www.baidu.com/">视频记录</a>
+																			<button  class="btn btn-primary" type="button" data-target="#down-msg-modal2" data-toggle="modal">下发检查指导</button>
+
+																	</div>
+																</div> <!-- / .modal-content -->
+															</div> <!-- / .modal-dialog -->
+														</div> <!-- / .modal -->
+														<!-- / Template -->	
+														<button type = "button" class="btn btn-success" data-toggle="modal" data-target="#device-other-modal" id="showCheckHistoryButton">其他</button>														
+														
+														
 													</div>
 												</div>
 												<div class="row">
@@ -2011,7 +2070,7 @@ Use search to find needed section.
 								<label class="col-sm-4 control-label">通知内容:</label>
 								<div class="col-sm-8">
 									<textarea class="form-control" rows="10" id="checkDown" name="checkDown"></textarea>
-									<span class="help-block">最多允许160个字，还剩 <span id="wordleftCheck">180</span> 个</span>
+									<span class="help-block">最多允许400个字，还剩 <span id="wordleftCheck">400</span> 个</span>
 								</div>
 							</div>
 						</div>
@@ -2069,14 +2128,14 @@ Use search to find needed section.
 											<label class="col-sm-4 control-label">消息:</label>
 											<div class="col-sm-8">
 												<textarea class="form-control" rows="10" id="msgDown" name="msgDown"></textarea>
-												<span class="help-block">最多允许160个字，还剩 <span id="wordleft">160</span> 个</span>
+												<span class="help-block">最多允许280个字，还剩 <span id="wordleft">280</span> 个</span>
 											</div>
 										</div>
 										<div class="row form-group">
 												<label class="col-sm-4 control-label">有关要求:</label>
 												<div class="col-sm-8">
 													<textarea class="form-control" rows="10" id="msgDemand" name="msgDemand"></textarea>
-													<span class="help-block">最多允许160个字，还剩 <span id="msgDemandLeft">160</span> 个</span>
+													<span class="help-block">最多允许180个字，还剩 <span id="msgDemandLeft">180</span> 个</span>
 												</div>
 											</div>
 									</div>
@@ -2600,7 +2659,7 @@ var language= {
 				}
 				var length = res.length;
 				res.forEach(function(d,i){
-				html += '<tr><td rowspan="2">'+d.T00+'</td><td>交班'+d.T01+'</td><td>'+d.T03+'</td><td>'+d.T05+'</td><td>'+d.T07+'</td><td>'+d.T09+'</td><td>'+d.T11+'</td><td>'+d.T13+'</td><td>'+d.T15+'</td></tr><tr><td>接班'+d.T02+'</td><td>'+d.T04+'</td><td>'+d.T06+'</td><td>'+d.T08+'</td><td>'+d.T10+'</td><td>'+d.T12+'</td><td>'+d.T14+'</td><td>'+d.T16+'</td></tr>';
+				html += '<tr><td rowspan="2">'+d.T00+'</td><td>交班'+d.T01+'</td><td>'+d.T03+'</td><td>'+d.T05+'</td><td>'+d.T07+'</td><td>'+d.T09+'</td><td rowspan="2">'+d.T11+'</td><td rowspan="2">'+d.T12+'</td><td rowspan="2">'+d.T13+'</td></tr><tr><td>接班'+d.T02+'</td><td>'+d.T04+'</td><td>'+d.T06+'</td><td>'+d.T08+'</td><td>'+d.T10+'</td></tr>';
 
 				})
 
@@ -2754,16 +2813,16 @@ var msgHistoryListTable;
 				}else if(d.status===1){
 					status = '接收完毕'
 				}else{
-					status = '已查看'
+					status = '已查看,签到信息：' + d.comment
 				}
-				html += '<tr><td>'+(i+1)+'</td><td>'+d.create_time+'</td><td>'+d.text+'</td><td>'+status+'</td></tr>';
+				html += '<tr><td>'+(i+1)+'</td><td>'+d.create_time+'</td><td>'+d.user+'</td><td>'+d.dept+'</td><td>'+d.text+'</td><td>'+status+'</td></tr>';
 
 				})
 
 
 				if(msgHistoryListTable){
 					msgHistoryListTable.destroy();
-					$('#msgHistoryList_table').parent().parent().empty().append('<table class="table table-bordered" id="msgHistoryList_table"><thead><tr><th>序号</th><th>时间</th><th>信息</th><th>状态</th></tr></thead><tbody id="msgHistoryList"></tbody></table>');
+					$('#msgHistoryList_table').parent().parent().empty().append('<table class="table table-bordered" id="msgHistoryList_table"><thead><tr><th>序号</th><th>时间</th><th>部门</th><th>通知人</th><th>信息</th><th>状态</th></tr></thead><tbody id="msgHistoryList"></tbody></table>');
 				}
 
 				$('#msgHistoryList').html(html)
@@ -2785,6 +2844,62 @@ var msgHistoryListTable;
 	})	
 
 
+var checkHistoryListTable;
+	//展示检查指导信息
+	$document.delegate('#showCheckHistoryButton','click',function(){
+
+		var deviceid = $('#device-id-instance').val();
+
+
+		$.ajax({
+			url: "/ajax/showCheckHistoryInfo",
+			data:{
+
+				deviceId:deviceid,
+			},
+			success: function(res) {
+				//console.log(res)
+
+
+				var html = '';
+
+				var length = res.length;
+				var status;
+				res.forEach(function(d,i){
+				if(d.status === 0){
+					status ='未接收'
+				}else if(d.status===1){
+					status = '接收完毕'
+				}else{
+					status = '已查看,签到信息：' + d.comment
+				}
+				html += '<tr><td>'+(i+1)+'</td><td>'+d.create_time+'</td><td>'+d.user+'</td><td>'+d.job+'</td><td>'+d.text+'</td><td>'+status+'</td></tr>';
+
+				})
+
+
+				if(checkHistoryListTable){
+					checkHistoryListTable.destroy();
+					$('checkHistoryList_table').parent().parent().empty().append('<table class="table table-bordered" id="checkHistoryList_table"><thead><tr><th>序号</th><th>时间</th><th>检查人</th><th>职务或职称</th><th>通知信息</th><th>状态</th></tr></thead><tbody id="checkHistoryList"></tbody></table>');
+				}
+
+				$('#checkHistoryList').html(html)
+
+				checkHistoryListTable = $('#checkHistoryList_table').dataTable({
+					  "ordering": false,
+					  language:language
+					});
+				$('#checkHistoryList_table_wrapper .table-caption').text('');
+				$('#checkHistoryList_table_wrapper .dataTables_filter input').attr('placeholder', '请输入任意关键字');	
+				$('#device-check-modal .modal-title').text($('body').attr('data-roadname'));
+			},
+			error:function(){
+				alert('查看失败')
+			}
+		});
+
+	})	
+
 
 var situationListTable;
 	//展示设备状况信息
@@ -2796,7 +2911,7 @@ var situationListTable;
 		$.ajax({
 			url: "/ajax/showSituationInfo",
 			data:{
-
+				type:0,
 				deviceId:deviceid,
 			},
 			success: function(res) {
@@ -2815,7 +2930,7 @@ var situationListTable;
 
 				if(situationListTable){
 					situationListTable.destroy();
-					$('#situationList_table').parent().parent().empty().append('<table class="table table-bordered" id="situationList_table"><thead><tr><th>设备名称</th><th>日期时间</th><th>报修人</th><th>受理人</th><th>检修时间</th><th>设备状况</th><th>管理单位</th><th>检修人</th><th>结束时间</th><th>签认</th></tr></thead><tbody id="situationList"></tbody></table>');
+					$('#situationList_table').parent().parent().empty().append('<button type = "button" class="btn btn-success change-situation" data-type="0">工务设备检修</button><button type = "button" class="btn btn-success change-situation" data-type="1">电务设备检修</button><button type = "button" class="btn btn-success change-situation" data-type="2">供电设备检修</button><button type = "button" class="btn btn-success change-situation" data-type="3">通信设备检修</button><button type = "button" class="btn btn-success change-situation" data-type="4">房建设备检修</button><button type = "button" class="btn btn-success change-situation" data-type="5">厂家设备检修</button><table class="table table-bordered" id="situationList_table"><thead><tr><th>设备名称</th><th>日期时间</th><th>报修人</th><th>受理人</th><th>检修时间</th><th>设备状况</th><th>管理单位</th><th>检修人</th><th>结束时间</th><th>签认</th></tr></thead><tbody id="situationList"></tbody></table>');
 				}
 
 				$('#situationList').html(html)
@@ -2836,6 +2951,56 @@ var situationListTable;
 
 	})	
 	
+
+
+$document.delegate('.change-situation','click',function(){
+
+var deviceid = $('#device-id-instance').val();
+
+
+$.ajax({
+	url: "/ajax/showSituationInfo",
+	data:{
+		type:$(this).attr('data-type'),
+		deviceId:deviceid,
+	},
+	success: function(res) {
+		//console.log(res)
+
+
+		var html = '';
+
+		var length = res.length;
+
+		res.forEach(function(d,i){
+
+		html += '<tr><td>'+d.T00+'</td><td>'+d.T01+'</td><td>'+d.T02+'</td><td>'+d.T03+'</td><td>'+d.T04+'</td><td>'+d.T05+'</td><td>'+d.T06+'</td><td>'+d.T07+'</td><td>'+d.T08+'</td><td>'+d.T09+'</td></tr>';
+
+		})
+
+		if(situationListTable){
+			situationListTable.destroy();
+			$('#situationList_table').parent().parent().empty().append('<button type = "button" class="btn btn-success change-situation" data-type="0">工务设备检修</button><button type = "button" class="btn btn-success change-situation" data-type="1">电务设备检修</button><button type = "button" class="btn btn-success change-situation" data-type="2">供电设备检修</button><button type = "button" class="btn btn-success change-situation" data-type="3">通信设备检修</button><button type = "button" class="btn btn-success change-situation" data-type="4">房建设备检修</button><button type = "button" class="btn btn-success change-situation" data-type="5">厂家设备检修</button><table class="table table-bordered" id="situationList_table"><thead><tr><th>设备名称</th><th>日期时间</th><th>报修人</th><th>受理人</th><th>检修时间</th><th>设备状况</th><th>管理单位</th><th>检修人</th><th>结束时间</th><th>签认</th></tr></thead><tbody id="situationList"></tbody></table>');
+		}
+
+		$('#situationList').html(html)
+
+		situationListTable = $('#situationList_table').dataTable({
+			  "ordering": false,
+			  language:language
+			});
+		$('#situationList_table_wrapper .table-caption').text('');
+		$('#situationList_table_wrapper .dataTables_filter input').attr('placeholder', '请输入任意关键字');
+		$('#device-situation-modal .modal-title').text($('body').attr('data-roadname'));
+	},
+	error:function(){
+
+		alert('获取失败')
+	}
+});
+
+})	
+
 
 	function showPeople(){
 
@@ -2900,22 +3065,19 @@ var situationListTable;
 
 	$('#msgDown').on('keyup',function(){
 
-		$('#wordleft').text(160-$('#msgDown').val().length);
+		$('#wordleft').text(280-$('#msgDown').val().length);
 
 	})	
 	$('#msgDemind').on('keyup',function(){
 
-	$('#msgDemandLeft').text(160-$('#msgDemind').val().length);
-
+	$('#msgDemandLeft').text(180-$('#msgDemind').val().length);
 	})	
 	$('#checkDown').on('keyup',function(){
-
-		$('#wordleftCheck').text(160-$('#checkDown').val().length);
-
+		$('#wordleftCheck').text(400-$('#checkDown').val().length);
 	})	
 	$document.delegate('#downCheckButton','click',function(){
 		var deviceid = $('#device-id-instance').val();
-		if($('#msgDown').val().length>160){
+		if($('#checkDown').val().length>400){
 			alert('消息超字数，请修改');
 		}else{
 			$.ajax({
@@ -2944,7 +3106,7 @@ var situationListTable;
 	$document.delegate('#downMsgButton','click',function(){
 		var ids = '';
 
-		if($('#msgDown').val().length>160){
+		if($('#msgDown').val().length>280){
 
 			alert('消息超字数，请修改');
 

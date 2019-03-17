@@ -418,6 +418,35 @@ exports.insertExchangeInfo = function (dutyInfo, callback) {
 
 
 /**
+ * 覆盖某设备的交接班信息
+ *
+ * @param {Object} 设备id
+ * @return {array} 
+ */
+var UPDATE_DEVICE_EXCHANGE_SQL = multiline(function (){/*
+  update 
+    monitor_exchange_info set update_time = now(), deviceid = ?,T00= ?, T01= ?,T02= ?,T03= ?,T04= ?,T05= ?,T06= ?,T07= ?,T08= ?,T09= ?,T10= ?,T11= ?,T12= ?,T13= ?,T14= ?,T15= ?,T16= ?
+  where id = ?
+*/});
+exports.updateExchangeInfo = function (id, dutyInfo, callback) {
+ // console.log(dutyInfo)
+  assert(typeof dutyInfo === 'object');
+
+  var values = [dutyInfo.deviceid,dutyInfo.T00,dutyInfo.T01,dutyInfo.T02,dutyInfo.T03,
+    dutyInfo.T04,dutyInfo.T05,dutyInfo.T06,dutyInfo.T07,dutyInfo.T08,dutyInfo.T09,
+    dutyInfo.T10,dutyInfo.T11,dutyInfo.T12,dutyInfo.T13,dutyInfo.T14,dutyInfo.T15,dutyInfo.T16, id];
+  mysql.query(UPDATE_DEVICE_EXCHANGE_SQL, values, function(err, result) {
+    if (err) {
+      callback(err);
+    } else {
+      callback(null, result);
+    }
+  });
+};
+
+
+
+/**
  * 查找某设备的交接班信息
  *
  * @param {Object} 设备id
@@ -496,14 +525,14 @@ exports.showErrorInfo = function (device_id, callback) {
  */
 var INSERT_DEVICE_SITUATION_SQL = multiline(function (){/*
   INSERT INTO
-    monitor_situation_info(id, create_time, update_time,deviceid, T00, T01,T02,T03,T04,T05,T06,T07,T08,T09)
-  VALUES(NULL, now(), now(), ? , ?,?,?,?,?,?,?,?,?,?)
+    monitor_situation_info(id, create_time, update_time,deviceid, T00, T01,T02,T03,T04,T05,T06,T07,T08,T09,T10)
+  VALUES(NULL, now(), now(), ? , ?,?,?,?,?,?,?,?,?,?,?)
 */});
 exports.insertSituationInfo = function (dutyInfo, callback) {
  // console.log(dutyInfo)
   assert(typeof dutyInfo === 'object');
 
-  var values = [dutyInfo.deviceid,dutyInfo.T00,dutyInfo.T01,dutyInfo.T02,dutyInfo.T03,dutyInfo.T04,dutyInfo.T05,dutyInfo.T06,dutyInfo.T07,dutyInfo.T08,dutyInfo.T09];
+  var values = [dutyInfo.deviceid,dutyInfo.T00,dutyInfo.T01,dutyInfo.T02,dutyInfo.T03,dutyInfo.T04,dutyInfo.T05,dutyInfo.T06,dutyInfo.T07,dutyInfo.T08,dutyInfo.T09,dutyInfo.T10];
   mysql.query(INSERT_DEVICE_SITUATION_SQL, values, function(err, result) {
     if (err) {
       callback(err);
@@ -522,11 +551,11 @@ exports.insertSituationInfo = function (dutyInfo, callback) {
  */
 var SELECT_DEVICE_SITUATION_SQL = multiline(function (){/*
   Select * from
-    monitor_situation_info where deviceid = ? order by id desc
+    monitor_situation_info where deviceid = ? and T10= ? order by id desc
 */});
-exports.showSituationInfo = function (device_id, callback) {
+exports.showSituationInfo = function (device_id, type, callback) {
 
-  var values = [device_id];
+  var values = [device_id, type];
   mysql.query(SELECT_DEVICE_SITUATION_SQL, values, function(err, result) {
     if (err) {
       callback(err);
@@ -1054,7 +1083,7 @@ exports.findMessageByCode = function (msg, callback) {
  */
 var MSG_HISTORY_SELETE_SQL = multiline(function (){/*
   SELECT * from
-    monitor_msg_history where device_id= ?
+    monitor_msg_history where device_id= ? order by create_time desc
 */});
 exports.showMsgHistoryInfo = function (deviceid, callback) {
 
@@ -1068,6 +1097,7 @@ exports.showMsgHistoryInfo = function (deviceid, callback) {
     }
   });
 };
+
 
 /**
  * 更新消息状态
@@ -1103,12 +1133,11 @@ exports.updateMessageHistory = function (msg, callback) {
  */
 var MSG_HISTORY_ADD_SQL = multiline(function (){/*
   INSERT INTO
-    monitor_msg_history(id,device_id,msg_id,text,create_time,user,dept,demand)
-  VALUES(null,?,?,?,now(),?,?)
+    monitor_msg_history(id,device_id,msg_id,text,create_time,user,dept,demand,comment)
+  VALUES(null,?,?,?,now(),?,?,?, null)
 */});
 exports.addMsgHistory= function (msg, callback) {
   assert(typeof msg === 'object');
-
   var values = [msg.deviceid,
     msg.msg_id,msg.text,msg.user,msg.dept,msg.demand];
   mysql.query(MSG_HISTORY_ADD_SQL, values, function(err, result) {
@@ -1201,14 +1230,14 @@ exports.findCheckByCode = function (msg, callback) {
  * @param {String} deviceid
  * @return {Number} id
  */
-var CHECK_HISTORY_SELETE_SQL = multiline(function (){/*
+var CHECK_HISTORY_SELETE_SQL_SIMPLE = multiline(function (){/*
   SELECT * from
-    monitor_check_history where device_id= ?
+    monitor_check_history where device_id= ? order by create_time desc
 */});
 exports.showCheckHistoryInfo = function (deviceid, callback) {
 
   var values = [deviceid];
-  mysql.query(CHECK_HISTORY_SELETE_SQL, values, function(err, result) {
+  mysql.query(CHECK_HISTORY_SELETE_SQL_SIMPLE, values, function(err, result) {
     if (err) {
       callback(err);
     } else {
@@ -1250,7 +1279,7 @@ exports.selectCheckHistory = function (msg, callback) {
  * @param {String} deviceid
  * @return {Number} id
  */
-var MSG_HISTORY_SELETE_SQL = multiline(function (){/*
+var MSG_HISTORY_SELETE_SQL_BY_ID = multiline(function (){/*
   select * from
     monitor_msg_history where device_id= ? and msg_id = ?
 */});
@@ -1260,7 +1289,7 @@ exports.selectMessageHistory = function (msg, callback) {
     msg.status = 1
   }
   var values = [msg.device_id,msg.msg_id];
-  mysql.query(MSG_HISTORY_SELETE_SQL, values, function(err, result) {
+  mysql.query(MSG_HISTORY_SELETE_SQL_BY_ID, values, function(err, result) {
     if (err) {
       callback(err);
     } else {
@@ -1345,5 +1374,105 @@ exports.findCheck = function (msg, callback) {
   });
 };
 
+/**
+ * 添加更新验证码
+ *
+ * @param {Object} 操作对象
+ * @return {Number} id
+ */
+var PHONE_CODE_ADD_SQL = multiline(function (){/*
+  INSERT INTO monitor_phone_code (deviceid, phone, create_time, update_time,code,op_code,md5) VALUES (?,?,now(),?,?,?,?) ON DUPLICATE KEY UPDATE code=?,op_code=?,update_time=?;
+*/});
+exports.addPhoneCode= function (obj, callback) {
+  assert(typeof obj === 'object');
+
+  var values = [obj.deviceid,
+    obj.phone,obj.update_time,obj.code,obj.op_code,obj.md5, obj.code,obj.op_code,obj.update_time];
+  mysql.query(PHONE_CODE_ADD_SQL, values, function(err, result) {
+    if (err) {
+      console.log(err)
+      callback(err);
+    } else {
+      callback(null, result.insertId);
+    }
+  });
+};
+
+/**
+ * 查看验证码
+ *
+ * @param {Object} 操作对象
+ * @return {Number} id
+ */
+var PHONE_CODE_SELECT_SQL = multiline(function (){/*
+  select * from monitor_phone_code where deviceid= ? and op_code = ?;
+*/});
+exports.selectPhoneCode= function (obj, callback) {
+  assert(typeof obj === 'object');
+
+  var values = [obj.deviceid,obj.op_code];
+  mysql.query(PHONE_CODE_SELECT_SQL, values, function(err, result) {
+    if (err) {
+      console.log(err)
+    } else {
+      callback(null, result);
+    }
+  });
+};
+/**
+ * 查看验证码
+ *
+ * @param {Object} 操作对象
+ * @return {Number} id
+ */
+var PHONE_CODE_SELECT_PHONE_SQL = multiline(function (){/*
+  select * from monitor_phone_code where deviceid= ? and phone = ?;
+*/});
+exports.selectPhoneCodeByPhone= function (obj, callback) {
+  assert(typeof obj === 'object');
+
+  var values = [obj.deviceid,obj.phone];
+  mysql.query(PHONE_CODE_SELECT_PHONE_SQL, values, function(err, result) {
+    if (err) {
+      console.log(err)
+    } else {
+      callback(null, result);
+    }
+  });
+};
+
+
+/**
+ * 验证验证码
+ *
+ * @param {Object} 操作对象
+ * @return {Number} id
+ */
+var PHONE_CODE_VERIFY_SQL = multiline(function (){/*
+  select * from monitor_phone_code where deviceid= ? and code = ? and phone = ?;
+*/});
+exports.judgeVerify= function (obj, callback) {
+  assert(typeof obj === 'object');
+  console.log(6565655665566565);
+  console.log(obj.deviceid,obj.vcode,obj.phone)
+  var values = [obj.deviceid,obj.vcode,obj.phone];
+  mysql.query(PHONE_CODE_VERIFY_SQL, values, function(err, result) {
+    if (err) {
+      console.log(err)
+    } else {
+      callback(null, result);
+    }
+  });
+};
+
+
+
+
+
 thunkify(exports);
+
+
+
+
+
 

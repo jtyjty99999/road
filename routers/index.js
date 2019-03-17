@@ -18,9 +18,11 @@ function routes(app) {
   app.get('/',page.index);
   app.get('/index',page.index);
   app.get('/login',page.login);
+  app.get('/loginMobile',page.loginMobile);
+  app.get('/check',page.check);
   app.get('/logout',page.logout);
   app.get('/checkLogin',page.checkLogin);
-
+  
   //*用户轨迹分析用*//
 
   app.get('/aaindex',aa.index);
@@ -70,10 +72,16 @@ app.get('/ajax/showSituationInfo',device.showSituationInfo);//设备状况
 app.get('/ajax/showErrorInfo',device.showErrorInfo);//设备违规信息
 app.get('/ajax/showInformationInfo',device.showInformationInfo);//设备信息码信息
 app.get('/ajax/showMsgHistoryInfo',device.showMsgHistoryInfo);//设备消息
+app.get('/ajax/showCheckHistoryInfo',device.showCheckHistoryInfo);//设备消息
 
 app.get('/ajax/down',device.downByUser);//信息下发
 app.get('/ajax/downMsg',device.downMsg);//信息下发
 app.get('/ajax/downCheck',device.downCheck);//信息下发
+
+app.get('/ajax/requestVerifyCode',device.requestVerifyCode);//验证码下发、
+app.get('/loginByCode',device.loginByCode);//验证码下发
+
+
 }
 
 module.exports = routes;

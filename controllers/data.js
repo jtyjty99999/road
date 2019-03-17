@@ -76,17 +76,17 @@ var cache = {};
 
 function findFromCache(cac,record,deviceid,seq){
 
-	if(!cac.deviceid){
-		cac.deviceid = {};
+	if(!cac[deviceid]){
+		cac[deviceid] = {};
 	}
-	if(!cac.deviceid.record){
-		cac.deviceid.record = {};
+	if(!cac[deviceid][record]){
+		cac[deviceid][record] = {};
 	}
-	if(cac.deviceid.record.seq&&cac.deviceid.record.seq === seq){
-		return 1
+	if(cac[deviceid][record].seq&&cac[deviceid][record].seq === seq){
+		return 0
 	}
-	cac.deviceid.record.seq =seq;
-	cac.deviceid.record.timestamp =(+ new Date());
+	cac[deviceid][record].seq =seq;
+	cac[deviceid][record].timestamp =(+ new Date());
 	return 1
 }
 
@@ -124,15 +124,20 @@ var log = function *(next){
 			}
 		}else if(query.Record=='Shift'){
 
-			if(findFromCache(cache,'Shift',query.deviceid,query.Seq)){
+			let judge = findFromCache(cache,'Shift',query.deviceid,query.Seq);
+			//cache[query.deviceid]['shift']
+			if(judge){
 				try{
-					yield dao.insertExchangeInfo(query);
-					console.log('insert Exchange Info from:'+query.Name)
+					let rr = yield dao.insertExchangeInfo(query);
+					cache[query.deviceid]['Shift'].id = rr.insertId;
+					console.log(rr.insertId + 'insert Exchange Info from:'+query.Name)
 				}catch(e){
 					console.log(e)
 				}
 			}else{
-				console.log('dumplacated!');
+				console.log('dumplacated!,will override');
+				let overrideId = cache[query.deviceid]['Shift'].id;
+				yield dao.updateExchangeInfo(overrideId, query);
 			}
 		}else if(query.Record=='Alarm'){
 			if(findFromCache(cache,'Alarm',query.deviceid,query.Seq)){
@@ -197,8 +202,11 @@ var log = function *(next){
 							comment:query.Text
 						});
 					}
+					this.set('Content-Type', 'text/html; charset=gbk');
+					this.body =iconv.encode('Name='+query.Name+',Record='+query.Record+',P=010,Msg='+query.Msg+',Flag=End','gbk');
+					return
 				}
-				if(query.P==='11'){
+				if(query.P==='11'){ 
 					if(query.Add==='1'){
 						var msg = yield dao.selectCheckHistory({
 							msg_id:query.Msg,
@@ -211,6 +219,7 @@ var log = function *(next){
 							comment:msg[0].comment + query.Text
 						});
 					}else{
+						console.log(3232138218390218038210832901839021890380218390218903821)
 						yield dao.updateCheckHistory({
 							msg_id:query.Msg,
 							device_id:query.Name,
@@ -218,6 +227,9 @@ var log = function *(next){
 							comment:query.Text
 						});
 					}
+					this.set('Content-Type', 'text/html; charset=gbk');
+					this.body =iconv.encode('Name='+query.Name+',Record='+query.Record+',P=011,Msg='+query.Msg+',Flag=End','gbk');
+					return
 				}
 			}
 			if(query.Code){ //判断成功后才删除此操作
@@ -251,6 +263,11 @@ var log = function *(next){
 						});
 						this.set('Content-Type', 'text/html; charset=gbk');
 						this.body =iconv.encode('Name='+query.Name+',Record='+query.Record+',P=11,Msg='+msg_id[0]['msg_id'] + ',Flag=End','gbk');
+						return
+					}
+					if(o[0].type=='10'){
+						this.set('Content-Type', 'text/html; charset=gbk');
+						this.body =iconv.encode('Name='+query.Name+',Record='+query.Record+',P=09,Flag=End','gbk');
 						return
 					}
 				}
@@ -325,7 +342,21 @@ var log = function *(next){
 				console.log('detected unsync operation;')
 				console.log(operation);
 				type = operation[0]['type'],id=operation[0]['id'],time = operation[0]['create_time']
-				
+				if(type==='10'){
+					//验证码上行		
+					try{
+						resultCache = yield dao.selectPhoneCode({
+									deviceid:query.Name,
+									op_code:id
+						});
+						this.set('Content-Type', 'text/html; charset=gbk');
+						//console.log(this.body = 'Name='+query.Name+',Record='+query.Record+',Para=03,code='+id+finalString)
+						this.body = iconv.encode('Name='+query.Name+',Record='+query.Record+',Code='+id+',P=09,T00='+resultCache[0]['phone'] + ',T01=设备验证码:'+ resultCache[0]['code']+',Flag=End','gbk');
+						return
+					}catch(e){
+						console.log(e)
+					}
+				}
 				if(type=='03'){
 					var s = ',T02=';
 					//工号上行		
@@ -460,7 +491,7 @@ var log = function *(next){
 						}
 						console.log('Name='+query.Name+',Record='+query.Record+',P=01'+',Code='+id+',T03='+ res[0].securityDayFirst +'-'+res[0].securityDaySecond +'-'+res[0].securityDayThird+',T00='+res[0].roadname+',T01='+getLineName(res[0].deviceid));
 						this.set('Content-Type', 'text/html; charset=gbk');
-						this.body = iconv.encode('Name='+query.Name+',Record='+query.Record+',P=01'+',Code='+id+',T09='+pad(res[0].elworkman1) +'-'+pad(res[0].elworkman2) +'-'+pad(res[0].elworkman3) +'-'+pad(res[0].elworkman4) +',T10='+pad(res[0].elman1) +'-'+pad(res[0].elman2) +'-'+pad(res[0].elman3) +'-'+pad(res[0].elman4) +',T11='+pad(res[0].tlman1) +'-'+pad(res[0].tlman2) +'-'+pad(res[0].tlman3) +'-'+pad(res[0].tlman4) +',T12='+pad(res[0].houseman1) +'-'+pad(res[0].houseman2) +'-'+pad(res[0].houseman3) +'-'+pad(res[0].houseman4) +',T08='+pad(res[0].workman1) +'-'+pad(res[0].workman2) +'-'+pad(res[0].workman3) +'-'+pad(res[0].workman4) +',T13='+pad(res[0].companyman1) +'-'+pad(res[0].companyman2) +'-'+pad(res[0].companyman3) +'-'+pad(res[0].companyman4) +',T07='+res[0].relaxtime1 +'-'+res[0].relaxtime2 +'-'+res[0].relaxtime4+'-'+res[0].relaxtime5+'-'+res[0].relaxtime6+'-'+res[0].relaxtime3 +',T05='+res[0].changetext1 +'-'+res[0].changetext2 +'-'+res[0].changetext3 +'-'+res[0].changetext4+'-'+res[0].changetext5+'-'+res[0].changetext6+'-'+res[0].changetext7+'-'+res[0].changetext8+'-'+res[0].changetext9 +',T04='+res[0].worktext1 +'-'+res[0].worktext2 +'-'+res[0].worktext3 +'-'+res[0].worktext4 +',T03='+ res[0].securityDayFirst +'-'+res[0].securityDaySecond +'-'+res[0].securityDayThird+',T00='+res[0].roadname+',T01='+getLineName(res[0].deviceid)+',Flag=End' ,'gbk');
+						this.body = iconv.encode('Name='+query.Name+',Record='+query.Record+',P=01'+',Code='+id+',T09='+pad(res[0].elworkman1) +'-'+pad(res[0].elworkman2) +'-'+pad(res[0].elworkman3) +'-'+pad(res[0].elworkman4) +',T10='+pad(res[0].elman1) +'-'+pad(res[0].elman2) +'-'+pad(res[0].elman3) +'-'+pad(res[0].elman4) +',T11='+pad(res[0].tlman1) +'-'+pad(res[0].tlman2) +'-'+pad(res[0].tlman3) +'-'+pad(res[0].tlman4) +',T12='+pad(res[0].houseman1) +'-'+pad(res[0].houseman2) +'-'+pad(res[0].houseman3) +'-'+pad(res[0].houseman4) +',T08='+pad(res[0].workman1) +'-'+pad(res[0].workman2) +'-'+pad(res[0].workman3) +'-'+pad(res[0].workman4) +',T13='+pad(res[0].companyman1) +'-'+pad(res[0].companyman2) +'-'+pad(res[0].companyman3) +'-'+pad(res[0].companyman4) +',T07='+res[0].relaxtime1 +'-'+res[0].relaxtime2 +'-'+res[0].relaxtime3 + '-'+res[0].relaxtime4+'-'+res[0].relaxtime5+'-'+res[0].relaxtime6 +',T05='+res[0].changetext1 +'-'+res[0].changetext2 +'-'+res[0].changetext3 +'-'+res[0].changetext4+'-'+res[0].changetext5+'-'+res[0].changetext6+'-'+res[0].changetext7+'-'+res[0].changetext8+'-'+res[0].changetext9 +',T04='+res[0].worktext1 +'-'+res[0].worktext2 +'-'+res[0].worktext3 +'-'+res[0].worktext4 +',T03='+ res[0].securityDayFirst +'-'+res[0].securityDaySecond +'-'+res[0].securityDayThird+',T00='+res[0].roadname+',T01='+getLineName(res[0].deviceid)+',Flag=End' ,'gbk');
 						return
 					}catch(e){
 						console.log(e)
